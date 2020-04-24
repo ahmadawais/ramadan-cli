@@ -1,10 +1,10 @@
 const sym = require('log-symbols');
 const {dim} = require('chalk');
 
-module.exports = async () => {
+module.exports = async ({city}) => {
 	console.log(
 		dim(
-			`\n${sym.info} City: Lahore. Times for Fiqh Sunni\nFiqh Jafria: Sehar -10 mins | Iftar time +10 mins`
+			`\n${sym.info} City: ${city}. Times for Fiqh Sunni\nFiqh Jafria: Sehar -10 mins | Iftar time +10 mins`
 		)
 	);
 	console.log(
