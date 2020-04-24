@@ -1,1 +1,8 @@
-module.exports = [`lahore`, `multan`, `karachi`, `islamabad`, `quetta`];
+module.exports = [
+	`lahore`,
+	`multan`,
+	`karachi`,
+	`islamabad`,
+	`quetta`,
+	`peshawar`
+];
