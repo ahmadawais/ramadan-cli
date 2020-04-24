@@ -18,7 +18,8 @@
 	},
 	"files": [
 		"index.js",
-		"utils/*"
+		"utils/*",
+		"data/*"
 	],
 	"keywords": [
 		"ramadan-cli",
