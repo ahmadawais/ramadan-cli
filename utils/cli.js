@@ -11,27 +11,24 @@ module.exports = meow(
 	  ${green(`ramadan-cli`)} ${cyan(`<command>`)} ${yellow(`[--option]`)}
 
 	Commands
-	  ${cyan(`command`)}         Description
+	  ${cyan(`help`)}        Show help
 
 	Options
-	  ${yellow(`--option`)}, ${yellow(`-o`)}         Description
+	  ${yellow(`--all`)}, ${yellow(`-a`)}   Show all days
 
 	Examples
-	  ${green(`ramadan-cli`)} ${cyan(`command`)}
-	  ${green(`ramadan-cli`)} ${yellow(`--option`)}
-
-	❯ You can also run command + option at once:
-	  ${green(`ramadan-cli`)} ${cyan(`command`)} ${yellow(`-o`)}
+	${green(`ramadan-cli`)} ${yellow(`--all`)}
+	${green(`ramadan-cli`)} ${cyan(`help`)}
 `,
 	{
 		booleanDefault: undefined,
 		hardRejection: false,
 		inferType: false,
 		flags: {
-			option: {
+			all: {
 				type: 'boolean',
 				default: false,
-				alias: 'o'
+				alias: 'a'
 			}
 		}
 	}

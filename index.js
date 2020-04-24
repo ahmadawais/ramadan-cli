@@ -14,13 +14,14 @@ const green = string => chalk.hex(`#81EF96`)(string);
 
 // CLI.
 const [input] = cli.input;
-const option = cli.flags.option;
+const all = cli.flags.all;
 
 (async () => {
 	init();
+	input === 'help' && (await cli.showHelp(0));
 	const firstRoza = '2020-04-25';
 	const today = new Date().toISOString().substring(0, 10);
-	const rozaNumber = dateDiff(firstRoza, '2020-06-10');
+	const rozaNumber = dateDiff(firstRoza, today);
 	if (rozaNumber > 30) {
 		console.log(
 			`${sym.success} Eid Mubarak.\nRamadan is already over. Hope you had a fun time on Eid.\n`
@@ -32,7 +33,11 @@ const option = cli.flags.option;
 			head: [green('Roza'), green('Sehar'), green('Iftar')]
 		});
 
-		table.push([roza.no, roza.sehar, roza.iftar]);
+		if (all) {
+			data.map(day => table.push([day.no, day.sehar, day.iftar]));
+		} else {
+			table.push([roza.no, roza.sehar, roza.iftar]);
+		}
 		console.log(table.toString());
 	}
 	theEnd();
