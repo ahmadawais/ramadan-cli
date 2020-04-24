@@ -9,6 +9,12 @@
 
 <br>
 
+- 🌜 Get Sehar/Iftar times for your city
+- 🗓 Get Sehar/Iftar times for entire month of Ramadan
+- 🇵🇰 10+ major cities data including `lahore`, `multan`, `karachi`, `islamabad`, `rawalpindi`, `quetta`, `peshawar`, `hyderabad`,`faisalabad`, `gujranwala`, `sialkot`
+
+<br>
+
 [![📟](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/install.png)](./../../)
 
 ## Install
@@ -28,8 +34,10 @@ npx ramadan-cli
 npx ramadan-cli
 
 # Show all days.
-npx ramadan-cli --all
-npx ramadan-cli -a
+npx ramadan-cli lahore
+npx ramadan-cli karachi
+npx ramadan-cli lahore --all
+npx ramadan-cli lahore -a
 ```
 
 [![📟](./.github/show.gif)](./../../)

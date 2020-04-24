@@ -11,13 +11,15 @@ module.exports = meow(
 	  ${green(`ramadan-cli`)} ${cyan(`<command>`)} ${yellow(`[--option]`)}
 
 	Commands
+	  ${cyan(`cityName`)}    Get data for a city
 	  ${cyan(`help`)}        Show help
 
 	Options
 	  ${yellow(`--all`)}, ${yellow(`-a`)}   Show all days
 
 	Examples
-	${green(`ramadan-cli`)} ${yellow(`--all`)}
+	${green(`ramadan-cli`)} ${cyan(`lahore`)}
+	${green(`ramadan-cli`)} ${cyan(`karachi`)} ${yellow(`--all`)}
 	${green(`ramadan-cli`)} ${cyan(`help`)}
 `,
 	{
