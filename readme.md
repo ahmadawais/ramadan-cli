@@ -12,9 +12,6 @@
 ## Install
 
 ```sh
-npm install -g ramadan-cli
-
-# OR.
 npx ramadan-cli
 ```
 
@@ -25,7 +22,12 @@ npx ramadan-cli
 ## Usage
 
 ```sh
-ramadan-cli <command> [options]
+# Show today's Sehar/Iftar.
+npx ramadan-cli
+
+# Show all days.
+npx ramadan-cli --all
+npx ramadan-cli -a
 ```
 
 <br>
