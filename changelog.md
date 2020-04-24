@@ -32,11 +32,31 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 <br>
 
+### RELEASE: [1.5.0](https://github.com/ahmadawais/ramadan-cli/compare/1.4.0...1.5.0)
+
+![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
+
+> 📦 Karachi [`bbf639f`](https://github.com/ahmadawais/ramadan-cli/commit/bbf639f6da5e060861dcca4abae8a1ec8509701d) <br>
+
+![👌 IMPROVE:](https://img.shields.io/badge/-IMPROVEMENT-gray.svg?colorB=39AA54)
+
+> 👌 City refactor [`20ee9f9`](https://github.com/ahmadawais/ramadan-cli/commit/20ee9f9aa9f01515d4a6a04290430a895170e94a) <br>
+
+<br>
+
+[![hr](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/hr.png)](/)
+
+<br>
+
 ### RELEASE: [1.4.0](https://github.com/ahmadawais/ramadan-cli/compare/1.3.0...1.4.0)
 
 ![🐛 FIX:](https://img.shields.io/badge/-FIX-gray.svg?colorB=ff6347)
 
 > 🐛 log-symbols [`9e0bf92`](https://github.com/ahmadawais/ramadan-cli/commit/9e0bf92744dab579dde75f8cae8f28baa746f5d6) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Changelog [`06dc18e`](https://github.com/ahmadawais/ramadan-cli/commit/06dc18eab652f2edf7892f7b14b45b856e1c1a94) <br>
 
 <br>
 
