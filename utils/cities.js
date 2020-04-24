@@ -5,5 +5,6 @@ module.exports = [
 	`islamabad`,
 	`quetta`,
 	`peshawar`,
+	`hyderabad`,
 	`sialkot`
 ];
