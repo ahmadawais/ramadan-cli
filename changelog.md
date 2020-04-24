@@ -32,6 +32,18 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 <br>
 
+### RELEASE: [1.0.1](https://github.com/ahmadawais/ramadan-cli/compare/1.0.0...1.0.1)
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Usage [`3c4ce9a`](https://github.com/ahmadawais/ramadan-cli/commit/3c4ce9a9bc757cf4ccd25b49603d1591542ced3e) <br>
+
+<br>
+
+[![hr](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/hr.png)](/)
+
+<br>
+
 ### RELEASE: 1.0.0
 
 ![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
@@ -39,6 +51,10 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 > 📦 First commit [`f8e79d8`](https://github.com/ahmadawais/ramadan-cli/commit/f8e79d8f5c4a50b4408d51df1b88de6799abe0bc) <br>
 > 📦 First version [`5eaea8a`](https://github.com/ahmadawais/ramadan-cli/commit/5eaea8a43b0fdadcbebd7341bf4802850dfc4a74) <br>
 > 📦 All option [`f4464f7`](https://github.com/ahmadawais/ramadan-cli/commit/f4464f7a0ddd58a6b91412cfce91c6e70a6c7cd9) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Changelog [`3ceb848`](https://github.com/ahmadawais/ramadan-cli/commit/3ceb848b6dbe3147edb1e5693756b7eebc8e1818) <br>
 
 <br>
 
