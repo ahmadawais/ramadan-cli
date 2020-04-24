@@ -1,19 +1,16 @@
 #!/usr/bin/env node
 
-// const {green, yellow, hex} = require('chalk');
 const sym = require('log-symbols');
 const cli = require('./utils/cli.js');
 const init = require('./utils/init.js');
-const theEnd = require('./utils/theEnd.js');
 const print = require('./utils/print.js');
+const cities = require('./utils/cities.js');
+const theEnd = require('./utils/theEnd.js');
 
 // CLI.
 const [input] = cli.input;
 const all = cli.flags.all;
 const notFound = `${sym.error} ${input}: not found.\n Consider contributing!`;
-
-// Cities.
-const cities = [`lahore`, `karachi`];
 
 // Let's do it.
 (async () => {
