@@ -32,11 +32,31 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 <br>
 
+### RELEASE: [1.1.0](https://github.com/ahmadawais/ramadan-cli/compare/1.0.4...1.1.0)
+
+![🐛 FIX:](https://img.shields.io/badge/-FIX-gray.svg?colorB=ff6347)
+
+> 🐛 Extraneous pkgs [`b4e2db9`](https://github.com/ahmadawais/ramadan-cli/commit/b4e2db927e59d546671120c8a82d75dc55455502) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Gif or didnt happen [`26c51fb`](https://github.com/ahmadawais/ramadan-cli/commit/26c51fb9d9c1314e661fad35a4fadf8516d7076a) <br>
+
+<br>
+
+[![hr](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/hr.png)](/)
+
+<br>
+
 ### RELEASE: [1.0.4](https://github.com/ahmadawais/ramadan-cli/compare/1.0.3...1.0.4)
 
 ![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
 
 > 📦 Thumb [`f31175d`](https://github.com/ahmadawais/ramadan-cli/commit/f31175d203f88398e6c22d5dbdaef206b152a0c9) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Changelog [`4bd2bca`](https://github.com/ahmadawais/ramadan-cli/commit/4bd2bca28e44c6f1051d81ff6bdd8d072adc3a1a) <br>
 
 <br>
 
