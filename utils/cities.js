@@ -1,1 +1,1 @@
-module.exports = [`lahore`, `multan`, `karachi`];
+module.exports = [`lahore`, `multan`, `karachi`, `islamabad`];
