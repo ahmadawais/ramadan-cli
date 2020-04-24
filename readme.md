@@ -32,6 +32,8 @@ npx ramadan-cli --all
 npx ramadan-cli -a
 ```
 
+[![📟](./.github/show.gif)](./../../)
+
 <br>
 
 [![📝](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/log.png)](changelog.md)
