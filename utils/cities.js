@@ -3,6 +3,7 @@ module.exports = [
 	`multan`,
 	`karachi`,
 	`islamabad`,
+	`rawalpindi`,
 	`quetta`,
 	`peshawar`,
 	`hyderabad`,
