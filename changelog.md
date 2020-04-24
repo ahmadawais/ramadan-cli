@@ -32,6 +32,34 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 <br>
 
+### RELEASE: [2.0.0](https://github.com/ahmadawais/ramadan-cli/compare/1.5.0...2.0.0)
+
+![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
+
+> 📦 peshawar [`c8884e6`](https://github.com/ahmadawais/ramadan-cli/commit/c8884e68268b88aa4cc208f5a9073d69785b7eaa) <br>
+> 📦 Multan [`d300617`](https://github.com/ahmadawais/ramadan-cli/commit/d300617004eddc517ed6eadfba3826cb5d2ba55c) <br>
+> 📦 sialkot [`eaa40d2`](https://github.com/ahmadawais/ramadan-cli/commit/eaa40d268ba3ae84018eda1bc1fd4c33dd91fe7b) <br>
+> 📦 quetta [`0158fa6`](https://github.com/ahmadawais/ramadan-cli/commit/0158fa68b188e05552c914ef275521a94543fe01) <br>
+> 📦 rawalpindi [`5d941d1`](https://github.com/ahmadawais/ramadan-cli/commit/5d941d1e74074df9d9497a54cbb135275d26fdfe) <br>
+> 📦 gujranwala [`628cc8e`](https://github.com/ahmadawais/ramadan-cli/commit/628cc8ee158c38af8a7884bf6f40d8081ae21ef4) <br>
+> 📦 faisalabad [`0de0b10`](https://github.com/ahmadawais/ramadan-cli/commit/0de0b1063eb3c8c58918175c7a8f126f0bb19287) <br>
+> 📦 hyderabad [`45ec51b`](https://github.com/ahmadawais/ramadan-cli/commit/45ec51b19e8d0688bdf1d9b957c08a19e163086a) <br>
+> 📦 Contribute [`98bed6e`](https://github.com/ahmadawais/ramadan-cli/commit/98bed6eec25f7aee51220fd69c2151d2e9b49095) <br>
+
+![🐛 FIX:](https://img.shields.io/badge/-FIX-gray.svg?colorB=ff6347)
+
+> 🐛 Isb [`aff8370`](https://github.com/ahmadawais/ramadan-cli/commit/aff8370823465dd0e13b2befc88018c00146b74b) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Features [`c9e5a72`](https://github.com/ahmadawais/ramadan-cli/commit/c9e5a72b57400c544d39d6b4fe845a2f7e4d8c02) <br>
+
+<br>
+
+[![hr](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/hr.png)](/)
+
+<br>
+
 ### RELEASE: [1.5.0](https://github.com/ahmadawais/ramadan-cli/compare/1.4.0...1.5.0)
 
 ![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
@@ -41,6 +69,10 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 ![👌 IMPROVE:](https://img.shields.io/badge/-IMPROVEMENT-gray.svg?colorB=39AA54)
 
 > 👌 City refactor [`20ee9f9`](https://github.com/ahmadawais/ramadan-cli/commit/20ee9f9aa9f01515d4a6a04290430a895170e94a) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Changelog [`c72740e`](https://github.com/ahmadawais/ramadan-cli/commit/c72740e9a69e5b98b3204089392e62ed812b8e36) <br>
 
 <br>
 
