@@ -8,7 +8,7 @@ module.exports = async () => {
 	unhandledError();
 	checkNode(`12`);
 	welcome(`ramadan-cli`, `by Awais.dev\n${pkgJSON.description}`, {
-		bgColor: `#007C91`,
+		bgColor: `#81EF96`,
 		color: `#FFFFFF`,
 		bold: true,
 		clear: true,
@@ -18,5 +18,5 @@ module.exports = async () => {
 		pkg: pkgJSON,
 		shouldNotifyInNpmScript: true,
 		updateCheckInterval: 1000 * 60 * 60 * 24 * 7 // 1 week.
-	}).notify({ isGlobal: true });
+	}).notify({isGlobal: true});
 };
