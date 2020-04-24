@@ -32,11 +32,27 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 <br>
 
+### RELEASE: [1.0.4](https://github.com/ahmadawais/ramadan-cli/compare/1.0.3...1.0.4)
+
+![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
+
+> 📦 Thumb [`f31175d`](https://github.com/ahmadawais/ramadan-cli/commit/f31175d203f88398e6c22d5dbdaef206b152a0c9) <br>
+
+<br>
+
+[![hr](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/hr.png)](/)
+
+<br>
+
 ### RELEASE: [1.0.3](https://github.com/ahmadawais/ramadan-cli/compare/1.0.2...1.0.3)
 
 ![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
 
 > 📦 Logo [`6bc3247`](https://github.com/ahmadawais/ramadan-cli/commit/6bc32471bd01fcde484ecc4fb3064e5f9cba1a5f) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Changelog [`cf5bae1`](https://github.com/ahmadawais/ramadan-cli/commit/cf5bae1bd78d5d6d38fc8301a3b30857053bc1fc) <br>
 
 <br>
 
