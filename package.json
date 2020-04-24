@@ -42,6 +42,7 @@
 		"cli-handle-unhandled": "^1.1.0",
 		"cli-table3": "^0.6.0",
 		"cli-welcome": "^1.4.0",
+		"log-symbols": "^3.0.0",
 		"meow": "^6.1.0"
 	}
 }
