@@ -23,5 +23,5 @@ const notFound = `${sym.error} ${input}: not found.\n Consider contributing!`;
 	noData && console.log(notFound);
 	!noData && print({all, city});
 
-	theEnd({city});
+	theEnd({city, noData});
 })();
