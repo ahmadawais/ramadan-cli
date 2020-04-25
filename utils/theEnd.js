@@ -6,7 +6,7 @@ module.exports = async ({city, noData}) => {
 	!noData &&
 		console.log(
 			dim(
-				`\n${sym.info} City: ${cityNiceName}. Times for Fiqh Sunni\nFiqh Jafria: Sehar -10 mins | Iftar time +10 mins`
+				`\n${sym.info} City: ${cityNiceName}. Times for Fiqh Hanafi\nFiqh Jafria: Sehar -10 mins | Iftar time +10 mins`
 			)
 		);
 	console.log(
