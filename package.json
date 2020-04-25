@@ -1,6 +1,6 @@
 {
 	"name": "ramadan-cli",
-	"version": "3.1.0",
+	"version": "3.1.1",
 	"description": "Check Sehar and Iftar times in Ramadan within your terminal.",
 	"license": "MIT",
 	"repository": "ahmadawais/ramadan-cli",
