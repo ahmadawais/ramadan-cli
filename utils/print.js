@@ -11,7 +11,6 @@ module.exports = ({all, city}) => {
 	// Find the current roza.
 	const firstRoza = DateTime.fromISO('2020-04-25');
 	const today = DateTime.local();
-	const todayISO = DateTime.local().toISODate();
 	const rozaNumber = Math.floor(today.diff(firstRoza, 'days').as('days'));
 
 	// Still ramadan?
@@ -28,9 +27,9 @@ module.exports = ({all, city}) => {
 		// All or one.
 		all &&
 			data.map(day =>
-				table.push([day.no, day.sehar, day.iftar, todayISO])
+				table.push([day.no, day.sehar, day.iftar, day.date])
 			);
-		!all && table.push([roza.no, roza.sehar, roza.iftar, todayISO]);
+		!all && table.push([roza.no, roza.sehar, roza.iftar, roza.date]);
 
 		// Do it.
 		console.log(table.toString());
