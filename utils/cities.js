@@ -9,6 +9,6 @@ module.exports = [
 	`hyderabad`,
 	`faisalabad`,
 	`gujranwala`,
-	`sialkot`
+	`sialkot`,
 	`ghotki`
 ];
