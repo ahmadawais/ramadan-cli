@@ -11,7 +11,7 @@
 
 - 🌜 Get Sehar/Iftar times for your city
 - 🗓 Get Sehar/Iftar times for entire month of Ramadan
-- 🇵🇰 10+ major cities data including `lahore`, `multan`, `karachi`, `islamabad`, `rawalpindi`, `quetta`, `peshawar`, `hyderabad`,`faisalabad`, `gujranwala`, `sialkot`
+- 🇵🇰 10+ major cities data including `lahore`, `multan`, `karachi`, `islamabad`, `rawalpindi`, `quetta`, `peshawar`, `hyderabad`,`faisalabad`, `gujranwala`, `sialkot`, `ghotki`
 
 <br>
 
