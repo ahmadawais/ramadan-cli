@@ -38,6 +38,11 @@ npx ramadan-cli lahore
 npx ramadan-cli karachi
 npx ramadan-cli lahore --all
 npx ramadan-cli lahore -a
+
+# For multiword cities.
+npx ramadan-cli "toba tek singh"
+npx ramadan-cli "toba tek singh" --all
+npx ramadan-cli "toba tek singh" -a
 ```
 
 [![📟](./.github/show.gif)](./../../)
