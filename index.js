@@ -6,6 +6,7 @@ const init = require('./utils/init.js');
 const print = require('./utils/print.js');
 const cities = require('./utils/cities.js');
 const theEnd = require('./utils/theEnd.js');
+const getTimetable = require('./utils/getTimetable');
 
 // CLI.
 const [input] = cli.input;
@@ -18,10 +19,11 @@ const notFound = `${sym.error} ${input}: not found.\n Consider contributing!`;
 	input === 'help' && (await cli.showHelp(0));
 
 	const city = input ? input.toLowerCase() : `lahore`;
-	const noData = input && cities.indexOf(city) === -1;
+	const data = await getTimetable(city);
+	const noData = data.length === 0 ? true : undefined;
 
 	noData && console.log(notFound);
-	!noData && print({all, city});
+	!noData && print({ all, city, data });
 
-	theEnd({city, noData});
+	theEnd({ city, noData });
 })();

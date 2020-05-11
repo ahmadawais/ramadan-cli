@@ -1,12 +1,10 @@
 const sym = require('log-symbols');
 const Table = require('cli-table3');
 const green = require('./green');
-const {DateTime} = require('luxon');
+const { DateTime } = require('luxon');
 const wishEid = `${sym.success} Eid Mubarak.\nRamadan is already over. Hope you had a fun time on Eid.\n`;
 
-module.exports = ({all, city}) => {
-	// Import the right city.
-	const data = require(`../data/${city}.json`);
+module.exports = ({ all, city, data }) => {
 
 	// Find the current roza.
 	const firstRoza = DateTime.fromISO('2020-04-25');
