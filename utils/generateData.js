@@ -61,7 +61,7 @@ const getData = async () => {
                     return result;
                 }, {})
                 roza.no = `#${roza.no}`;
-                roza.date = new Date(roza.date).toISOString().substr(0, 10);
+                roza.date = formatDate(roza.date);
                 data.push(roza);
             });
 
@@ -74,6 +74,20 @@ const getData = async () => {
     } catch (error) {
         console.log('There might be problem with API!');
     }
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
 }
 
 getData();
