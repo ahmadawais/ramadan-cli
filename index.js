@@ -18,8 +18,6 @@ const notFound = `${sym.error} ${input}: not found.\n Consider contributing!`;
 	input === 'help' && (await cli.showHelp(0));
 
 	const city = input ? input.toLowerCase().replace(/\s+/g, '-') : `lahore`;
-	const cityNiceName = `${city.charAt(0).toUpperCase()}${city.slice(1).replace(/-/g, ' ')}`;
-	console.log(cityNiceName);
 	const noData = input && cities.indexOf(city) === -1;
 
 	noData && console.log(notFound);
