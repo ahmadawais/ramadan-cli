@@ -21,7 +21,7 @@ const notFound = `${sym.error} ${input}: not found.\n Consider contributing!`;
 	const noData = input && cities.indexOf(city) === -1;
 
 	noData && console.log(notFound);
-	!noData && print({ all, city });
+	!noData && print({all, city});
 
-	theEnd({ city, noData });
+	theEnd({city, noData});
 })();
