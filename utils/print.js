@@ -9,7 +9,7 @@ module.exports = ({all, city}) => {
 	const data = require(`../data/${city}.json`);
 
 	// Find the current roza.
-	const firstRoza = DateTime.fromISO('2021-04-12');
+	const firstRoza = DateTime.fromISO('2021-04-14');
 	const today = DateTime.local();
 	const rozaNumber = Math.floor(today.diff(firstRoza, 'days').as('days'));
 
