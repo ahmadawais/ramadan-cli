@@ -30,9 +30,9 @@
 	],
 	"devDependencies": {
 		"ava": "^3.7.1",
-		"axios": "^0.19.2",
+		"axios": "^0.21.1",
 		"cheerio": "^1.0.0-rc.3",
-		"execa": "^4.0.0",
+		"execa": "^5.0.0",
 		"prettier": "^2.0.5"
 	},
 	"scripts": {
@@ -47,10 +47,10 @@
 		"cli-handle-error": "^4.1.0",
 		"cli-handle-unhandled": "^1.1.0",
 		"cli-table3": "^0.6.0",
-		"cli-welcome": "^1.4.0",
-		"log-symbols": "^3.0.0",
+		"cli-welcome": "^2.2.2",
+		"log-symbols": "^4.1.0",
 		"luxon": "^1.23.0",
-		"meow": "^6.1.0",
+		"meow": "^9.0.0",
 		"ora": "^5.4.0"
 	}
 }
