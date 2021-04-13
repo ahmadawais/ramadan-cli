@@ -32,11 +32,28 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 <br>
 
+### RELEASE: [4.0.2](https://github.com/ahmadawais/ramadan-cli/compare/4.0.1...4.0.2)
+
+![👌 IMPROVE:](https://img.shields.io/badge/-IMPROVEMENT-gray.svg?colorB=39AA54)
+
+> 👌 Lingo [`9cce843`](https://github.com/ahmadawais/ramadan-cli/commit/9cce8435ef01283c020265bf8f481db06ab13436) <br>
+> 👌 COver [`addf2d9`](https://github.com/ahmadawais/ramadan-cli/commit/addf2d9698ec693a6d190d85985c8d2a2017b9ce) <br>
+
+<br>
+
+[![hr](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/hr.png)](/)
+
+<br>
+
 ### RELEASE: [4.0.1](https://github.com/ahmadawais/ramadan-cli/compare/4.0.0...4.0.1)
 
 ![👌 IMPROVE:](https://img.shields.io/badge/-IMPROVEMENT-gray.svg?colorB=39AA54)
 
 > 👌 Lingo [`ae0b799`](https://github.com/ahmadawais/ramadan-cli/commit/ae0b79900094e958f933aa701112c4c20379f1a8) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Changelog [`d95124c`](https://github.com/ahmadawais/ramadan-cli/commit/d95124cc63706039f2d9d1e10e9faf8bd8a27f15) <br>
 
 <br>
 
