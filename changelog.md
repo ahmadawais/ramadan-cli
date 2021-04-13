@@ -32,11 +32,36 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 <br>
 
+### RELEASE: [4.0.0](https://github.com/ahmadawais/ramadan-cli/compare/3.3.0...4.0.0)
+
+![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
+
+> 📦 Spinner [`3ef7ac6`](https://github.com/ahmadawais/ramadan-cli/commit/3ef7ac68c0df86c218fbc5aab3428950c5ce67ed) <br>
+> 📦 Aliases [`92c8bf3`](https://github.com/ahmadawais/ramadan-cli/commit/92c8bf3434f01f3d3a91b60c068bb46c10b4b864) <br>
+
+![👌 IMPROVE:](https://img.shields.io/badge/-IMPROVEMENT-gray.svg?colorB=39AA54)
+
+> 👌 Welcome init [`20b8c00`](https://github.com/ahmadawais/ramadan-cli/commit/20b8c001897afd63f6001bb157574239bd9dc580) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Ghotki [`0e6ff1b`](https://github.com/ahmadawais/ramadan-cli/commit/0e6ff1b2329764509d982a7aa497309ade2adacc) <br>
+
+<br>
+
+[![hr](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/hr.png)](/)
+
+<br>
+
 ### RELEASE: [3.3.0](https://github.com/ahmadawais/ramadan-cli/compare/3.2.0...3.3.0)
 
 ![🐛 FIX:](https://img.shields.io/badge/-FIX-gray.svg?colorB=ff6347)
 
 > 🐛 Name [`49ac72d`](https://github.com/ahmadawais/ramadan-cli/commit/49ac72daa2506ac37ee762bb590d40e5c9427236) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Changelog [`96b22bb`](https://github.com/ahmadawais/ramadan-cli/commit/96b22bb9d8ec3765abf6790885153528f38839f9) <br>
 
 <br>
 
@@ -321,11 +346,11 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 ## Connect
 
 <div align="left">
-<p><a href="https://github.com/ahmadawais"><img alt="GitHub @AhmadAwais" align="center" src="https://img.shields.io/badge/GITHUB-gray.svg?colorB=6cc644&colorA=6cc644&style=flat" /></a>&nbsp;<small><strong>(follow)</strong> TO STAY UP TO DATE ON FREE & OPEN SOURCE SOFTWARE</small></p>
-<p><a href="https://twitter.com/MrAhmadAwais/"><img alt="Twitter @MrAhmadAwais" align="center" src="https://img.shields.io/badge/TWITTER-gray.svg?colorB=1da1f2&colorA=1da1f2&style=flat" /></a>&nbsp;<small><strong>(follow)</strong> TO GET ONE DEV MINUTE DAILY HOT TIPS & TROLLS</small></p>
-<p><a href="https://www.youtube.com/AhmadAwais"><img alt="YouTube AhmadAwais" align="center" src="https://img.shields.io/badge/YOUTUBE-gray.svg?colorB=ff0000&colorA=ff0000&style=flat" /></a>&nbsp;<small><strong>(subscribe)</strong> TO TECH TALKS & ONE DEV MINUTE VIDEOS</small></p>
-<p><a href="https://AhmadAwais.com/"><img alt="Blog: AhmadAwais.com" align="center" src="https://img.shields.io/badge/MY%20BLOG-gray.svg?colorB=4D2AFF&colorA=4D2AFF&style=flat" /></a>&nbsp;<small><strong>(read)</strong> MOSTLY LONG FORM TECHNICAL ARTICLES</small></p>
-<p><a href="https://www.linkedin.com/in/MrAhmadAwais/"><img alt="LinkedIn @MrAhmadAwais" align="center" src="https://img.shields.io/badge/LINKEDIN-gray.svg?colorB=0077b5&colorA=0077b5&style=flat" /></a>&nbsp;<small><strong>(connect)</strong> WITH THE LINKEDIN PROFILE Y'ALL</small></p>
+<p><a href="https://github.com/ahmadawais"><img alt="GitHub @AhmadAwais" align="center" src="https://img.shields.io/badge/GITHUB-gray.svg?colorB=6cc644&style=flat" /></a>&nbsp;<small><strong>(follow)</strong> TO STAY UP TO DATE ON FREE & OPEN SOURCE SOFTWARE</small></p>
+<p><a href="https://twitter.com/MrAhmadAwais/"><img alt="Twitter @MrAhmadAwais" align="center" src="https://img.shields.io/badge/TWITTER-gray.svg?colorB=1da1f2&style=flat" /></a>&nbsp;<small><strong>(follow)</strong> TO GET ONE DEV MINUTE DAILY HOT TIPS & TROLLS</small></p>
+<p><a href="https://www.youtube.com/AhmadAwais"><img alt="YouTube AhmadAwais" align="center" src="https://img.shields.io/badge/YOUTUBE-gray.svg?colorB=ff0000&style=flat" /></a>&nbsp;<small><strong>(subscribe)</strong> TO TECH TALKS & ONE DEV MINUTE VIDEOS</small></p>
+<p><a href="https://AhmadAwais.com/"><img alt="Blog: AhmadAwais.com" align="center" src="https://img.shields.io/badge/MY%20BLOG-gray.svg?colorB=4D2AFF&style=flat" /></a>&nbsp;<small><strong>(read)</strong> MOSTLY LONG FORM TECHNICAL ARTICLES</small></p>
+<p><a href="https://www.linkedin.com/in/MrAhmadAwais/"><img alt="LinkedIn @MrAhmadAwais" align="center" src="https://img.shields.io/badge/LINKEDIN-gray.svg?colorB=0077b5&style=flat" /></a>&nbsp;<small><strong>(connect)</strong> WITH THE LINKEDIN PROFILE Y'ALL</small></p>
 </div>
 
 <br>
@@ -358,5 +383,7 @@ without wasting a 1,000 hours</a> →</p>
 [![Sponsor Awais](https://img.shields.io/badge/-Sponsor%20Awais%20%E2%86%92-gray.svg?colorA=6A788D&colorB=6A788D&style=flat)](https://github.com/AhmadAwais/sponsor/?utm_source=FOSS) [![Node.js CLI Automation](https://img.shields.io/badge/-NodeCLI.com%20%E2%86%92-gray.svg?colorA=6A788D&colorB=6A788D&style=flat)](https://NodeCLI.com/?utm_source=FOSS)
 [![VSCode](https://img.shields.io/badge/-VSCode.pro%20%E2%86%92-gray.svg?colorA=6A788D&colorB=6A788D&style=flat)](https://VSCode.pro/?utm_source=GitHubFOSS)
 [![Follow @MrAhmadAwais on Twitter](https://img.shields.io/twitter/follow/mrahmadawais.svg?style=social&label=Follow%20@MrAhmadAwais)](https://twitter.com/mrahmadawais/)
+
+[![Sponsor](https://raw.githubusercontent.com/ahmadawais/stuff/master/sponsor/sponsor.jpg)][sponsor]
 
 [sponsor]: https://github.com/AhmadAwais/sponsor
