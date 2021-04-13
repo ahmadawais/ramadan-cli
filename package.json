@@ -14,7 +14,9 @@
 		"node": ">=12.x"
 	},
 	"bin": {
-		"ramadan-cli": "index.js"
+		"ramadan-cli": "index.js",
+		"ramadan": "index.js",
+		"roza": "index.js"
 	},
 	"files": [
 		"index.js",
