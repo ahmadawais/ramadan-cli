@@ -11,7 +11,7 @@
 
 - 🌜 Get Sehar/Iftar times for your city
 - 🗓 Get Sehar/Iftar times for entire month of Ramadan
-- 🇵🇰 10+ major cities data including `lahore`, `multan`, `karachi`, `islamabad`, `rawalpindi`, `quetta`, `peshawar`, `hyderabad`,`faisalabad`, `gujranwala`, `sialkot`, `ghotki`
+- 🇵🇰 99 cities data including `lahore`, `multan`, `karachi`, `islamabad`, `rawalpindi`, `quetta`, `peshawar`, `hyderabad`,`faisalabad`, `gujranwala`, `sialkot`, `ghotki` and many more
 
 <br>
 
@@ -38,6 +38,11 @@ npx ramadan-cli lahore
 npx ramadan-cli karachi
 npx ramadan-cli lahore --all
 npx ramadan-cli lahore -a
+
+# For multiword cities.
+npx ramadan-cli "dera ghazi khan"
+npx ramadan-cli "dera ghazi khan" --all
+npx ramadan-cli "dera ghazi khan" -a
 ```
 
 [![📟](./.github/show.gif)](./../../)

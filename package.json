@@ -30,12 +30,15 @@
 	],
 	"devDependencies": {
 		"ava": "^3.7.1",
+		"axios": "^0.19.2",
+		"cheerio": "^1.0.0-rc.3",
 		"execa": "^4.0.0",
 		"prettier": "^2.0.5"
 	},
 	"scripts": {
 		"test": "ava",
-		"format": "prettier --write \"./**/*.{js,json}\""
+		"format": "prettier --write \"./**/*.{js,json}\"",
+		"get-data": "node ./utils/generateData.js"
 	},
 	"dependencies": {
 		"chalk": "^4.0.0",

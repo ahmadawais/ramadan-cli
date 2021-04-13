@@ -2,7 +2,9 @@ const sym = require('log-symbols');
 const {dim} = require('chalk');
 
 module.exports = async ({city, noData}) => {
-	const cityNiceName = `${city.charAt(0).toUpperCase()}${city.slice(1)}`;
+	const cityNiceName = `${city.charAt(0).toUpperCase()}${city
+		.slice(1)
+		.replace(/-/g, ' ')}`;
 	!noData &&
 		console.log(
 			dim(
