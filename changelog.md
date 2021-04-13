@@ -32,6 +32,18 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 <br>
 
+### RELEASE: [4.0.1](https://github.com/ahmadawais/ramadan-cli/compare/4.0.0...4.0.1)
+
+![👌 IMPROVE:](https://img.shields.io/badge/-IMPROVEMENT-gray.svg?colorB=39AA54)
+
+> 👌 Lingo [`ae0b799`](https://github.com/ahmadawais/ramadan-cli/commit/ae0b79900094e958f933aa701112c4c20379f1a8) <br>
+
+<br>
+
+[![hr](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/hr.png)](/)
+
+<br>
+
 ### RELEASE: [4.0.0](https://github.com/ahmadawais/ramadan-cli/compare/3.3.0...4.0.0)
 
 ![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
@@ -45,6 +57,7 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 ![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
 
+> 📖 Changelog [`d3591ae`](https://github.com/ahmadawais/ramadan-cli/commit/d3591aef0424e8aa1fe7571759049a2b7ad2ceb1) <br>
 > 📖 Ghotki [`0e6ff1b`](https://github.com/ahmadawais/ramadan-cli/commit/0e6ff1b2329764509d982a7aa497309ade2adacc) <br>
 
 <br>
