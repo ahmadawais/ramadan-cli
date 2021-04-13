@@ -1,4 +1,4 @@
-[![ramadan-cli](./.github/logo.png)](https://twitter.com/MrAhmadAwais/)
+[![ramadan-cli](https://github.com/ahmadawais/ramadan-cli/raw/master/.github/github.jpg)](https://twitter.com/MrAhmadAwais/)
 
 # ramadan-cli
 
