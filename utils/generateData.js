@@ -1,17 +1,22 @@
+const fs = require('fs');
+const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
-let fs = require('fs');
-const path = require('path');
+const formatDate = require('./formatDate');
+const ora = require('ora');
+const spinner = ora({text: ''});
+const {green: g, red: r, yellow: y, dim: d} = require('chalk');
+const alert = require('cli-alerts');
 
-const getData = async () => {
+(async () => {
 	let baseDir = path.join(__dirname, '../data/');
-	console.log(baseDir);
 	const BASE_URL =
 		'https://hamariweb.com/islam/pakistan_ramadan-timings1.aspx?Page=';
 	let cities = [];
 	let citiesToSaveInFile = [];
 
 	try {
+		spinner.start(`${y(`FINDING`)} cities in Pakistan …`);
 		for (let i = 1; i <= 4; i++) {
 			const response = await axios.get(`${BASE_URL}${i}`);
 			const $ = cheerio.load(response.data);
@@ -28,22 +33,26 @@ const getData = async () => {
 					let href = $(this).attr('href');
 					citiesToSaveInFile.push(city);
 					cities.push({
-						city,
+						name: city,
 						timetableLink: `https://hamariweb.com/islam/${href}`
 					});
 				});
 		}
-
 		const citiesJSON = JSON.stringify(citiesToSaveInFile);
 		const dataToWrite = `module.exports = ${citiesJSON}`;
 
 		fs.writeFile(`./utils/cities.js`, dataToWrite, 'utf8', err => {
 			if (err) throw err;
-			console.log(`File has been saved`);
+			spinner.succeed(
+				`${g(`FOUND`)} ${citiesToSaveInFile.length} cities`
+			);
 		});
 
 		for (let city of cities) {
 			let data = [];
+			const cityName = city.name.toUpperCase();
+
+			spinner.start(`${y(`DATA`)} for ${cityName} …`);
 
 			const timeTableResponse = await axios.get(`${city.timetableLink}`);
 			const $ = cheerio.load(timeTableResponse.data);
@@ -75,30 +84,21 @@ const getData = async () => {
 			});
 
 			fs.writeFile(
-				`${baseDir}/${city.city}.json`,
+				`${baseDir}/${city.name}.json`,
 				JSON.stringify(data),
 				'utf8',
 				err => {
 					if (err) throw err;
-					console.log(`${city.city} File has been saved`);
+					spinner.succeed(`${g(cityName)}: Data saved`);
 				}
 			);
 		}
 	} catch (error) {
-		console.log('There might be problem with API!');
+		alert({type: `error`, msg: `Something went wrong!`});
 	}
-};
 
-function formatDate(date) {
-	var d = new Date(date),
-		month = '' + (d.getMonth() + 1),
-		day = '' + d.getDate(),
-		year = d.getFullYear();
-
-	if (month.length < 2) month = '0' + month;
-	if (day.length < 2) day = '0' + day;
-
-	return [year, month, day].join('-');
-}
-
-getData();
+	alert({
+		type: `success`,
+		msg: `Generated data for ${citiesToSaveInFile.length} cities!`
+	});
+})();
