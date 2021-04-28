@@ -24,11 +24,21 @@ module.exports = ({all, city}) => {
 			head: [green('Roza'), green('Sehar'), green('Iftar'), green('Date')]
 		});
 
+		const ISODate = today.toISODate();
 		// All or one.
 		all &&
-			data.map(day =>
-				table.push([day.no, day.sehar, day.iftar, day.date])
-			);
+			data.map(day => {
+				if (day.date === ISODate) {
+					table.push([
+						green(day.no),
+						green(day.sehar),
+						green(day.iftar),
+						green(day.date)
+					]);
+					return;
+				}
+				table.push([day.no, day.sehar, day.iftar, day.date]);
+			});
 		!all && table.push([roza.no, roza.sehar, roza.iftar, roza.date]);
 
 		// Do it.
