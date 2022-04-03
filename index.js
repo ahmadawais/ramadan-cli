@@ -14,9 +14,9 @@ const {school, all} = cli.flags;
 	init();
 	input === 'help' && (await cli.showHelp(0));
 	!input && (await cli.showHelp(0));
-	
+
 	// replace all spaces with a - character
-	const city = input.toLowerCase().replace(/\s/g, "-").trim();
+	const city = input.toLowerCase().replace(/\s/g, '-').trim();
 
 	// → Set first ramazan date b3low.
 	await print({city, school, all, firstRozaDateISO: `2022-04-03`});

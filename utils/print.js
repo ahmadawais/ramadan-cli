@@ -30,9 +30,19 @@ module.exports = async ({city, school, all, firstRozaDateISO}) => {
 			spinner.start(`${y(`FETCHING`)} times …`);
 			const data = await getAll({city, school});
 			spinner.stop();
-			data.map(day =>
-				table.push([day.no, day.sehar, day.iftar, day.date])
-			);
+
+			data.map(day => {
+				if (isToday(day.date)) {
+					table.push([
+						green(day.no),
+						green(day.sehar),
+						green(day.iftar),
+						green(day.date)
+					]);
+					return;
+				}
+				table.push([day.no, day.sehar, day.iftar, day.date]);
+			});
 		}
 
 		if (single) {
@@ -46,3 +56,13 @@ module.exports = async ({city, school, all, firstRozaDateISO}) => {
 		console.log(table.toString());
 	}
 };
+
+function isToday(d) {
+	const date = DateTime.fromISO(d);
+	const today = DateTime.local();
+	return (
+		date.year === today.year &&
+		date.month === today.month &&
+		date.day === today.day
+	);
+}
