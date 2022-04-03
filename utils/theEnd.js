@@ -4,7 +4,7 @@ const {dim} = require('chalk');
 module.exports = async ({city}) => {
 	const cityNiceName = `${city.charAt(0).toUpperCase()}${city
 		.slice(1)
-		..replace(/\s/g, "-")}`; // replace all spaces with a - character
+		.replace(/\s/g, "-")}`; // replace all spaces with a - character
 
 	console.log(
 		dim(
