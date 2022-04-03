@@ -32,12 +32,28 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 <br>
 
+### RELEASE: [5.0.1](https://github.com/ahmadawais/ramadan-cli/compare/5.0.0...5.0.1)
+
+![🐛 FIX:](https://img.shields.io/badge/-FIX-gray.svg?colorB=ff6347)
+
+> 🐛 Axios [`20e914f`](https://github.com/ahmadawais/ramadan-cli/commit/20e914f624e972f9452a01b59bc6757c24c9adb0) <br>
+
+<br>
+
+[![hr](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/hr.png)](/)
+
+<br>
+
 ### RELEASE: [5.0.0](https://github.com/ahmadawais/ramadan-cli/compare/4.0.2...5.0.0)
 
 ![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
 
 > 📦 API Based CLI [`37c6917`](https://github.com/ahmadawais/ramadan-cli/commit/37c6917664849fe42d5e19d5a7fe12af3ae1c196) <br>
 > 📦 Sheilds [`ee9a84c`](https://github.com/ahmadawais/ramadan-cli/commit/ee9a84c6bebe75b4a8c56d46d68b693231e429b5) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Changelog [`720b56b`](https://github.com/ahmadawais/ramadan-cli/commit/720b56b4a5915bedf4dc29ec1aa001317071e849) <br>
 
 <br>
 
