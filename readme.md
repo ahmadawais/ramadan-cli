@@ -1,6 +1,6 @@
 [![ramadan-cli](https://github.com/ahmadawais/ramadan-cli/raw/master/.github/github.jpg)](https://twitter.com/MrAhmadAwais/)
 
-# ramadan-cli
+# ramadan-cli 🌙
 
 [![DOWNLOADS](https://img.shields.io/npm/dt/ramadan-cli?label=DOWNLOADS%20%20❯&colorA=81F096&colorB=81F096&style=flat)](https://www.npmjs.com/package/ramadan-cli) [![Node.js CLI](https://img.shields.io/badge/-NodeCLI.com-gray.svg?colorB=81F096&style=flat)](https://NodeCLI.com/?utm_source=FOSS) [![Learn VSCode](https://img.shields.io/badge/-VSCODE.pro-gray.svg?colorB=81F096&style=flat)](https://VSCode.pro/?utm_source=FOSS) [![Sponsor](https://img.shields.io/badge/-Sponsor-gray.svg?colorB=81F096&style=flat)](https://github.com/ahmadawais/sponsor?utm_source=FOSS)
 [![Follow @MrAhmadAwais on Twitter](https://img.shields.io/badge/FOLLOW%20@MRAHMADAWAIS%20%E2%86%92-gray.svg?colorA=81F096&colorB=81F096&style=flat)](https://twitter.com/mrahmadawais/)
@@ -9,9 +9,9 @@
 
 <br>
 
-- 🌜 Get Sehar/Iftar times for your city
-- 🗓 Get Sehar/Iftar times for entire month of Ramadan
-- 🇵🇰 99 cities data including `lahore`, `multan`, `karachi`, `islamabad`, `rawalpindi`, `quetta`, `peshawar`, `hyderabad`,`faisalabad`, `gujranwala`, `sialkot`, `ghotki` and many more
+- 🌙 Get Sehar/Iftar times for your city
+- 🗓 Get Sehar/Iftar times for the entire month of Ramadan
+- 🌐 Access any city sehar/iftar times from anywhere in the world
 
 <br>
 
@@ -20,7 +20,7 @@
 ## Install
 
 ```sh
-npx ramadan-cli
+npx ramadan-cli <cityName>
 ```
 
 <br>
