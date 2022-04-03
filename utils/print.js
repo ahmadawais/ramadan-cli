@@ -3,33 +3,44 @@ const Table = require('cli-table3');
 const green = require('./green');
 const {DateTime} = require('luxon');
 const wishEid = `${sym.success} Eid Mubarak.\nRamadan is already over. Hope you had a fun time on Eid.\n`;
+const getToday = require('./today');
+const getAll = require('./all');
+const ora = require('ora');
+const spinner = ora({text: ''});
+const {green: g, red: r, yellow: y, dim: d} = require('chalk');
 
-module.exports = ({all, city}) => {
-	// Import the right city.
-	const data = require(`../data/${city}.json`);
+module.exports = async ({city, school, all, firstRozaDateISO}) => {
+	const single = !all;
 
 	// Find the current roza.
-	const firstRoza = DateTime.fromISO('2021-04-14');
+	const firstRoza = DateTime.fromISO(firstRozaDateISO);
 	const today = DateTime.local();
-	const rozaNumber = Math.floor(today.diff(firstRoza, 'days').as('days'));
+	const rozaNumber = Math.floor(today.diff(firstRoza, 'days').as('days')) + 1;
 
 	// Still ramadan?
-	if (rozaNumber > 30) {
+	if (rozaNumber > 31) {
 		console.log(wishEid);
 	} else {
-		const roza = rozaNumber > 0 ? data[rozaNumber] : data[0];
-
 		// Print table.
 		const table = new Table({
 			head: [green('Roza'), green('Sehar'), green('Iftar'), green('Date')]
 		});
 
-		// All or one.
-		all &&
+		if (all) {
+			spinner.start(`${y(`FETCHING`)} times …`);
+			const data = await getAll({city, school});
+			spinner.stop();
 			data.map(day =>
 				table.push([day.no, day.sehar, day.iftar, day.date])
 			);
-		!all && table.push([roza.no, roza.sehar, roza.iftar, roza.date]);
+		}
+
+		if (single) {
+			spinner.start(`${y(`FETCHING`)} times …`);
+			const {sehar, iftar, date} = await getToday({city, school});
+			spinner.stop();
+			table.push([rozaNumber, sehar, iftar, date]);
+		}
 
 		// Do it.
 		console.log(table.toString());

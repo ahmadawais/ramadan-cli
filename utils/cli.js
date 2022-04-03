@@ -1,37 +1,40 @@
 const meow = require('meow');
-const chalk = require('chalk');
-const green = chalk.green;
-const yellow = chalk.yellow;
-const cyan = chalk.cyan;
-const dim = chalk.dim;
+const meowHelp = require('cli-meow-help');
 
-module.exports = meow(
-	`
-	Usage
-	  ${green(`ramadan-cli`)} ${cyan(`<command>`)} ${yellow(`[--option]`)}
+const commands = {
+	city: {desc: `Name of a city to get information about.`},
+	help: {desc: `Show help.`}
+};
 
-	Commands
-	  ${cyan(`cityName`)}    Get data for a city
-	  ${cyan(`help`)}        Show help
-
-	Options
-	  ${yellow(`--all`)}, ${yellow(`-a`)}   Show all days
-
-	Examples
-	${green(`ramadan-cli`)} ${cyan(`lahore`)}
-	${green(`ramadan-cli`)} ${cyan(`karachi`)} ${yellow(`--all`)}
-	${green(`ramadan-cli`)} ${cyan(`help`)}
-`,
-	{
-		booleanDefault: undefined,
-		hardRejection: false,
-		inferType: false,
-		flags: {
-			all: {
-				type: 'boolean',
-				default: false,
-				alias: 'a'
-			}
-		}
+const flags = {
+	all: {
+		desc: `Show all days.`,
+		type: 'boolean',
+		default: false,
+		alias: 'a'
+	},
+	school: {
+		desc: `School the time is based on.`,
+		type: 'string',
+		default: `1`,
+		alias: 's'
 	}
-);
+};
+
+const examples = [{command: `lahore`}, {command: `"dera ghazi khan"`}];
+
+const helpText = meowHelp({
+	name: `ramadan-cli`,
+	flags,
+	commands,
+	examples
+});
+
+const options = {
+	inferType: true,
+	description: false,
+	hardRejection: false,
+	flags
+};
+
+module.exports = meow(helpText, options);
