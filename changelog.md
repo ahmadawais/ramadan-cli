@@ -32,11 +32,36 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 <br>
 
+### RELEASE: [5.1.1](https://github.com/ahmadawais/ramadan-cli/compare/5.1.0...5.1.1)
+
+![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
+
+> 📦 GIF or didnt happen [`b5d92d0`](https://github.com/ahmadawais/ramadan-cli/commit/b5d92d0bc99616cbf29580a8236fff3e61943458) <br>
+
+![👌 IMPROVE:](https://img.shields.io/badge/-IMPROVEMENT-gray.svg?colorB=39AA54)
+
+> 👌 Docs [`41532c3`](https://github.com/ahmadawais/ramadan-cli/commit/41532c3ee463381e82a7a39dfb63446dab0c7d03) <br>
+> 👌 Gif quality [`480e937`](https://github.com/ahmadawais/ramadan-cli/commit/480e9372057d208e2dc96ef94b1b5b081a4dad44) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Examples [`5ccd29e`](https://github.com/ahmadawais/ramadan-cli/commit/5ccd29e9c1cc3fd5f7bfdad60b697d6cac4d48d7) <br>
+
+<br>
+
+[![hr](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/hr.png)](/)
+
+<br>
+
 ### RELEASE: [5.1.0](https://github.com/ahmadawais/ramadan-cli/compare/5.0.1...5.1.0)
 
 ![👌 IMPROVE:](https://img.shields.io/badge/-IMPROVEMENT-gray.svg?colorB=39AA54)
 
 > 👌 Examples [`7aedc8b`](https://github.com/ahmadawais/ramadan-cli/commit/7aedc8b087b9315fd2b5d1dac85c07de74ccd751) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Changelog [`7b25e44`](https://github.com/ahmadawais/ramadan-cli/commit/7b25e441c91031adfa83406b9a95bd0c43c3e0c6) <br>
 
 <br>
 
