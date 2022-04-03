@@ -5,7 +5,7 @@
 [![DOWNLOADS](https://img.shields.io/npm/dt/ramadan-cli?label=DOWNLOADS%20%20❯&colorA=81F096&colorB=81F096&style=flat)](https://www.npmjs.com/package/ramadan-cli) [![Node.js CLI](https://img.shields.io/badge/-NodeCLI.com-gray.svg?colorB=81F096&style=flat)](https://NodeCLI.com/?utm_source=FOSS) [![Learn VSCode](https://img.shields.io/badge/-VSCODE.pro-gray.svg?colorB=81F096&style=flat)](https://VSCode.pro/?utm_source=FOSS) [![Sponsor](https://img.shields.io/badge/-Sponsor-gray.svg?colorB=81F096&style=flat)](https://github.com/ahmadawais/sponsor?utm_source=FOSS)
 [![Follow @MrAhmadAwais on Twitter](https://img.shields.io/badge/FOLLOW%20@MRAHMADAWAIS%20%E2%86%92-gray.svg?colorA=81F096&colorB=81F096&style=flat)](https://twitter.com/mrahmadawais/)
 
-> CLI to check Ramadan Sehar and Iftar times in the command line..
+> CLI to check Ramadan Sehar and Iftar times in the command line.
 
 <br>
 
@@ -30,16 +30,19 @@ npx ramadan-cli
 ## Usage
 
 ```sh
-# Show today's Sehar/Iftar.
-npx ramadan-cli
+# Show sehar and iftar times for today.
+npx ramadan-cli <cityName>
 
-# Show all days.
+npx ramadan-cli san-francisco
 npx ramadan-cli lahore
 npx ramadan-cli karachi
-npx ramadan-cli lahore --all
+
+# Show all days.
+npx ramadan-cli san-francisco --all
 npx ramadan-cli lahore -a
 
 # For multiword cities.
+npx ramadan-cli "San Francisco"
 npx ramadan-cli "dera ghazi khan"
 npx ramadan-cli "dera ghazi khan" --all
 npx ramadan-cli "dera ghazi khan" -a
