@@ -32,12 +32,29 @@ I have released a video course to help you build <a href="https://NodeCLI.com/?u
 
 <br>
 
+### RELEASE: [5.0.0](https://github.com/ahmadawais/ramadan-cli/compare/4.0.2...5.0.0)
+
+![📦 NEW:](https://img.shields.io/badge/-NEW-gray.svg?colorB=3778FF)
+
+> 📦 API Based CLI [`37c6917`](https://github.com/ahmadawais/ramadan-cli/commit/37c6917664849fe42d5e19d5a7fe12af3ae1c196) <br>
+> 📦 Sheilds [`ee9a84c`](https://github.com/ahmadawais/ramadan-cli/commit/ee9a84c6bebe75b4a8c56d46d68b693231e429b5) <br>
+
+<br>
+
+[![hr](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/hr.png)](/)
+
+<br>
+
 ### RELEASE: [4.0.2](https://github.com/ahmadawais/ramadan-cli/compare/4.0.1...4.0.2)
 
 ![👌 IMPROVE:](https://img.shields.io/badge/-IMPROVEMENT-gray.svg?colorB=39AA54)
 
 > 👌 Lingo [`9cce843`](https://github.com/ahmadawais/ramadan-cli/commit/9cce8435ef01283c020265bf8f481db06ab13436) <br>
 > 👌 COver [`addf2d9`](https://github.com/ahmadawais/ramadan-cli/commit/addf2d9698ec693a6d190d85985c8d2a2017b9ce) <br>
+
+![📖 DOC:](https://img.shields.io/badge/-DOCS-gray.svg?colorB=978CD4)
+
+> 📖 Changelog [`7cd5ca3`](https://github.com/ahmadawais/ramadan-cli/commit/7cd5ca3de2a354cc4404068519806c3a876ae72a) <br>
 
 <br>
 
