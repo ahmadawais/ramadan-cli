@@ -21,7 +21,11 @@ const flags = {
 	}
 };
 
-const examples = [{command: `lahore`}, {command: `"dera ghazi khan"`}];
+const examples = [
+	{command: `"San Francisco"`},
+	{command: `san-francisco`, flags: [`all`]},
+	{command: `lahore`, flags: [`all`]}
+];
 
 const helpText = meowHelp({
 	name: `ramadan-cli`,
