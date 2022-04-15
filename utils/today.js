@@ -3,7 +3,18 @@ const to = require('await-to-js').default;
 const handleError = require('cli-handle-error');
 
 module.exports = async ({city, school}) => {
-	const endpoint = `https://api.pray.zone/v2/times/today.json?key=MagicKey&city=${city}&school=${school}&timeformat=1`;
+	/**
+	 * Local ISO strings, currently needed as datetime-local input values
+	 * http://dev.w3.org/html5/markup/input.datetime-local.html#input.datetime-local.attrs.value
+	 */
+	Date.prototype.toLocaleISOString = function () {
+		return new Date(this.getTime() - this.getTimezoneOffset() * 1000 * 60)
+			.toISOString()
+			.replace('Z', '');
+	};
+	const todayInISO = new Date().toLocaleISOString().split('T')[0];
+
+	const endpoint = `https://api.pray.zone/v2/times/day.json?key=MagicKey&city=${city}&school=${school}&timeformat=1&date=${todayInISO}`;
 	const [err, response] = await to(axios.get(endpoint));
 	handleError(`City now found, typo?! Try again.`, err, false);
 
