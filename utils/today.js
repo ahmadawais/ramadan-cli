@@ -16,7 +16,7 @@ module.exports = async ({city, school}) => {
 
 	const endpoint = `https://api.pray.zone/v2/times/day.json?key=MagicKey&city=${city}&school=${school}&timeformat=1&date=${todayInISO}`;
 	const [err, response] = await to(axios.get(endpoint));
-	handleError(`City now found, typo?! Try again.`, err, false);
+	handleError(`City not found, typo?! Try again.`, err, false);
 
 	const sehar = response.data.results.datetime[0].times['Fajr'];
 	const iftar = response.data.results.datetime[0].times['Maghrib'];

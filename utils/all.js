@@ -6,7 +6,7 @@ module.exports = async ({city, school}) => {
 	const endpoint = `https://api.pray.zone/v2/times/dates.json?start=2022-04-03&end=2022-05-02&key=MagicKey&city=${city}&school=${school}&timeformat=1`;
 
 	const [err, response] = await to(axios.get(endpoint));
-	handleError(`City now found, typo?! Try again.`, err, false);
+	handleError(`City not found, typo?! Try again.`, err, false);
 
 	const ramazan = response.data.results.datetime;
 
