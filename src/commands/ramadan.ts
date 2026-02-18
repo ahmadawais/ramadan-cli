@@ -66,6 +66,19 @@ interface RamadanQuery {
 	readonly timezone?: string | undefined;
 }
 
+const CITY_ALIAS_MAP: Readonly<Record<string, string>> = {
+	sf: 'San Francisco',
+};
+
+export const normalizeCityAlias = (city: string): string => {
+	const trimmed = city.trim();
+	const alias = CITY_ALIAS_MAP[trimmed.toLowerCase()];
+	if (!alias) {
+		return trimmed;
+	}
+	return alias;
+};
+
 export const to12HourTime = (value: string): string => {
 	const cleanValue = value.split(' ')[0] ?? value;
 	const match = cleanValue.match(/^(\d{1,2}):(\d{2})$/);
@@ -430,7 +443,7 @@ const parseCityCountry = (
 		return null;
 	}
 
-	const city = parts[0];
+	const city = normalizeCityAlias(parts[0] ?? '');
 	if (!city) {
 		return null;
 	}
@@ -536,21 +549,22 @@ const getStoredQuery = (): RamadanQuery | null => {
 const resolveQueryFromCityInput = async (
 	city: string
 ): Promise<RamadanQuery> => {
-	const parsed = parseCityCountry(city);
+	const normalizedInput = normalizeCityAlias(city);
+	const parsed = parseCityCountry(normalizedInput);
 	if (parsed) {
 		return withCountryAwareSettings(
 			{
-			address: city,
-			city: parsed.city,
-			country: parsed.country,
+				address: `${parsed.city}, ${parsed.country}`,
+				city: parsed.city,
+				country: parsed.country,
 			},
 			parsed.country
 		);
 	}
 
-	const guessed = await guessCityCountry(city);
+	const guessed = await guessCityCountry(normalizedInput);
 	if (!guessed) {
-		return withStoredSettings({ address: city });
+		return withStoredSettings({ address: normalizedInput });
 	}
 
 	return withCountryAwareSettings(

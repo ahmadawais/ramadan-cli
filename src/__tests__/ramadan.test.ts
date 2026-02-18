@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
 	getRozaNumberFromStartDate,
 	getTargetRamadanYear,
+	normalizeCityAlias,
 	to12HourTime,
 } from '../commands/ramadan.js';
 
@@ -106,5 +107,16 @@ describe('to12HourTime', () => {
 
 	it('keeps invalid values unchanged', () => {
 		expect(to12HourTime('not-a-time')).toBe('not-a-time');
+	});
+});
+
+describe('normalizeCityAlias', () => {
+	it('maps sf alias to San Francisco', () => {
+		expect(normalizeCityAlias('sf')).toBe('San Francisco');
+		expect(normalizeCityAlias('SF')).toBe('San Francisco');
+	});
+
+	it('keeps non-alias city names unchanged', () => {
+		expect(normalizeCityAlias('lahore')).toBe('lahore');
 	});
 });

@@ -1,5 +1,7 @@
 # ramadan-cli
 
+![ramadan-cli cover](https://raw.githubusercontent.com/ahmadawais/ramadan-cli/refs/heads/main/.github/cover.png)
+
 Ramadan-first CLI for Sehar and Iftar timings.
 
 ## Features
@@ -35,12 +37,13 @@ npx ramadan-cli
 roza
 
 # One-off city lookup (does NOT overwrite your saved default).
-npx ramadan-cli lahore
+npx ramadan-cli "San Francisco"
 roza "San Francisco"
+roza sf
 
 # Full Ramadan month.
-roza lahore --all
-roza lahore -a
+roza "San Francisco" --all
+roza sf -a
 
 # Specific roza.
 roza -n 10
