@@ -34,6 +34,7 @@ export interface RamadanCommandOptions {
 	readonly rozaNumber?: number | undefined;
 	readonly plain?: boolean | undefined;
 	readonly json?: boolean | undefined;
+	readonly status?: boolean | undefined;
 	readonly firstRozaDate?: string | undefined;
 	readonly clearFirstRozaDate?: boolean | undefined;
 }
@@ -1013,15 +1014,48 @@ const printTextOutput = (
 	console.log('');
 };
 
+const formatStatusLine = (highlight: HighlightState): string => {
+	const label = (() => {
+		switch (highlight.next) {
+			case 'First Sehar':
+			case 'Next day Sehar':
+				return 'Sehar';
+			case 'Roza starts (Fajr)':
+				return 'Fast starts';
+			default:
+				return highlight.next;
+		}
+	})();
+	return `${label} in ${highlight.countdown}`;
+};
+
 export const ramadanCommand = async (
 	opts: RamadanCommandOptions
 ): Promise<void> => {
-	const spinner = opts.json
+	const isSilent = opts.json || opts.status;
+	const spinner = isSilent
 		? null
 		: ora({
 				text: 'Fetching Ramadan timings...',
 				stream: process.stdout,
 			});
+
+	if (opts.status) {
+		try {
+			const query = await resolveQuery({
+				city: opts.city,
+				allowInteractiveSetup: false,
+			});
+			const today = await fetchRamadanDay(query);
+			const highlight = getHighlightState(today);
+			if (highlight) {
+				console.log(formatStatusLine(highlight));
+			}
+		} catch {
+			// silent failure for status lines
+		}
+		return;
+	}
 
 	try {
 		const configuredFirstRozaDate = getConfiguredFirstRozaDate(opts);
