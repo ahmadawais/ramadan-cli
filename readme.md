@@ -57,6 +57,11 @@ roza --clear-first-roza-date
 
 # Reset saved config (location + settings + overrides).
 roza reset
+
+# Non-interactive config (no prompts).
+ramadan-cli config --city "San Francisco" --country "United States" --method 2 --school 0 --timezone "America/Los_Angeles"
+ramadan-cli config --show
+ramadan-cli config --clear
 ```
 
 ## Agent Usage
@@ -78,6 +83,7 @@ npx skills add ahmadawais/ramadan-cli
 ```bash
 ramadan-cli [city] [options]
 ramadan-cli reset
+ramadan-cli config [options]
 ```
 
 Options:
@@ -90,6 +96,18 @@ Options:
 - `--clear-first-roza-date` Clear custom first roza date
 - `-v, --version` Print version only
 - `-h, --help` Help
+
+Config options (`ramadan-cli config`):
+
+- `--city <city>`
+- `--country <country>`
+- `--latitude <latitude>`
+- `--longitude <longitude>`
+- `--method <id>`
+- `--school <id>`
+- `--timezone <timezone>`
+- `--show`
+- `--clear`
 
 ## Aliases
 
@@ -117,4 +135,4 @@ pnpm lint
 
 ## License
 
-MIT
+MIT - [Ahmad Awais](https://x.com/MrAhmadAwais)

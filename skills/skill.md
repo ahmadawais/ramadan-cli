@@ -22,6 +22,7 @@ ramadan-cli sf
 ramadan-cli -a
 ramadan-cli -n 10
 ramadan-cli reset
+ramadan-cli config --show
 ```
 
 Alias support:
@@ -33,6 +34,14 @@ First run notes:
 
 - Interactive setup appears on first run in TTY mode.
 - `--json` skips interactive setup by design.
+
+Non-interactive config:
+
+```bash
+ramadan-cli config --city "San Francisco" --country "United States" --method 2 --school 0 --timezone "America/Los_Angeles"
+ramadan-cli config --show
+ramadan-cli config --clear
+```
 
 ## Canonical Run Strategy
 

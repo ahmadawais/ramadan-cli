@@ -44,6 +44,7 @@ Main command:
 Subcommands:
 
 - `ramadan-cli reset`
+- `ramadan-cli config`
 
 Flags:
 
@@ -55,6 +56,18 @@ Flags:
 - `--clear-first-roza-date`
 - `-v, --version`
 - `-h, --help`
+
+Config flags (`ramadan-cli config`):
+
+- `--city <city>`
+- `--country <country>`
+- `--latitude <latitude>`
+- `--longitude <longitude>`
+- `--method <id>`
+- `--school <id>`
+- `--timezone <timezone>`
+- `--show`
+- `--clear`
 
 ## 4. Data Semantics
 
@@ -139,6 +152,18 @@ JSON mode:
 - school
 - timezone
 - custom first roza date
+
+## 10.1 Non-Interactive Config
+
+All core setup fields must be configurable without prompts through `ramadan-cli config` flags:
+
+- location (`city` / `country` / `latitude` / `longitude`)
+- method
+- school
+- timezone
+
+`--show` must print saved values.
+`--clear` must clear saved configuration.
 
 ## 11. Engineering Constraints
 
