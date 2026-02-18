@@ -1,5 +1,5 @@
-import { createRequire } from 'node:module';
 import { InvalidArgumentError, program } from 'commander';
+import { createRequire } from 'node:module';
 import { configCommand } from './commands/config.js';
 import { ramadanCommand } from './commands/ramadan.js';
 import { clearRamadanConfig } from './ramadan-config.js';
@@ -50,7 +50,7 @@ program
 	.name('ramadan-cli')
 	.description('Ramadan CLI for Sehar and Iftar timings')
 	.version(pkg.version, '-v, --version')
-	.argument('[city]', 'City name (e.g. "Lahore" or "San Francisco")')
+	.argument('[city]', 'City name (e.g. "San Francisco", "sf", "Vancouver", "Lahore")')
 	.option('-c, --city <city>', 'City')
 	.option('-a, --all', 'Show complete Ramadan month')
 	.option(

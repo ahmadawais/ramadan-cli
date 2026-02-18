@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+	getJsonErrorCode,
+	toJsonErrorPayload,
 	getRozaNumberFromStartDate,
 	getTargetRamadanYear,
 	normalizeCityAlias,
@@ -118,5 +120,38 @@ describe('normalizeCityAlias', () => {
 
 	it('keeps non-alias city names unchanged', () => {
 		expect(normalizeCityAlias('lahore')).toBe('lahore');
+	});
+});
+
+describe('json error payload', () => {
+	it('maps known failures to stable error codes', () => {
+		expect(getJsonErrorCode('Could not fetch prayer times. timingsByAddress failed')).toBe(
+			'PRAYER_TIMES_FETCH_FAILED'
+		);
+		expect(getJsonErrorCode('Use either --all or --number, not both.')).toBe(
+			'INVALID_FLAG_COMBINATION'
+		);
+	});
+
+	it('builds structured payload for Error instances', () => {
+		expect(
+			toJsonErrorPayload(new Error('Could not detect location. Pass a city.'))
+		).toEqual({
+			ok: false,
+			error: {
+				code: 'LOCATION_DETECTION_FAILED',
+				message: 'Could not detect location. Pass a city.',
+			},
+		});
+	});
+
+	it('handles unknown thrown values', () => {
+		expect(toJsonErrorPayload('boom')).toEqual({
+			ok: false,
+			error: {
+				code: 'UNKNOWN_ERROR',
+				message: 'unknown error',
+			},
+		});
 	});
 });

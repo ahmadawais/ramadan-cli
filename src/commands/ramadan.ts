@@ -53,6 +53,14 @@ interface RamadanOutput {
 	readonly rows: ReadonlyArray<RamadanRow>;
 }
 
+interface JsonErrorPayload {
+	readonly ok: false;
+	readonly error: {
+		readonly code: string;
+		readonly message: string;
+	};
+}
+
 interface HighlightState {
 	readonly current: string;
 	readonly next: string;
@@ -467,6 +475,49 @@ const getErrorMessage = (error: unknown): string => {
 		return error.message;
 	}
 	return 'unknown error';
+};
+
+export const getJsonErrorCode = (message: string): string => {
+	if (message.startsWith('Invalid first roza date')) {
+		return 'INVALID_FIRST_ROZA_DATE';
+	}
+
+	if (message.includes('Use either --all or --number')) {
+		return 'INVALID_FLAG_COMBINATION';
+	}
+
+	if (message.startsWith('Could not fetch prayer times.')) {
+		return 'PRAYER_TIMES_FETCH_FAILED';
+	}
+
+	if (message.startsWith('Could not fetch Ramadan calendar.')) {
+		return 'RAMADAN_CALENDAR_FETCH_FAILED';
+	}
+
+	if (message.startsWith('Could not detect location.')) {
+		return 'LOCATION_DETECTION_FAILED';
+	}
+
+	if (message.startsWith('Could not find roza')) {
+		return 'ROZA_NOT_FOUND';
+	}
+
+	if (message === 'unknown error') {
+		return 'UNKNOWN_ERROR';
+	}
+
+	return 'RAMADAN_CLI_ERROR';
+};
+
+export const toJsonErrorPayload = (error: unknown): JsonErrorPayload => {
+	const message = getErrorMessage(error);
+	return {
+		ok: false,
+		error: {
+			code: getJsonErrorCode(message),
+			message,
+		},
+	};
 };
 
 const parseCityCountry = (
@@ -1159,12 +1210,14 @@ export const ramadanCommand = async (
 			allModeRowAnnotations
 		);
 	} catch (error) {
+		if (opts.json) {
+			process.stderr.write(`${JSON.stringify(toJsonErrorPayload(error))}\n`);
+			process.exit(1);
+		}
+
 		spinner?.fail(
 			error instanceof Error ? error.message : 'Failed to fetch Ramadan timings'
 		);
-		if (error instanceof Error && opts.json) {
-			console.error(error.message);
-		}
 		process.exit(1);
 	}
 };

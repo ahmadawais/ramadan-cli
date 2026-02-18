@@ -145,7 +145,8 @@ Reset command:
   - runtime and validation errors
 - `--json`:
   - prints structured JSON only to `stdout` on success
-  - prints error text to `stderr` on failure
+  - prints structured JSON error payload to `stderr` on failure:
+    - `{"ok":false,"error":{"code":"...","message":"..."}}`
 - Exit codes:
   - `0` success
   - `1` runtime/validation/network/data failure

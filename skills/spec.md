@@ -167,6 +167,8 @@ JSON mode:
 
 - structured object with `mode`, `location`, `hijriYear`, `rows`
 - no interactive prompt flow
+- failures are emitted to `stderr` as structured JSON:
+  - `{"ok":false,"error":{"code":"...","message":"..."}}`
 
 Streams:
 

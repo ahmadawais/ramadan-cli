@@ -87,6 +87,7 @@ Use `node dist/cli.js` only as a local fallback during development/debugging.
 - `stdout`: main data output (table/plain/json), version output
 - `stderr`: runtime failures and diagnostics
 - `--json`: output JSON only to `stdout` on success
+- `--json` failure payload on `stderr`: `{"ok":false,"error":{"code":"...","message":"..."}}`
 - Exit code `0`: success
 - Exit code `1`: runtime/API/validation failure
 - Usage parse failures follow Commander defaults
