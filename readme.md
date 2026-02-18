@@ -190,6 +190,9 @@ pnpm test
 pnpm build
 pnpm lint
 ```
+## API
+
+Powered by [Aladhan Prayer Times API](https://aladhan.com/prayer-times-api)
 
 ## License
 
