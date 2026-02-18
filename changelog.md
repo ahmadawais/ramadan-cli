@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [6.0.0] - 2026-02-18 (PR #17)
+## [6.0.0] - 2026-02-16 (PR #17)
 
 ### breaking
 - Major Ramadan CLI rewrite with a Ramadan-first command surface.
