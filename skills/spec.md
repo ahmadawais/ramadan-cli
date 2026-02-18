@@ -35,6 +35,7 @@ Executable names:
 - `ramazan`
 - `ramadan`
 - `roza`
+- city alias: `sf` => `San Francisco`
 
 Main command:
 
@@ -121,7 +122,8 @@ Text mode:
 
 - banner (unless plain)
 - row table
-- highlight section (`Current`, `Next`, countdown)
+- highlight section (`Status`, `Up next`, countdown)
+- in `--all` mode, right-side row annotations mark `← current` and `← next`
 
 JSON mode:
 

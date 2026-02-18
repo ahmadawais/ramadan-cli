@@ -1,5 +1,7 @@
 # Ramadan CLI Agent Skill
 
+Spec reference: `skills/spec.md`
+
 ## Goal
 
 Run, validate, and debug `ramadan-cli` safely and reproducibly.
@@ -17,7 +19,7 @@ Prefer running the built CLI directly:
 ```bash
 node dist/cli.js --help
 node dist/cli.js
-node dist/cli.js lahore -a
+node dist/cli.js sf -a
 node dist/cli.js -n 10
 node dist/cli.js reset
 ```
@@ -32,7 +34,7 @@ Always isolate config in automation to avoid polluting user/global state:
 TMP_CFG="/tmp/ramadan-cli-agent"
 mkdir -p "$TMP_CFG"
 RAMADAN_CLI_CONFIG_DIR="$TMP_CFG" node dist/cli.js --help
-RAMADAN_CLI_CONFIG_DIR="$TMP_CFG" node dist/cli.js lahore
+RAMADAN_CLI_CONFIG_DIR="$TMP_CFG" node dist/cli.js sf
 ```
 
 Reset isolated state:
@@ -61,7 +63,7 @@ Expected:
 ### Default location persistence
 
 1. Run without city and complete setup.
-2. Run with one-off city (`node dist/cli.js lahore`).
+2. Run with one-off city (`node dist/cli.js sf`).
 3. Run without city again.
 4. Confirm default remains saved geodata/setup location (city query is one-off).
 
@@ -75,8 +77,9 @@ Expected:
 
 ### Output modes
 
-- `node dist/cli.js lahore --json`
-- `node dist/cli.js lahore --plain`
+- `node dist/cli.js sf --json`
+- `node dist/cli.js sf --plain`
+- `node dist/cli.js sf -a` (includes `← current` / `← next` row annotations)
 
 ## Dev Validation Loop
 

@@ -59,6 +59,14 @@ roza --clear-first-roza-date
 roza reset
 ```
 
+## Agent Usage
+
+Install this as an agent skill package:
+
+```bash
+npx skills add ahmadawais/ramadan-cli
+```
+
 ## Output Semantics
 
 - `Sehar` = `Fajr`
