@@ -1,116 +1,196 @@
-[![ramadan-cli](https://github.com/ahmadawais/ramadan-cli/raw/master/.github/github.jpg)](https://twitter.com/MrAhmadAwais/)
+[![ramadan-cli](https://raw.githubusercontent.com/ahmadawais/ramadan-cli/refs/heads/main/.github/cover.png)](https://x.com/MrAhmadAwais/)
 
 # ramadan-cli 🌙
 
-[![DOWNLOADS](https://img.shields.io/npm/dt/ramadan-cli?label=DOWNLOADS%20%20❯&colorA=81F096&colorB=81F096&style=flat)](https://www.npmjs.com/package/ramadan-cli) [![Node.js CLI](https://img.shields.io/badge/-NodeCLI.com-gray.svg?colorB=81F096&style=flat)](https://NodeCLI.com/?utm_source=FOSS) [![Learn VSCode](https://img.shields.io/badge/-VSCODE.pro-gray.svg?colorB=81F096&style=flat)](https://VSCode.pro/?utm_source=FOSS) [![Sponsor](https://img.shields.io/badge/-Sponsor-gray.svg?colorB=81F096&style=flat)](https://github.com/ahmadawais/sponsor?utm_source=FOSS)
-[![Follow @MrAhmadAwais on Twitter](https://img.shields.io/badge/FOLLOW%20@MRAHMADAWAIS%20%E2%86%92-gray.svg?colorA=81F096&colorB=81F096&style=flat)](https://twitter.com/mrahmadawais/)
+[![DOWNLOADS](https://img.shields.io/npm/dt/ramadan-cli?label=npm&colorA=151B23&colorB=81F096&style=for-the-badge)](https://www.npmjs.com/package/ramadan-cli)
+[![Node.js CLI](https://img.shields.io/badge/-NodeCLI.com-gray.svg?colorB=81F096&style=for-the-badge)](https://NodeCLI.com/?utm_source=FOSS)
+[![Follow @MrAhmadAwais on X](https://img.shields.io/badge/FOLLOW%20%40MrAhmadAwais-gray.svg?colorA=151B23&colorB=81F096&style=for-the-badge)](https://x.com/mrahmadawais/)
 
-> CLI to check Ramadan Sehar and Iftar times in the command line.
+> Ramadan-first CLI for Sehar and Iftar timings in your terminal.
 
-<br>
+Built for humans and agents.
 
-- 🌙 Get Sehar/Iftar times for your city
-- 🗓 Get Sehar/Iftar times for the entire month of Ramadan
-- 🌐 Access any city sehar/iftar times from anywhere in the world
+## Why You'll Like It
 
-<br>
+- 🌙 Ramadan-only output focused on Sehar/Iftar
+- 📍 Auto first-run setup (city, country, method, school, timezone)
+- 🌐 Auto-detect location via IP provider fallbacks
+- 🧭 Auto-recommend method and school by country
+- ⏱ Auto timezone detection for accurate countdowns
+- ✨ Highlights current + next Sehar/Iftar with countdown
+- 🗓 `-a, --all` for complete Ramadan month
+- 🔢 `-n, --number` for a specific roza day
+- 🧪 Custom first roza override (`--first-roza-date`)
+- 🧹 One-command reset (`reset`)
 
-[![📟](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/install.png)](./../../)
+[![ramadan-cli](https://raw.githubusercontent.com/ahmadawais/ramadan-cli/refs/heads/main/.github/ramadan.gif)](https://x.com/MrAhmadAwais/)
+
 
 ## Install
 
 ```sh
-npx ramadan-cli <cityName>
+npx ramadan-cli
+
+# or install globally and use alias
+npm install -g ramadan-cli@latest
+roza
 ```
 
-<br>
 
-[![⚙️](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/usage.png)](./../../)
+## Agent Usage
+
+Install this repo as an agent skill package:
+
+```sh
+npx skills add ahmadawais/ramadan-cli
+```
 
 ## Usage
 
 ```sh
-# Show sehar and iftar times for today.
-npx ramadan-cli <cityName>
+# Show Sehar and Iftar times for today.
+npx ramadan-cli
+roza
 
-npx ramadan-cli san-francisco
-npx ramadan-cli lahore
-npx ramadan-cli karachi
-
-# Show all days.
-npx ramadan-cli san-francisco --all
-npx ramadan-cli lahore -a
-
-# For multiword cities.
+# City examples.
+npx ramadan-cli sf
 npx ramadan-cli "San Francisco"
-npx ramadan-cli "dera ghazi khan"
-npx ramadan-cli "dera ghazi khan" --all
-npx ramadan-cli "dera ghazi khan" -a
+npx ramadan-cli lahore
+npx ramadan-cli vancouver
+
+# Full Ramadan month.
+npx ramadan-cli sf --all
+roza "San Francisco" -a
+
+# Specific roza.
+roza -n 10
+roza "dera ghazi khan" -n 10
+
+# Set custom first roza date (stored).
+roza --first-roza-date 2026-02-19
+
+# Clear custom first roza date.
+roza --clear-first-roza-date
+
+# Reset saved config (location + settings + overrides).
+roza reset
+
+# Non-interactive config (no prompts).
+ramadan-cli config --city "San Francisco" --country "United States" --method 2 --school 0 --timezone "America/Los_Angeles"
+ramadan-cli config --show
+ramadan-cli config --clear
 ```
 
-[![📟](./.github/show.gif)](./../../)
+## CLI Surface
 
-<br>
+```sh
+ramadan-cli [city] [options]
+ramadan-cli reset
+ramadan-cli config [options]
+```
 
-[![📝](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/log.png)](changelog.md)
+Notes:
 
-## Changelog
+- No `today` subcommand; default run is today view.
+- Passing a city is one-off and does not replace saved default location.
 
-[❯ Read the changelog here →](changelog.md)
+## Output Semantics
 
-<br>
+- `Sehar` = `Fajr`
+- `Iftar` = `Maghrib`
+- Time output is 12-hour (`AM/PM`)
 
-<small>**KEY**: `📦 NEW`, `👌 IMPROVE`, `🐛 FIX`, `📖 DOC`, `🚀 RELEASE`, and `🤖 TEST`
+## Flags and Arguments
 
-> _I use [Emoji-log](https://github.com/ahmadawais/Emoji-Log), you should try it and simplify your git commits._
+Global/main command flags (`ramadan-cli [city]`):
 
-</small>
+| Flag | Type | Default | Behavior |
+| --- | --- | --- | --- |
+| `[city]` | `string` | saved location | One-off lookup; does not overwrite saved default |
+| `-c, --city <city>` | `string` | none | Same as city arg |
+| `-a, --all` | `boolean` | `false` | Show all Ramadan rows |
+| `-n, --number <1-30>` | `number` | none | Show specific roza |
+| `-p, --plain` | `boolean` | `false` | Plain text output without ASCII banner |
+| `-j, --json` | `boolean` | `false` | JSON-only output for scripts |
+| `--first-roza-date <YYYY-MM-DD>` | `string` | stored/API | Persist custom first roza date |
+| `--clear-first-roza-date` | `boolean` | `false` | Clear custom first roza date and use API Ramadan date |
+| `-v, --version` | `boolean` | n/a | Print version only |
+| `-h, --help` | `boolean` | n/a | Show help |
 
-<br>
+Config flags (`ramadan-cli config`):
 
-[![📃](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/license.png)](./../../)
+| Flag | Type | Behavior |
+| --- | --- | --- |
+| `--city <city>` | `string` | Save city |
+| `--country <country>` | `string` | Save country |
+| `--latitude <latitude>` | `number` | Save latitude (`-90..90`) |
+| `--longitude <longitude>` | `number` | Save longitude (`-180..180`) |
+| `--method <id>` | `number` | Save method (`0..23`) |
+| `--school <id>` | `number` | Save school (`0=Shafi`, `1=Hanafi`) |
+| `--timezone <timezone>` | `string` | Save timezone |
+| `--show` | `boolean` | Print saved config |
+| `--clear` | `boolean` | Clear saved config |
 
-## License & Conduct
+Reset command:
 
-- MIT © [Ahmad Awais](https://twitter.com/MrAhmadAwais/)
-- [Code of Conduct](code-of-conduct.md)
+- `ramadan-cli reset` clears saved location, method, school, timezone, and custom first roza date.
 
-<br>
+## Aliases
 
-[![🙌](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/connect.png)](./../../)
+- `roza` (same CLI)
+- `ramadan-cli`
+- `ramzan`
+- `ramazan`
+- `ramadan`
 
-## Connect
+## I/O Contract
 
-<div align="left">
-    <p><a href="https://github.com/ahmadawais"><img alt="GitHub @AhmadAwais" align="center" src="https://img.shields.io/badge/GITHUB-gray.svg?colorB=6cc644&style=flat" /></a>&nbsp;<small><strong>(follow)</strong> To stay up to date on free & open-source software</small></p>
-    <p><a href="https://twitter.com/MrAhmadAwais/"><img alt="Twitter @MrAhmadAwais" align="center" src="https://img.shields.io/badge/TWITTER-gray.svg?colorB=1da1f2&style=flat" /></a>&nbsp;<small><strong>(follow)</strong> To get #OneDevMinute daily hot tips & trolls</small></p>
-    <p><a href="https://www.youtube.com/AhmadAwais"><img alt="YouTube AhmadAwais" align="center" src="https://img.shields.io/badge/YOUTUBE-gray.svg?colorB=ff0000&style=flat" /></a>&nbsp;<small><strong>(subscribe)</strong> To tech talks & #OneDevMinute videos</small></p>
-    <p><a href="https://AhmadAwais.com/"><img alt="Blog: AhmadAwais.com" align="center" src="https://img.shields.io/badge/MY%20BLOG-gray.svg?colorB=4D2AFF&style=flat" /></a>&nbsp;<small><strong>(read)</strong> In-depth & long form technical articles</small></p>
-    <p><a href="https://www.linkedin.com/in/MrAhmadAwais/"><img alt="LinkedIn @MrAhmadAwais" align="center" src="https://img.shields.io/badge/LINKEDIN-gray.svg?colorB=0077b5&style=flat" /></a>&nbsp;<small><strong>(connect)</strong> On the LinkedIn profile y'all</small></p>
-</div>
+- `stdout`:
+  - primary data output (table/plain/json)
+  - version output (`-v`) prints version only
+- `stderr`:
+  - runtime and validation errors
+- `--json`:
+  - prints structured JSON only to `stdout` on success
+  - prints structured JSON error payload to `stderr` on failure:
+    - `{"ok":false,"error":{"code":"...","message":"..."}}`
+- Exit codes:
+  - `0` success
+  - `1` runtime/validation/network/data failure
+  - invalid usage parsing is handled by Commander defaults
 
-<br>
+## Interactivity and Safety
 
-[![👌](https://raw.githubusercontent.com/ahmadawais/stuff/master/images/git/sponsor.png)](https://github.com/AhmadAwais/sponsor)
+- On first run (TTY), CLI launches interactive setup with Clack prompts.
+- If `--json` is used and no config exists, interactive setup is skipped.
+- Config changes are explicit via `config`, `reset`, and first-roza flags.
+- No stdin input contract yet. Input is args/flags only.
 
-## Sponsor
+## Config and Precedence
 
-Me ([Ahmad Awais](https://twitter.com/mrahmadawais/)) and my incredible wife ([Maedah Batool](https://twitter.com/MaedahBatool/)) are two engineers who fell in love with open source and then with each other. You can read more [about me here](https://ahmadawais.com/about). If you or your company use any of my projects or like what I’m doing, consider backing me. I'm in this for the long run—an open-source developer advocate.
+Data sources:
 
-[![Ahmad on Twitter](https://img.shields.io/twitter/follow/mrahmadawais.svg?style=social&label=Follow%20@MrAhmadAwais)](https://twitter.com/mrahmadawais/)
+- flags/args (`city`, `--first-roza-date`, `--clear-first-roza-date`, mode flags)
+- saved config (from first-run setup or `ramadan-cli config`)
+- IP geolocation fallback when no saved config
 
-### [NodeCLI.com][n] — Learn to build Node.js CLI Automation
+Resolution behavior:
 
-> This repository is part of the [NodeCLI.com][n] course.
+- One-off city arg/flag wins for that invocation but is not persisted.
+- `--clear-first-roza-date` takes precedence over `--first-roza-date` if both are provided.
+- Recommended method/school are auto-applied when using default/unset settings.
+- `RAMADAN_CLI_CONFIG_DIR` controls where config is stored (useful for agent/test isolation).
 
-After building hundreds of developer automation tools used by millions of developers, I share exactly how you can do it yourself with minimum effective effort. Learn to build Node.js & JavaScript-based CLI (Command Line Interface) apps. Automate the grunt work, do more in less time, impress your manager, and help the community.
-→ I'm sharing it all in this online video course. [Node CLI Automation
-without wasting 1,000 hours][n] →</p>
+## Development
 
-[![Node CLI Course](https://raw.githubusercontent.com/ahmadawais/stuff/master/nodecli/featured.jpg)][n]
+```sh
+pnpm install
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm lint
+```
 
-[![Node CLI](https://img.shields.io/badge/-NodeCLI.com%20%E2%86%92-gray.svg?colorB=488640&style=flat)][n]
+## License
 
-[n]: https://NodeCLI.com?utm_source=github&utm_medium=referral&utm_campaign=ahmadawais/cli-meow-help
-
-[![Awais on Twitter](https://raw.githubusercontent.com/ahmadawais/stuff/master/sponsor/sponsor.jpg)](https://github.com/AhmadAwais/sponsor)
+MIT - [Ahmad Awais](https://x.com/MrAhmadAwais)
