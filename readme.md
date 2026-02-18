@@ -130,11 +130,11 @@ Reset command:
 
 ## Aliases
 
+- `roza` (same CLI)
 - `ramadan-cli`
 - `ramzan`
 - `ramazan`
 - `ramadan`
-- `roza`
 
 ## I/O Contract
 
