@@ -1,16 +1,15 @@
 import * as p from '@clack/prompts';
-import {
-	guessCityCountry,
-	guessLocation,
-	type GeoLocation,
-} from './geo.js';
+import { type GeoLocation, guessCityCountry, guessLocation } from './geo.js';
 import {
 	setStoredLocation,
 	setStoredMethod,
 	setStoredSchool,
 	setStoredTimezone,
 } from './ramadan-config.js';
-import { getRecommendedMethod, getRecommendedSchool } from './recommendations.js';
+import {
+	getRecommendedMethod,
+	getRecommendedSchool,
+} from './recommendations.js';
 import { MOON_EMOJI, ramadanGreen } from './ui/theme.js';
 
 interface SelectOption<TValue> {
@@ -195,7 +194,9 @@ const resolveDetectedDetails = async (
 };
 
 export const canPromptInteractively = (): boolean =>
-	Boolean(process.stdin.isTTY && process.stdout.isTTY && process.env.CI !== 'true');
+	Boolean(
+		process.stdin.isTTY && process.stdout.isTTY && process.env.CI !== 'true'
+	);
 
 const handleCancelledPrompt = (): false => {
 	p.cancel('Setup cancelled');
@@ -338,7 +339,8 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 		return false;
 	}
 
-	let timezone = timezoneChoice === 'detected' ? detectedDetails.timezone : undefined;
+	let timezone =
+		timezoneChoice === 'detected' ? detectedDetails.timezone : undefined;
 
 	if (timezoneChoice === 'custom') {
 		const timezoneInput = await p.text({

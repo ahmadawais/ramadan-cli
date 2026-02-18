@@ -8,7 +8,7 @@ import {
 	fetchTimingsByCity,
 	fetchTimingsByCoords,
 } from '../api.js';
-import { guessCityCountry, type GeoLocation, guessLocation } from '../geo.js';
+import { type GeoLocation, guessCityCountry, guessLocation } from '../geo.js';
 import {
 	clearStoredFirstRozaDate,
 	getStoredFirstRozaDate,
@@ -20,7 +20,10 @@ import {
 	shouldApplyRecommendedMethod,
 	shouldApplyRecommendedSchool,
 } from '../ramadan-config.js';
-import { getRecommendedMethod, getRecommendedSchool } from '../recommendations.js';
+import {
+	getRecommendedMethod,
+	getRecommendedSchool,
+} from '../recommendations.js';
 import { canPromptInteractively, runFirstRunSetup } from '../setup.js';
 import { getBanner } from '../ui/banner.js';
 import { ramadanGreen } from '../ui/theme.js';
@@ -186,8 +189,9 @@ export const getRozaNumberFromStartDate = (
 	firstRozaDate: Date,
 	targetDate: Date
 ): number =>
-	Math.floor((toUtcDateOnlyMs(targetDate) - toUtcDateOnlyMs(firstRozaDate)) / DAY_MS) +
-	1;
+	Math.floor(
+		(toUtcDateOnlyMs(targetDate) - toUtcDateOnlyMs(firstRozaDate)) / DAY_MS
+	) + 1;
 
 const parsePrayerTimeToMinutes = (value: string): number | null => {
 	const cleanValue = value.split(' ')[0] ?? value;
@@ -242,7 +246,12 @@ const parseGregorianDay = (
 
 const nowInTimezoneParts = (
 	timezone: string
-): Readonly<{ year: number; month: number; day: number; minutes: number }> | null => {
+): Readonly<{
+	year: number;
+	month: number;
+	day: number;
+	minutes: number;
+}> | null => {
 	try {
 		const formatter = new Intl.DateTimeFormat('en-GB', {
 			timeZone: timezone,
@@ -327,7 +336,11 @@ const getHighlightState = (day: PrayerData): HighlightState | null => {
 	}
 
 	const nowDateUtc = Date.UTC(nowParts.year, nowParts.month - 1, nowParts.day);
-	const targetDateUtc = Date.UTC(dayParts.year, dayParts.month - 1, dayParts.day);
+	const targetDateUtc = Date.UTC(
+		dayParts.year,
+		dayParts.month - 1,
+		dayParts.day
+	);
 	const dayDiff = Math.floor((targetDateUtc - nowDateUtc) / DAY_MS);
 
 	if (dayDiff > 0) {
@@ -542,18 +555,20 @@ const getStoredQuery = (): RamadanQuery | null => {
 
 	const location = getStoredLocation();
 	if (location.city && location.country) {
-		const cityCountryQuery: Omit<RamadanQuery, 'method' | 'school' | 'timezone'> =
-			{
-				address: `${location.city}, ${location.country}`,
-				city: location.city,
-				country: location.country,
-				...(location.latitude !== undefined
-					? { latitude: location.latitude }
-					: {}),
-				...(location.longitude !== undefined
-					? { longitude: location.longitude }
-					: {}),
-			};
+		const cityCountryQuery: Omit<
+			RamadanQuery,
+			'method' | 'school' | 'timezone'
+		> = {
+			address: `${location.city}, ${location.country}`,
+			city: location.city,
+			country: location.country,
+			...(location.latitude !== undefined
+				? { latitude: location.latitude }
+				: {}),
+			...(location.longitude !== undefined
+				? { longitude: location.longitude }
+				: {}),
+		};
 
 		return withStoredSettings({
 			...cityCountryQuery,
@@ -610,7 +625,9 @@ interface ResolveQueryOptions {
 	readonly allowInteractiveSetup: boolean;
 }
 
-const resolveQuery = async (opts: ResolveQueryOptions): Promise<RamadanQuery> => {
+const resolveQuery = async (
+	opts: ResolveQueryOptions
+): Promise<RamadanQuery> => {
 	const city = opts.city;
 	if (city) {
 		return await resolveQueryFromCityInput(city);
@@ -822,9 +839,8 @@ const fetchCustomRamadanDays = async (
 	firstRozaDate: Date
 ): Promise<ReadonlyArray<PrayerData>> => {
 	const totalDays = 30;
-	const days = Array.from(
-		{ length: totalDays },
-		(_, index) => addDays(firstRozaDate, index)
+	const days = Array.from({ length: totalDays }, (_, index) =>
+		addDays(firstRozaDate, index)
 	);
 	return Promise.all(
 		days.map(async (dayDate) => fetchRamadanDay(query, dayDate))
@@ -936,19 +952,13 @@ const printTextOutput = (
 	printTable(output.rows, rowAnnotations);
 	console.log('');
 	if (highlight) {
-		console.log(
-			`  ${ramadanGreen('Status:')} ${pc.white(highlight.current)}`
-		);
+		console.log(`  ${ramadanGreen('Status:')} ${pc.white(highlight.current)}`);
 		console.log(
 			`  ${ramadanGreen('Up next:')} ${pc.white(highlight.next)} in ${pc.yellow(highlight.countdown)}`
 		);
 		console.log('');
 	}
-	console.log(
-		pc.dim(
-			'  Sehar uses Fajr. Iftar uses Maghrib.'
-		)
-	);
+	console.log(pc.dim('  Sehar uses Fajr. Iftar uses Maghrib.'));
 	console.log('');
 };
 
@@ -1073,7 +1083,10 @@ export const ramadanCommand = async (
 					}
 					row = toRamadanRow(firstRamadanDay, 1);
 					highlightDay = firstRamadanDay;
-					outputHijriYear = Number.parseInt(firstRamadanDay.date.hijri.year, 10);
+					outputHijriYear = Number.parseInt(
+						firstRamadanDay.date.hijri.year,
+						10
+					);
 				}
 			}
 

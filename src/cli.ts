@@ -53,7 +53,11 @@ program
 	.argument('[city]', 'City name (e.g. "Lahore" or "San Francisco")')
 	.option('-c, --city <city>', 'City')
 	.option('-a, --all', 'Show complete Ramadan month')
-	.option('-n, --number <number>', 'Show a specific roza day (1-30)', parseRozaNumber)
+	.option(
+		'-n, --number <number>',
+		'Show a specific roza day (1-30)',
+		parseRozaNumber
+	)
 	.option('-p, --plain', 'Plain text output')
 	.option('-j, --json', 'JSON output')
 	.option(

@@ -166,13 +166,13 @@ export const guessCityCountry = async (
 			return null;
 		}
 
-			return {
-				city: result.name,
-				country: result.country,
-				latitude: result.latitude,
-				longitude: result.longitude,
-				...(result.timezone ? { timezone: result.timezone } : {}),
-			};
+		return {
+			city: result.name,
+			country: result.country,
+			latitude: result.latitude,
+			longitude: result.longitude,
+			...(result.timezone ? { timezone: result.timezone } : {}),
+		};
 	} catch {
 		return null;
 	}

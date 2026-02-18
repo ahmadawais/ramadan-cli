@@ -61,7 +61,13 @@ export const parseConfigUpdates = (
 	...(options.city ? { city: options.city.trim() } : {}),
 	...(options.country ? { country: options.country.trim() } : {}),
 	...(options.latitude !== undefined
-		? { latitude: parseOptionalWithSchema(options.latitude, LatitudeSchema, 'latitude') }
+		? {
+				latitude: parseOptionalWithSchema(
+					options.latitude,
+					LatitudeSchema,
+					'latitude'
+				),
+			}
 		: {}),
 	...(options.longitude !== undefined
 		? {
@@ -73,10 +79,14 @@ export const parseConfigUpdates = (
 			}
 		: {}),
 	...(options.method !== undefined
-		? { method: parseOptionalWithSchema(options.method, MethodSchema, 'method') }
+		? {
+				method: parseOptionalWithSchema(options.method, MethodSchema, 'method'),
+			}
 		: {}),
 	...(options.school !== undefined
-		? { school: parseOptionalWithSchema(options.school, SchoolSchema, 'school') }
+		? {
+				school: parseOptionalWithSchema(options.school, SchoolSchema, 'school'),
+			}
 		: {}),
 	...(options.timezone ? { timezone: options.timezone.trim() } : {}),
 });
@@ -162,7 +172,9 @@ export const configCommand = async (
 
 	if (!hasConfigUpdateFlags(options)) {
 		console.log(
-			pc.dim('No config updates provided. Use `ramadan-cli config --show` to inspect.')
+			pc.dim(
+				'No config updates provided. Use `ramadan-cli config --show` to inspect.'
+			)
 		);
 		return;
 	}

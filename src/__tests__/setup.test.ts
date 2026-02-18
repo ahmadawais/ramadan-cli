@@ -6,7 +6,9 @@ describe('setup option builders', () => {
 		const options = getMethodOptions(1);
 		expect(options[0]?.value).toBe(1);
 		expect(options[0]?.label.includes('(Recommended)')).toBe(true);
-		const methodOneCount = options.filter((option) => option.value === 1).length;
+		const methodOneCount = options.filter(
+			(option) => option.value === 1
+		).length;
 		expect(methodOneCount).toBe(1);
 	});
 
