@@ -1,23 +1,27 @@
-# ramadan-cli
+[![ramadan-cli](https://raw.githubusercontent.com/ahmadawais/ramadan-cli/refs/heads/main/.github/cover.png)](https://twitter.com/MrAhmadAwais/)
 
-![ramadan-cli cover](https://raw.githubusercontent.com/ahmadawais/ramadan-cli/refs/heads/main/.github/cover.png)
+# ramadan-cli 🌙
 
-Ramadan-first CLI for Sehar and Iftar timings.
+[![DOWNLOADS](https://img.shields.io/npm/dt/ramadan-cli?label=npm&colorA=151B23&colorB=81F096&style=for-the-badge)](https://www.npmjs.com/package/ramadan-cli)
+[![Node.js CLI](https://img.shields.io/badge/-NodeCLI.com-gray.svg?colorB=81F096&style=for-the-badge)](https://NodeCLI.com/?utm_source=FOSS)
+[![Follow @MrAhmadAwais on X](https://img.shields.io/badge/FOLLOW%20%40MrAhmadAwais-gray.svg?colorA=151B23&colorB=81F096&style=for-the-badge)](https://twitter.com/mrahmadawais/)
 
-Primary audience: humans and scripts.
+> Ramadan-first CLI for Sehar and Iftar timings in your terminal.
 
-## Features
+Built for humans and scripts.
 
-- Ramadan-only output focused on Sehar/Iftar
-- Auto first-run setup (city, country, method, school, timezone)
-- Auto-detect location via IP provider fallbacks
-- Auto-recommend method and school by country
-- Auto timezone detection for accurate countdowns
-- Highlights current state + next Sehar/Iftar with countdown
-- `-a, --all` for complete Ramadan month
-- `-n, --number` for a specific roza day
-- Custom first roza date override (`--first-roza-date`)
-- Config reset command (`reset`)
+## Why You'll Like It
+
+- 🌙 Ramadan-only output focused on Sehar/Iftar
+- 📍 Auto first-run setup (city, country, method, school, timezone)
+- 🌐 Auto-detect location via IP provider fallbacks
+- 🧭 Auto-recommend method and school by country
+- ⏱ Auto timezone detection for accurate countdowns
+- ✨ Highlights current + next Sehar/Iftar with countdown
+- 🗓 `-a, --all` for complete Ramadan month
+- 🔢 `-n, --number` for a specific roza day
+- 🧪 Custom first roza override (`--first-roza-date`)
+- 🧹 One-command reset (`reset`)
 
 ## Install
 
@@ -29,23 +33,37 @@ or use without install:
 
 ```bash
 npx ramadan-cli
+
+# or install globally and use alias
+npm install -g ramadan-cli@latest
+roza
 ```
 
-## Quick Usage
+
+## Agent Usage
+
+Install this repo as an agent skill package:
 
 ```bash
-# Use saved default/geodata setup.
+npx skills add ahmadawais/ramadan-cli
+```
+
+## Usage
+
+```bash
+# Show Sehar and Iftar times for today.
 npx ramadan-cli
 roza
 
-# One-off city lookup (does NOT overwrite your saved default).
+# City examples.
+npx ramadan-cli sf
 npx ramadan-cli "San Francisco"
-roza "San Francisco"
-roza sf
+npx ramadan-cli lahore
+npx ramadan-cli vancouver
 
 # Full Ramadan month.
-roza "San Francisco" --all
-roza sf -a
+npx ramadan-cli sf --all
+roza "San Francisco" -a
 
 # Specific roza.
 roza -n 10
@@ -76,16 +94,8 @@ ramadan-cli config [options]
 
 Notes:
 
-- There is no `today` subcommand. `ramadan-cli` default run is the today view.
-- Passing a city is a one-off query and does not replace saved default location.
-
-## Agent Usage
-
-Install this as an agent skill package:
-
-```bash
-npx skills add ahmadawais/ramadan-cli
-```
+- No `today` subcommand; default run is today view.
+- Passing a city is one-off and does not replace saved default location.
 
 ## Output Semantics
 
