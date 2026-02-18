@@ -1,6 +1,6 @@
 {
 	"name": "ramadan-cli",
-	"version": "5.3.1",
+	"version": "6.0.0",
 	"description": "Ramadan CLI with automatic location detection and Sehar/Iftar timings",
 	"type": "module",
 	"bin": {
@@ -12,7 +12,9 @@
 	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"build": "tsup",
 		"dev": "tsup --watch",
@@ -64,6 +66,9 @@
 	},
 	"packageManager": "pnpm@10.5.0",
 	"pnpm": {
-		"onlyBuiltDependencies": ["@biomejs/biome", "esbuild"]
+		"onlyBuiltDependencies": [
+			"@biomejs/biome",
+			"esbuild"
+		]
 	}
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## [6.0.0](https://github.com/ahmadawais/ramadan-cli/compare/5.3.0...6.0.0) (2026-02-18)
+
+### Features
+
+* rewrite ramadan-cli with azan-style setup and ramadan UX ([#17](https://github.com/ahmadawais/ramadan-cli/issues/17)) v6 ([b35457e](https://github.com/ahmadawais/ramadan-cli/commit/b35457e18454d55a701219a147069184b9f98f88))
+
+### Bug Fixes
+
+* logs ([5d249ee](https://github.com/ahmadawais/ramadan-cli/commit/5d249ee1642020b3110680977fcfb57c140196a0))
+
 All notable changes to this project will be documented in this file.
 
 ## [6.0.0] - 2026-02-16 (PR #17)
