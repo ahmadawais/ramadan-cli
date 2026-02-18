@@ -59,6 +59,7 @@ Global/main flags:
 - `-n, --number <1-30>`
 - `-p, --plain`
 - `-j, --json`
+- `-s, --status`
 - `--first-roza-date <YYYY-MM-DD>`
 - `--clear-first-roza-date`
 - `-v, --version`
@@ -87,6 +88,7 @@ Config flags (`ramadan-cli config`):
 - `--all` and `--number` are mutually exclusive.
 - `--clear-first-roza-date` clears persisted first roza override immediately.
 - City argument/`--city` on main command is one-off and does not persist as default.
+- `--status` outputs a single line (`{next event} in {countdown}`) to `stdout` and exits; no spinner, no banner, no table, no interactive setup.
 
 ## 3.2 Input Sources
 
@@ -118,7 +120,7 @@ When no saved location exists and command is interactive (TTY), CLI must prompt 
 
 Setup saves config for future runs.
 
-If `--json` is used, CLI must skip interactive setup.
+If `--json` or `--status` is used, CLI must skip interactive setup.
 
 ## 6. Query Resolution Rules
 
@@ -169,6 +171,13 @@ JSON mode:
 - no interactive prompt flow
 - failures are emitted to `stderr` as structured JSON:
   - `{"ok":false,"error":{"code":"...","message":"..."}}`
+
+Status mode (`-s, --status`):
+
+- single line to `stdout`: e.g. `Iftar in 2h 30m` or `Sehar in 8h 15m`
+- no banner, no table, no spinner, no interactive setup
+- silent on failure (exits 0 with no output)
+- accepts `--city` for one-off location override
 
 Streams:
 

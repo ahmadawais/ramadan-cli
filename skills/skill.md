@@ -17,7 +17,7 @@ Run, validate, and debug `ramadan-cli` safely and reproducibly.
 Primary user mode:
 
 - Human-first interactive defaults
-- Script-friendly deterministic modes via flags (`--json`, `--plain`, `config`)
+- Script-friendly deterministic modes via flags (`--json`, `--plain`, `--status`, `config`)
 
 Command surface:
 
@@ -36,6 +36,8 @@ ramadan-cli
 ramadan-cli sf
 ramadan-cli -a
 ramadan-cli -n 10
+ramadan-cli -s
+ramadan-cli -s --city Lahore
 ramadan-cli reset
 ramadan-cli config --show
 ```
@@ -146,6 +148,8 @@ Expected:
 - `ramadan-cli sf --json`
 - `ramadan-cli sf --plain`
 - `ramadan-cli sf -a` (includes `← current` / `← next` row annotations)
+- `ramadan-cli -s` (single line: `Iftar in 2h 30m` or `Sehar in 8h 15m`)
+- `ramadan-cli -s --city Lahore` (status with one-off city)
 
 ### Non-interactive readiness
 
@@ -153,3 +157,4 @@ Expected:
 - `ramadan-cli config --clear`
 - `ramadan-cli config --method 2 --school 0`
 - `ramadan-cli --clear-first-roza-date`
+- `ramadan-cli -s` (always non-interactive; silent failure)

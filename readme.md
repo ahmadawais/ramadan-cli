@@ -20,6 +20,7 @@ Built for humans and agents.
 - ✨ Highlights current + next Sehar/Iftar with countdown
 - 🗓 `-a, --all` for complete Ramadan month
 - 🔢 `-n, --number` for a specific roza day
+- 📟 `-s, --status` single-line next event for status bars and coding agents
 - 🧪 Custom first roza override (`--first-roza-date`)
 - 🧹 One-command reset (`reset`)
 
@@ -65,6 +66,11 @@ roza "San Francisco" -a
 # Specific roza.
 roza -n 10
 roza "dera ghazi khan" -n 10
+
+# Status line (next event only — for status bars, coding agents).
+roza -s
+roza --status
+roza -s --city Lahore
 
 # Set custom first roza date (stored).
 roza --first-roza-date 2026-02-19
@@ -112,6 +118,7 @@ Global/main command flags (`ramadan-cli [city]`):
 | `-n, --number <1-30>` | `number` | none | Show specific roza |
 | `-p, --plain` | `boolean` | `false` | Plain text output without ASCII banner |
 | `-j, --json` | `boolean` | `false` | JSON-only output for scripts |
+| `-s, --status` | `boolean` | `false` | Single-line next event output for status bars and coding agents |
 | `--first-roza-date <YYYY-MM-DD>` | `string` | stored/API | Persist custom first roza date |
 | `--clear-first-roza-date` | `boolean` | `false` | Clear custom first roza date and use API Ramadan date |
 | `-v, --version` | `boolean` | n/a | Print version only |
@@ -162,7 +169,7 @@ Reset command:
 ## Interactivity and Safety
 
 - On first run (TTY), CLI launches interactive setup with Clack prompts.
-- If `--json` is used and no config exists, interactive setup is skipped.
+- If `--json` or `--status` is used and no config exists, interactive setup is skipped.
 - Config changes are explicit via `config`, `reset`, and first-roza flags.
 - No stdin input contract yet. Input is args/flags only.
 
