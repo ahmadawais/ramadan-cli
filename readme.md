@@ -8,7 +8,7 @@
 
 > Ramadan-first CLI for Sehar and Iftar timings in your terminal.
 
-Built for humans and scripts.
+Built for humans and agents.
 
 ## Why You'll Like It
 
@@ -25,13 +25,7 @@ Built for humans and scripts.
 
 ## Install
 
-```bash
-pnpm add -g ramadan-cli
-```
-
-or use without install:
-
-```bash
+```sh
 npx ramadan-cli
 
 # or install globally and use alias
@@ -44,13 +38,13 @@ roza
 
 Install this repo as an agent skill package:
 
-```bash
+```sh
 npx skills add ahmadawais/ramadan-cli
 ```
 
 ## Usage
 
-```bash
+```sh
 # Show Sehar and Iftar times for today.
 npx ramadan-cli
 roza
@@ -86,7 +80,7 @@ ramadan-cli config --clear
 
 ## CLI Surface
 
-```bash
+```sh
 ramadan-cli [city] [options]
 ramadan-cli reset
 ramadan-cli config [options]
@@ -186,7 +180,7 @@ Resolution behavior:
 
 ## Development
 
-```bash
+```sh
 pnpm install
 pnpm typecheck
 pnpm test
