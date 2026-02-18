@@ -1,5 +1,4 @@
 import * as p from '@clack/prompts';
-import pc from 'picocolors';
 import {
 	guessCityCountry,
 	guessLocation,
@@ -12,6 +11,7 @@ import {
 	setStoredTimezone,
 } from './ramadan-config.js';
 import { getRecommendedMethod, getRecommendedSchool } from './recommendations.js';
+import { MOON_EMOJI, ramadanGreen } from './ui/theme.js';
 
 interface SelectOption<TValue> {
 	readonly value: TValue;
@@ -203,10 +203,10 @@ const handleCancelledPrompt = (): false => {
 };
 
 export const runFirstRunSetup = async (): Promise<boolean> => {
-	p.intro(pc.white('Ramadan CLI Setup'));
+	p.intro(ramadanGreen(`${MOON_EMOJI} Ramadan CLI Setup`));
 
 	const ipSpinner = p.spinner();
-	ipSpinner.start('Detecting your location...');
+	ipSpinner.start(`${MOON_EMOJI} Detecting your location...`);
 	const ipGuess = await guessLocation();
 	ipSpinner.stop(
 		ipGuess
@@ -267,7 +267,7 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 	}
 
 	const detailsSpinner = p.spinner();
-	detailsSpinner.start('Resolving city details...');
+	detailsSpinner.start(`${MOON_EMOJI} Resolving city details...`);
 	const detectedDetails = await resolveDetectedDetails(city, country, ipGuess);
 	detailsSpinner.stop(
 		detectedDetails.timezone
@@ -383,6 +383,6 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 	setStoredSchool(school);
 	setStoredTimezone(timezone);
 
-	p.outro(pc.green('Setup complete.'));
+	p.outro(ramadanGreen(`${MOON_EMOJI} Setup complete.`));
 	return true;
 };

@@ -23,6 +23,7 @@ import {
 import { getRecommendedMethod, getRecommendedSchool } from '../recommendations.js';
 import { canPromptInteractively, runFirstRunSetup } from '../setup.js';
 import { getBanner } from '../ui/banner.js';
+import { ramadanGreen } from '../ui/theme.js';
 
 export interface RamadanCommandOptions {
 	readonly city?: string | undefined;
@@ -51,9 +52,11 @@ interface RamadanOutput {
 
 interface HighlightState {
 	readonly current: string;
-	readonly next: 'Sehar' | 'Iftar';
+	readonly next: string;
 	readonly countdown: string;
 }
+
+type RowAnnotationKind = 'current' | 'next';
 
 interface RamadanQuery {
 	readonly address: string;
@@ -332,7 +335,7 @@ const getHighlightState = (day: PrayerData): HighlightState | null => {
 			dayDiff * MINUTES_IN_DAY + (seharMinutes - nowParts.minutes);
 		return {
 			current: 'Before roza day',
-			next: 'Sehar',
+			next: 'First Sehar',
 			countdown: formatCountdown(minutesUntilSehar),
 		};
 	}
@@ -343,15 +346,15 @@ const getHighlightState = (day: PrayerData): HighlightState | null => {
 
 	if (nowParts.minutes < seharMinutes) {
 		return {
-			current: 'Before Sehar',
-			next: 'Sehar',
+			current: 'Sehar window open',
+			next: 'Roza starts (Fajr)',
 			countdown: formatCountdown(seharMinutes - nowParts.minutes),
 		};
 	}
 
 	if (nowParts.minutes < iftarMinutes) {
 		return {
-			current: 'Fasting',
+			current: 'Roza in progress',
 			next: 'Iftar',
 			countdown: formatCountdown(iftarMinutes - nowParts.minutes),
 		};
@@ -360,8 +363,8 @@ const getHighlightState = (day: PrayerData): HighlightState | null => {
 	const minutesUntilNextSehar =
 		MINUTES_IN_DAY - nowParts.minutes + seharMinutes;
 	return {
-		current: 'Iftar',
-		next: 'Sehar',
+		current: 'Iftar time',
+		next: 'Next day Sehar',
 		countdown: formatCountdown(minutesUntilNextSehar),
 	};
 };
@@ -406,7 +409,18 @@ export const getTargetRamadanYear = (today: PrayerData): number => {
 	return hijriYear;
 };
 
-const printTable = (rows: ReadonlyArray<RamadanRow>): void => {
+const formatRowAnnotation = (kind: RowAnnotationKind): string => {
+	if (kind === 'current') {
+		return pc.green('← current');
+	}
+
+	return pc.yellow('← next');
+};
+
+const printTable = (
+	rows: ReadonlyArray<RamadanRow>,
+	rowAnnotations: Readonly<Record<number, RowAnnotationKind>> = {}
+): void => {
 	const headers = ['Roza', 'Sehar', 'Iftar', 'Date', 'Hijri'];
 	const widths = [6, 8, 8, 14, 20] as const;
 	const pad = (value: string, index: number): string =>
@@ -418,9 +432,20 @@ const printTable = (rows: ReadonlyArray<RamadanRow>): void => {
 	console.log(pc.dim(`  ${line(headers)}`));
 	console.log(pc.dim(`  ${divider}`));
 	for (const row of rows) {
-		console.log(
-			`  ${line([String(row.roza), row.sehar, row.iftar, row.date, row.hijri])}`
-		);
+		const rowLine = line([
+			String(row.roza),
+			row.sehar,
+			row.iftar,
+			row.date,
+			row.hijri,
+		]);
+		const annotation = rowAnnotations[row.roza];
+		if (!annotation) {
+			console.log(`  ${rowLine}`);
+			continue;
+		}
+
+		console.log(`  ${rowLine}  ${formatRowAnnotation(annotation)}`);
 	}
 };
 
@@ -840,10 +865,62 @@ const getHijriYearFromRozaNumber = (
 	return Number.parseInt(day.date.hijri.year, 10);
 };
 
+const setRowAnnotation = (
+	annotations: Record<number, RowAnnotationKind>,
+	roza: number,
+	kind: RowAnnotationKind
+): void => {
+	if (roza < 1 || roza > 30) {
+		return;
+	}
+
+	annotations[roza] = kind;
+};
+
+const getAllModeRowAnnotations = (input: {
+	readonly today: PrayerData;
+	readonly todayGregorianDate: Date;
+	readonly targetYear: number;
+	readonly configuredFirstRozaDate: Date | null;
+}): Readonly<Record<number, RowAnnotationKind>> => {
+	const annotations: Record<number, RowAnnotationKind> = {};
+
+	if (input.configuredFirstRozaDate) {
+		const currentRoza = getRozaNumberFromStartDate(
+			input.configuredFirstRozaDate,
+			input.todayGregorianDate
+		);
+
+		if (currentRoza < 1) {
+			setRowAnnotation(annotations, 1, 'next');
+			return annotations;
+		}
+
+		setRowAnnotation(annotations, currentRoza, 'current');
+		setRowAnnotation(annotations, currentRoza + 1, 'next');
+		return annotations;
+	}
+
+	const todayHijriYear = Number.parseInt(input.today.date.hijri.year, 10);
+	const isRamadanNow =
+		input.today.date.hijri.month.number === 9 &&
+		todayHijriYear === input.targetYear;
+	if (!isRamadanNow) {
+		setRowAnnotation(annotations, 1, 'next');
+		return annotations;
+	}
+
+	const currentRoza = getRozaNumberFromHijriDay(input.today);
+	setRowAnnotation(annotations, currentRoza, 'current');
+	setRowAnnotation(annotations, currentRoza + 1, 'next');
+	return annotations;
+};
+
 const printTextOutput = (
 	output: RamadanOutput,
 	plain: boolean,
-	highlight: HighlightState | null
+	highlight: HighlightState | null,
+	rowAnnotations: Readonly<Record<number, RowAnnotationKind>> = {}
 ): void => {
 	const title =
 		output.mode === 'all'
@@ -853,17 +930,17 @@ const printTextOutput = (
 				: 'Today Sehar/Iftar';
 
 	console.log(plain ? 'RAMADAN CLI' : getBanner());
-	console.log(pc.dim(`  ${title}`));
+	console.log(ramadanGreen(`  ${title}`));
 	console.log(pc.dim(`  📍 ${output.location}`));
 	console.log('');
-	printTable(output.rows);
+	printTable(output.rows, rowAnnotations);
 	console.log('');
 	if (highlight) {
 		console.log(
-			pc.dim(`  Current: ${highlight.current}`)
+			`  ${ramadanGreen('Status:')} ${pc.white(highlight.current)}`
 		);
 		console.log(
-			pc.dim(`  Next: ${highlight.next} in ${highlight.countdown}`)
+			`  ${ramadanGreen('Up next:')} ${pc.white(highlight.next)} in ${pc.yellow(highlight.countdown)}`
 		);
 		console.log('');
 	}
@@ -1050,13 +1127,24 @@ export const ramadanCommand = async (
 			hijriYear,
 			rows,
 		};
+		const allModeRowAnnotations = getAllModeRowAnnotations({
+			today,
+			todayGregorianDate,
+			targetYear,
+			configuredFirstRozaDate,
+		});
 
 		spinner?.stop();
 		if (opts.json) {
 			console.log(JSON.stringify(output, null, 2));
 			return;
 		}
-		printTextOutput(output, Boolean(opts.plain), getHighlightState(today));
+		printTextOutput(
+			output,
+			Boolean(opts.plain),
+			getHighlightState(today),
+			allModeRowAnnotations
+		);
 	} catch (error) {
 		spinner?.fail(
 			error instanceof Error ? error.message : 'Failed to fetch Ramadan timings'
