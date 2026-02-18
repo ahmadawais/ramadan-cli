@@ -1,5 +1,11 @@
 # Changelog
 
+## [6.1.0](https://github.com/ahmadawais/ramadan-cli/compare/6.0.1...6.1.0) (2026-02-18)
+
+### Features
+
+* add -s/--status flag for minimal status line output ([#20](https://github.com/ahmadawais/ramadan-cli/issues/20)) ([2f432e8](https://github.com/ahmadawais/ramadan-cli/commit/2f432e84795cb3008df966c2217ac44d4e9c8731))
+
 ## [6.0.1](https://github.com/ahmadawais/ramadan-cli/compare/6.0.0...6.0.1) (2026-02-18)
 
 ### Bug Fixes
