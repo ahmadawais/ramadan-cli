@@ -1,5 +1,15 @@
 # Changelog
 
+## [6.0.1](https://github.com/ahmadawais/ramadan-cli/compare/6.0.0...6.0.1) (2026-02-18)
+
+### Bug Fixes
+
+* log ([bb970a1](https://github.com/ahmadawais/ramadan-cli/commit/bb970a17644b34947db3e0f13111a0dc4f57bfcc))
+
+### Improvements
+
+* credits ([6938cd6](https://github.com/ahmadawais/ramadan-cli/commit/6938cd61f4ce97e94ac90b2d856e7dd1c403e171))
+
 All notable changes to this project will be documented in this file.
 
 ## [6.0.0] - 2026-02-16 (PR #17)
