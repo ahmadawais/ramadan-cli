@@ -14,6 +14,21 @@ Run, validate, and debug `ramadan-cli` safely and reproducibly.
 - today view, full month (`-a`), and specific roza (`-n`)
 - first-run setup with saved config (city/country/method/school/timezone)
 
+Primary user mode:
+
+- Human-first interactive defaults
+- Script-friendly deterministic modes via flags (`--json`, `--plain`, `config`)
+
+Command surface:
+
+```bash
+ramadan-cli [city] [options]
+ramadan-cli reset
+ramadan-cli config [options]
+```
+
+There is no `today` subcommand. `ramadan-cli` default run is the today view.
+
 ## Basics Usage
 
 ```bash
@@ -34,13 +49,21 @@ First run notes:
 
 - Interactive setup appears on first run in TTY mode.
 - `--json` skips interactive setup by design.
+- One-off city input does not overwrite saved default location.
 
 Non-interactive config:
 
 ```bash
-ramadan-cli config --city "San Francisco" --country "United States" --method 2 --school 0 --timezone "America/Los_Angeles"
+ramadan-cli config --city "San Francisco" --country "United States" --latitude 37.7749 --longitude -122.4194 --method 2 --school 0 --timezone "America/Los_Angeles"
 ramadan-cli config --show
 ramadan-cli config --clear
+```
+
+First roza override controls:
+
+```bash
+ramadan-cli --first-roza-date 2026-02-18
+ramadan-cli --clear-first-roza-date
 ```
 
 ## Canonical Run Strategy
@@ -58,6 +81,15 @@ ramadan-cli reset
 Use `roza` as an alias where desired.
 Use `npx ramadan-cli` when testing package-exec behavior.
 Use `node dist/cli.js` only as a local fallback during development/debugging.
+
+## I/O and Exit Contract
+
+- `stdout`: main data output (table/plain/json), version output
+- `stderr`: runtime failures and diagnostics
+- `--json`: output JSON only to `stdout` on success
+- Exit code `0`: success
+- Exit code `1`: runtime/API/validation failure
+- Usage parse failures follow Commander defaults
 
 ## Isolated Config Runs (Recommended for Agents)
 
@@ -113,3 +145,10 @@ Expected:
 - `ramadan-cli sf --json`
 - `ramadan-cli sf --plain`
 - `ramadan-cli sf -a` (includes `← current` / `← next` row annotations)
+
+### Non-interactive readiness
+
+- `ramadan-cli config --show`
+- `ramadan-cli config --clear`
+- `ramadan-cli config --method 2 --school 0`
+- `ramadan-cli --clear-first-roza-date`
