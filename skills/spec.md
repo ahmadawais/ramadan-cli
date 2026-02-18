@@ -14,7 +14,7 @@ It prioritizes low-friction defaults (auto setup, saved config) with determinist
 
 In scope:
 
-- Ramadan-focused timing views (`today`, `--all`, `--number`)
+- Ramadan-focused timing views (default invocation, `--all`, `--number`)
 - First-run interactive setup
 - Location and prayer-setting persistence
 - Country-based method and school recommendation

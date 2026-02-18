@@ -6,6 +6,34 @@ Spec reference: `skills/spec.md`
 
 Run, validate, and debug `ramadan-cli` safely and reproducibly.
 
+## What This CLI Is
+
+`ramadan-cli` is a Ramadan-first CLI that shows:
+
+- Sehar (`Fajr`) and Iftar (`Maghrib`) times
+- today view, full month (`-a`), and specific roza (`-n`)
+- first-run setup with saved config (city/country/method/school/timezone)
+
+## Basics Usage
+
+```bash
+ramadan-cli
+ramadan-cli sf
+ramadan-cli -a
+ramadan-cli -n 10
+ramadan-cli reset
+```
+
+Alias support:
+
+- `roza` (same CLI)
+- `sf` city alias resolves to `San Francisco`
+
+First run notes:
+
+- Interactive setup appears on first run in TTY mode.
+- `--json` skips interactive setup by design.
+
 ## Canonical Run Strategy
 
 Prefer running the CLI command directly:
