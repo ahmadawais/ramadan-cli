@@ -2,6 +2,8 @@ import ora from 'ora';
 import pc from 'picocolors';
 import {
 	type PrayerData,
+	fetchCalendarByAddress,
+	fetchCalendarByCity,
 	fetchHijriCalendarByAddress,
 	fetchHijriCalendarByCity,
 	fetchTimingsByAddress,
@@ -886,17 +888,93 @@ const fetchRamadanCalendar = async (
 	throw new Error(`Could not fetch Ramadan calendar. ${errors.join(' | ')}`);
 };
 
+const toApiDateString = (date: Date): string => {
+	const day = String(date.getDate()).padStart(2, '0');
+	const month = String(date.getMonth() + 1).padStart(2, '0');
+	const year = date.getFullYear();
+	return `${day}-${month}-${year}`;
+};
+
+const fetchGregorianMonthCalendar = async (
+	query: RamadanQuery,
+	year: number,
+	month: number
+): Promise<ReadonlyArray<PrayerData>> => {
+	const errors: Array<string> = [];
+	const baseOpts = {
+		year,
+		month,
+		...(query.method !== undefined ? { method: query.method } : {}),
+		...(query.school !== undefined ? { school: query.school } : {}),
+	};
+
+	try {
+		return await fetchCalendarByAddress({
+			address: query.address,
+			...baseOpts,
+		});
+	} catch (error) {
+		errors.push(`calendarByAddress failed: ${getErrorMessage(error)}`);
+	}
+
+	if (query.city && query.country) {
+		try {
+			return await fetchCalendarByCity({
+				city: query.city,
+				country: query.country,
+				...baseOpts,
+			});
+		} catch (error) {
+			errors.push(`calendarByCity failed: ${getErrorMessage(error)}`);
+		}
+	}
+
+	throw new Error(`Could not fetch Ramadan calendar. ${errors.join(' | ')}`);
+};
+
 const fetchCustomRamadanDays = async (
 	query: RamadanQuery,
 	firstRozaDate: Date
 ): Promise<ReadonlyArray<PrayerData>> => {
 	const totalDays = 30;
-	const days = Array.from({ length: totalDays }, (_, index) =>
-		addDays(firstRozaDate, index)
+
+	// Determine unique Gregorian months covered by the 30-day period
+	const seenMonthKeys = new Set<string>();
+	const uniqueMonths: Array<{ year: number; month: number }> = [];
+	for (let i = 0; i < totalDays; i++) {
+		const d = addDays(firstRozaDate, i);
+		const key = `${d.getFullYear()}-${d.getMonth() + 1}`;
+		if (!seenMonthKeys.has(key)) {
+			seenMonthKeys.add(key);
+			uniqueMonths.push({ year: d.getFullYear(), month: d.getMonth() + 1 });
+		}
+	}
+
+	// Fetch monthly calendars (at most 2 months for a 30-day period)
+	const monthCalendars = await Promise.all(
+		uniqueMonths.map(({ year, month }) =>
+			fetchGregorianMonthCalendar(query, year, month)
+		)
 	);
-	return Promise.all(
-		days.map(async (dayDate) => fetchRamadanDay(query, dayDate))
-	);
+
+	// Build a date-keyed lookup (DD-MM-YYYY → PrayerData)
+	const dayByDate = new Map<string, PrayerData>();
+	for (const calendar of monthCalendars) {
+		for (const day of calendar) {
+			dayByDate.set(day.date.gregorian.date, day);
+		}
+	}
+
+	// Return the 30 days in order
+	return Array.from({ length: totalDays }, (_, i) => {
+		const targetDate = addDays(firstRozaDate, i);
+		const dateStr = toApiDateString(targetDate);
+		const day = dayByDate.get(dateStr);
+		if (!day) {
+			throw new Error(`Could not find prayer data for ${dateStr}.`);
+		}
+		return day;
+	});
 };
 
 const getRowByRozaNumber = (
