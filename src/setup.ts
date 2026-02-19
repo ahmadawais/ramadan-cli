@@ -1,6 +1,8 @@
 import * as p from '@clack/prompts';
 import { type GeoLocation, guessCityCountry, guessLocation } from './geo.js';
+import { type SupportedLang, setLocale, t } from './i18n/index.js';
 import {
+	setStoredLanguage,
 	setStoredLocation,
 	setStoredMethod,
 	setStoredSchool,
@@ -109,8 +111,8 @@ export const getMethodOptions = (
 
 	const recommendedOption: SelectOption<number> = {
 		value: recommendedMethod,
-		label: `${findMethodLabel(recommendedMethod)} (Recommended)`,
-		hint: 'Based on your country',
+		label: `${findMethodLabel(recommendedMethod)} ${t('setupRecommended')}`,
+		hint: t('setupBasedOnCountry'),
 	};
 	const remaining = METHOD_OPTIONS.filter(
 		(option) => option.value !== recommendedMethod
@@ -125,13 +127,13 @@ export const getSchoolOptions = (
 		return [
 			{
 				value: SCHOOL_HANAFI,
-				label: 'Hanafi (Recommended)',
-				hint: 'Later Asr timing',
+				label: `${t('setupHanafi')} ${t('setupRecommended')}`,
+				hint: t('setupLaterAsrTiming'),
 			},
 			{
 				value: SCHOOL_SHAFI,
-				label: 'Shafi',
-				hint: 'Standard Asr timing',
+				label: t('setupShafi'),
+				hint: t('setupStandardAsrTiming'),
 			},
 		];
 	}
@@ -139,13 +141,13 @@ export const getSchoolOptions = (
 	return [
 		{
 			value: SCHOOL_SHAFI,
-			label: 'Shafi (Recommended)',
-			hint: 'Standard Asr timing',
+			label: `${t('setupShafi')} ${t('setupRecommended')}`,
+			hint: t('setupStandardAsrTiming'),
 		},
 		{
 			value: SCHOOL_HANAFI,
-			label: 'Hanafi',
-			hint: 'Later Asr timing',
+			label: t('setupHanafi'),
+			hint: t('setupLaterAsrTiming'),
 		},
 	];
 };
@@ -199,25 +201,42 @@ export const canPromptInteractively = (): boolean =>
 	);
 
 const handleCancelledPrompt = (): false => {
-	p.cancel('Setup cancelled');
+	p.cancel(t('setupCancelled'));
 	return false;
 };
 
 export const runFirstRunSetup = async (): Promise<boolean> => {
-	p.intro(ramadanGreen(`${MOON_EMOJI} Ramadan CLI Setup`));
+	p.intro(ramadanGreen(t('setupIntro')));
+
+	// Language selection prompt (first question)
+	const langAnswer = await p.select({
+		message: t('setupSelectLanguage'),
+		initialValue: 'en' as SupportedLang,
+		options: [
+			{ value: 'en' as SupportedLang, label: t('langEnglish') },
+			{ value: 'id' as SupportedLang, label: t('langIndonesian') },
+		],
+	});
+	if (p.isCancel(langAnswer)) {
+		return handleCancelledPrompt();
+	}
+
+	const selectedLang = langAnswer as SupportedLang;
+	setLocale(selectedLang);
+	setStoredLanguage(selectedLang);
 
 	const ipSpinner = p.spinner();
-	ipSpinner.start(`${MOON_EMOJI} Detecting your location...`);
+	ipSpinner.start(t('setupDetecting'));
 	const ipGuess = await guessLocation();
 	ipSpinner.stop(
 		ipGuess
-			? `Detected: ${ipGuess.city}, ${ipGuess.country}`
-			: 'Could not detect location'
+			? t('setupDetected', { city: ipGuess.city, country: ipGuess.country })
+			: t('setupDetectFailed')
 	);
 
 	const cityAnswer = await p.text({
-		message: 'Enter your city',
-		placeholder: 'e.g., Lahore',
+		message: t('setupEnterCity'),
+		placeholder: t('setupCityPlaceholder'),
 		...(ipGuess?.city
 			? {
 					defaultValue: ipGuess.city,
@@ -226,7 +245,7 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 			: {}),
 		validate: (value) => {
 			if (!value.trim()) {
-				return 'City is required.';
+				return t('setupCityRequired');
 			}
 			return undefined;
 		},
@@ -237,13 +256,13 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 
 	const city = toNonEmptyString(cityAnswer);
 	if (!city) {
-		p.log.error('Invalid city value.');
+		p.log.error(t('setupInvalidCity'));
 		return false;
 	}
 
 	const countryAnswer = await p.text({
-		message: 'Enter your country',
-		placeholder: 'e.g., Pakistan',
+		message: t('setupEnterCountry'),
+		placeholder: t('setupCountryPlaceholder'),
 		...(ipGuess?.country
 			? {
 					defaultValue: ipGuess.country,
@@ -252,7 +271,7 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 			: {}),
 		validate: (value) => {
 			if (!value.trim()) {
-				return 'Country is required.';
+				return t('setupCountryRequired');
 			}
 			return undefined;
 		},
@@ -263,22 +282,22 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 
 	const country = toNonEmptyString(countryAnswer);
 	if (!country) {
-		p.log.error('Invalid country value.');
+		p.log.error(t('setupInvalidCountry'));
 		return false;
 	}
 
 	const detailsSpinner = p.spinner();
-	detailsSpinner.start(`${MOON_EMOJI} Resolving city details...`);
+	detailsSpinner.start(t('setupResolvingCity'));
 	const detectedDetails = await resolveDetectedDetails(city, country, ipGuess);
 	detailsSpinner.stop(
 		detectedDetails.timezone
-			? `Detected timezone: ${detectedDetails.timezone}`
-			: 'Could not detect timezone for this city'
+			? t('setupDetectedTimezone', { timezone: detectedDetails.timezone })
+			: t('setupTimezoneDetectFailed')
 	);
 
 	const recommendedMethod = getRecommendedMethod(country);
 	const methodAnswer = await p.select({
-		message: 'Select calculation method',
+		message: t('setupSelectMethod'),
 		initialValue: recommendedMethod ?? DEFAULT_METHOD,
 		options: [...getMethodOptions(recommendedMethod)],
 	});
@@ -288,13 +307,13 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 
 	const method = toNumberSelection(methodAnswer);
 	if (method === null) {
-		p.log.error('Invalid method selection.');
+		p.log.error(t('setupInvalidMethod'));
 		return false;
 	}
 
 	const recommendedSchool = getRecommendedSchool(country);
 	const schoolAnswer = await p.select({
-		message: 'Select Asr school',
+		message: t('setupSelectSchool'),
 		initialValue: recommendedSchool,
 		options: [...getSchoolOptions(recommendedSchool)],
 	});
@@ -304,7 +323,7 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 
 	const school = toNumberSelection(schoolAnswer);
 	if (school === null) {
-		p.log.error('Invalid school selection.');
+		p.log.error(t('setupInvalidSchool'));
 		return false;
 	}
 
@@ -314,18 +333,20 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 			? [
 					{
 						value: 'detected',
-						label: `Use detected timezone (${detectedDetails.timezone ?? ''})`,
+						label: t('setupUseDetectedTimezone', {
+							timezone: detectedDetails.timezone ?? '',
+						}),
 					},
-					{ value: 'custom', label: 'Set custom timezone' },
-					{ value: 'skip', label: 'Do not set timezone override' },
+					{ value: 'custom', label: t('setupSetCustomTimezone') },
+					{ value: 'skip', label: t('setupSkipTimezone') },
 				]
 			: [
-					{ value: 'custom', label: 'Set custom timezone' },
-					{ value: 'skip', label: 'Do not set timezone override' },
+					{ value: 'custom', label: t('setupSetCustomTimezone') },
+					{ value: 'skip', label: t('setupSkipTimezone') },
 				];
 
 	const timezoneAnswer = await p.select({
-		message: 'Timezone preference',
+		message: t('setupTimezonePreference'),
 		initialValue: hasDetectedTimezone ? 'detected' : 'skip',
 		options: [...timezoneOptions],
 	});
@@ -335,7 +356,7 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 
 	const timezoneChoice = toTimezoneChoice(timezoneAnswer, hasDetectedTimezone);
 	if (!timezoneChoice) {
-		p.log.error('Invalid timezone selection.');
+		p.log.error(t('setupInvalidTimezone'));
 		return false;
 	}
 
@@ -344,8 +365,8 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 
 	if (timezoneChoice === 'custom') {
 		const timezoneInput = await p.text({
-			message: 'Enter timezone',
-			placeholder: detectedDetails.timezone ?? 'e.g., Asia/Karachi',
+			message: t('setupEnterTimezone'),
+			placeholder: detectedDetails.timezone ?? t('setupTimezonePlaceholder'),
 			...(detectedDetails.timezone
 				? {
 						defaultValue: detectedDetails.timezone,
@@ -354,7 +375,7 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 				: {}),
 			validate: (value) => {
 				if (!value.trim()) {
-					return 'Timezone is required.';
+					return t('setupTimezoneRequired');
 				}
 				return undefined;
 			},
@@ -365,7 +386,7 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 
 		const customTimezone = toNonEmptyString(timezoneInput);
 		if (!customTimezone) {
-			p.log.error('Invalid timezone value.');
+			p.log.error(t('setupInvalidTimezone'));
 			return false;
 		}
 		timezone = customTimezone;
@@ -385,6 +406,6 @@ export const runFirstRunSetup = async (): Promise<boolean> => {
 	setStoredSchool(school);
 	setStoredTimezone(timezone);
 
-	p.outro(ramadanGreen(`${MOON_EMOJI} Setup complete.`));
+	p.outro(ramadanGreen(t('setupComplete')));
 	return true;
 };

@@ -23,6 +23,7 @@ Built for humans and agents.
 - 📟 `-s, --status` single-line next event for status bars and coding agents
 - 🧪 Custom first roza override (`--first-roza-date`)
 - 🧹 One-command reset (`reset`)
+- 🌍 Multilanguage support (English, Bahasa Indonesia)
 
 [![ramadan-cli](https://raw.githubusercontent.com/ahmadawais/ramadan-cli/refs/heads/main/.github/ramadan.gif)](https://x.com/MrAhmadAwais/)
 
@@ -81,6 +82,13 @@ roza --clear-first-roza-date
 # Reset saved config (location + settings + overrides).
 roza reset
 
+# Switch language for one invocation.
+roza --lang id
+roza --lang en lahore
+
+# Save preferred language.
+ramadan-cli config --lang id
+
 # Non-interactive config (no prompts).
 ramadan-cli config --city "San Francisco" --country "United States" --method 2 --school 0 --timezone "America/Los_Angeles"
 ramadan-cli config --show
@@ -121,6 +129,7 @@ Global/main command flags (`ramadan-cli [city]`):
 | `-s, --status` | `boolean` | `false` | Single-line next event output for status bars and coding agents |
 | `--first-roza-date <YYYY-MM-DD>` | `string` | stored/API | Persist custom first roza date |
 | `--clear-first-roza-date` | `boolean` | `false` | Clear custom first roza date and use API Ramadan date |
+| `-l, --lang <lang>` | `string` | saved/`en` | Set display language (`en`, `id`) for one invocation |
 | `-v, --version` | `boolean` | n/a | Print version only |
 | `-h, --help` | `boolean` | n/a | Show help |
 
@@ -135,6 +144,7 @@ Config flags (`ramadan-cli config`):
 | `--method <id>` | `number` | Save method (`0..23`) |
 | `--school <id>` | `number` | Save school (`0=Shafi`, `1=Hanafi`) |
 | `--timezone <timezone>` | `string` | Save timezone |
+| `--lang <lang>` | `string` | Save display language (`en`, `id`) |
 | `--show` | `boolean` | Print saved config |
 | `--clear` | `boolean` | Clear saved config |
 
@@ -186,7 +196,16 @@ Resolution behavior:
 - One-off city arg/flag wins for that invocation but is not persisted.
 - `--clear-first-roza-date` takes precedence over `--first-roza-date` if both are provided.
 - Recommended method/school are auto-applied when using default/unset settings.
+- `--lang` flag wins over saved language for that invocation.
 - `RAMADAN_CLI_CONFIG_DIR` controls where config is stored (useful for agent/test isolation).
+
+## Language
+
+Supported languages: **English** (`en`), **Bahasa Indonesia** (`id`).
+
+- First-run setup prompts you to pick a language.
+- Use `-l, --lang <lang>` on any command for a one-off switch.
+- Use `ramadan-cli config --lang id` to persist your preference.
 
 ## Development
 

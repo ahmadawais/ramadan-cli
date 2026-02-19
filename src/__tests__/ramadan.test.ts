@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import {
 	getJsonErrorCode,
-	toJsonErrorPayload,
 	getRozaNumberFromStartDate,
 	getTargetRamadanYear,
 	normalizeCityAlias,
 	to12HourTime,
+	toJsonErrorPayload,
 } from '../commands/ramadan.js';
 
 const samplePrayerData = (month: number, year: string) => ({
@@ -125,9 +125,9 @@ describe('normalizeCityAlias', () => {
 
 describe('json error payload', () => {
 	it('maps known failures to stable error codes', () => {
-		expect(getJsonErrorCode('Could not fetch prayer times. timingsByAddress failed')).toBe(
-			'PRAYER_TIMES_FETCH_FAILED'
-		);
+		expect(
+			getJsonErrorCode('Could not fetch prayer times. timingsByAddress failed')
+		).toBe('PRAYER_TIMES_FETCH_FAILED');
 		expect(getJsonErrorCode('Use either --all or --number, not both.')).toBe(
 			'INVALID_FLAG_COMBINATION'
 		);

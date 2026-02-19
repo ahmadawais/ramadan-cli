@@ -9,6 +9,7 @@ import {
 	fetchTimingsByCoords,
 } from '../api.js';
 import { type GeoLocation, guessCityCountry, guessLocation } from '../geo.js';
+import { t } from '../i18n/index.js';
 import {
 	clearStoredFirstRozaDate,
 	getStoredFirstRozaDate,
@@ -125,7 +126,7 @@ const toRamadanRow = (day: PrayerData, roza: number): RamadanRow => ({
 	sehar: to12HourTime(day.timings.Fajr),
 	iftar: to12HourTime(day.timings.Maghrib),
 	date: day.date.readable,
-	hijri: `${day.date.hijri.day} ${day.date.hijri.month.en} ${day.date.hijri.year}`,
+	hijri: `${roza} ${day.date.hijri.month.en} ${day.date.hijri.year}`,
 });
 
 const getRozaNumberFromHijriDay = (day: PrayerData): number => {
@@ -356,8 +357,8 @@ const getHighlightState = (day: PrayerData): HighlightState | null => {
 		const minutesUntilSehar =
 			dayDiff * MINUTES_IN_DAY + (seharMinutes - nowParts.minutes);
 		return {
-			current: 'Before roza day',
-			next: 'First Sehar',
+			current: t('highlightBeforeRozaDay'),
+			next: t('highlightFirstSehar'),
 			countdown: formatCountdown(minutesUntilSehar),
 		};
 	}
@@ -368,16 +369,16 @@ const getHighlightState = (day: PrayerData): HighlightState | null => {
 
 	if (nowParts.minutes < seharMinutes) {
 		return {
-			current: 'Sehar window open',
-			next: 'Roza starts (Fajr)',
+			current: t('highlightSeharWindowOpen'),
+			next: t('highlightRozaStartsFajr'),
 			countdown: formatCountdown(seharMinutes - nowParts.minutes),
 		};
 	}
 
 	if (nowParts.minutes < iftarMinutes) {
 		return {
-			current: 'Roza in progress',
-			next: 'Iftar',
+			current: t('highlightRozaInProgress'),
+			next: t('highlightIftar'),
 			countdown: formatCountdown(iftarMinutes - nowParts.minutes),
 		};
 	}
@@ -385,8 +386,8 @@ const getHighlightState = (day: PrayerData): HighlightState | null => {
 	const minutesUntilNextSehar =
 		MINUTES_IN_DAY - nowParts.minutes + seharMinutes;
 	return {
-		current: 'Iftar time',
-		next: 'Next day Sehar',
+		current: t('highlightIftarTime'),
+		next: t('highlightNextDaySehar'),
 		countdown: formatCountdown(minutesUntilNextSehar),
 	};
 };
@@ -402,7 +403,7 @@ const getConfiguredFirstRozaDate = (
 	if (opts.firstRozaDate) {
 		const parsedExplicit = parseIsoDate(opts.firstRozaDate);
 		if (!parsedExplicit) {
-			throw new Error('Invalid first roza date. Use YYYY-MM-DD.');
+			throw new Error(t('errorInvalidFirstRozaDate'));
 		}
 		setStoredFirstRozaDate(opts.firstRozaDate);
 		return parsedExplicit;
@@ -433,17 +434,23 @@ export const getTargetRamadanYear = (today: PrayerData): number => {
 
 const formatRowAnnotation = (kind: RowAnnotationKind): string => {
 	if (kind === 'current') {
-		return pc.green('← current');
+		return pc.green(t('annotationCurrent'));
 	}
 
-	return pc.yellow('← next');
+	return pc.yellow(t('annotationNext'));
 };
 
 const printTable = (
 	rows: ReadonlyArray<RamadanRow>,
 	rowAnnotations: Readonly<Record<number, RowAnnotationKind>> = {}
 ): void => {
-	const headers = ['Roza', 'Sehar', 'Iftar', 'Date', 'Hijri'];
+	const headers = [
+		t('tableHeaderRoza'),
+		t('tableHeaderSehar'),
+		t('tableHeaderIftar'),
+		t('tableHeaderDate'),
+		t('tableHeaderHijri'),
+	];
 	const widths = [6, 8, 8, 14, 20] as const;
 	const pad = (value: string, index: number): string =>
 		value.padEnd(widths[index] ?? value.length);
@@ -704,9 +711,7 @@ const resolveQuery = async (
 
 	const guessed = await guessLocation();
 	if (!guessed) {
-		throw new Error(
-			'Could not detect location. Pass a city like `ramadan-cli "Lahore"`.'
-		);
+		throw new Error(t('errorCouldNotDetectLocation'));
 	}
 
 	saveAutoDetectedSetup(guessed);
@@ -819,7 +824,9 @@ const fetchRamadanDay = async (
 		}
 	}
 
-	throw new Error(`Could not fetch prayer times. ${errors.join(' | ')}`);
+	throw new Error(
+		t('errorCouldNotFetchPrayer', { details: errors.join(' | ') })
+	);
 };
 
 const fetchRamadanCalendar = async (
@@ -883,7 +890,9 @@ const fetchRamadanCalendar = async (
 		}
 	}
 
-	throw new Error(`Could not fetch Ramadan calendar. ${errors.join(' | ')}`);
+	throw new Error(
+		t('errorCouldNotFetchCalendar', { details: errors.join(' | ') })
+	);
 };
 
 const fetchCustomRamadanDays = async (
@@ -905,7 +914,7 @@ const getRowByRozaNumber = (
 ): RamadanRow => {
 	const day = days[rozaNumber - 1];
 	if (!day) {
-		throw new Error(`Could not find roza ${rozaNumber} timings.`);
+		throw new Error(t('errorCouldNotFindRoza', { number: rozaNumber }));
 	}
 	return toRamadanRow(day, rozaNumber);
 };
@@ -916,7 +925,7 @@ const getDayByRozaNumber = (
 ): PrayerData => {
 	const day = days[rozaNumber - 1];
 	if (!day) {
-		throw new Error(`Could not find roza ${rozaNumber} timings.`);
+		throw new Error(t('errorCouldNotFindRoza', { number: rozaNumber }));
 	}
 	return day;
 };
@@ -992,10 +1001,10 @@ const printTextOutput = (
 ): void => {
 	const title =
 		output.mode === 'all'
-			? `Ramadan ${output.hijriYear} (All Days)`
+			? t('titleAllDays', { year: output.hijriYear })
 			: output.mode === 'number'
-				? `Roza ${output.rows[0]?.roza ?? ''} Sehar/Iftar`
-				: 'Today Sehar/Iftar';
+				? t('titleRozaSeharIftar', { roza: output.rows[0]?.roza ?? '' })
+				: t('titleTodaySeharIftar');
 
 	console.log(plain ? 'RAMADAN CLI' : getBanner());
 	console.log(ramadanGreen(`  ${title}`));
@@ -1004,29 +1013,33 @@ const printTextOutput = (
 	printTable(output.rows, rowAnnotations);
 	console.log('');
 	if (highlight) {
-		console.log(`  ${ramadanGreen('Status:')} ${pc.white(highlight.current)}`);
 		console.log(
-			`  ${ramadanGreen('Up next:')} ${pc.white(highlight.next)} in ${pc.yellow(highlight.countdown)}`
+			`  ${ramadanGreen(t('outputStatus'))} ${pc.white(highlight.current)}`
+		);
+		console.log(
+			`  ${ramadanGreen(t('outputUpNext'))} ${pc.white(highlight.next)} ${t('outputIn')} ${pc.yellow(highlight.countdown)}`
 		);
 		console.log('');
 	}
-	console.log(pc.dim('  Sehar uses Fajr. Iftar uses Maghrib.'));
+	console.log(pc.dim(`  ${t('outputFooter')}`));
 	console.log('');
 };
 
 const formatStatusLine = (highlight: HighlightState): string => {
 	const label = (() => {
-		switch (highlight.next) {
-			case 'First Sehar':
-			case 'Next day Sehar':
-				return 'Sehar';
-			case 'Roza starts (Fajr)':
-				return 'Fast starts';
-			default:
-				return highlight.next;
+		const next = highlight.next;
+		if (
+			next === t('highlightFirstSehar') ||
+			next === t('highlightNextDaySehar')
+		) {
+			return t('statusSehar');
 		}
+		if (next === t('highlightRozaStartsFajr')) {
+			return t('statusFastStarts');
+		}
+		return next;
 	})();
-	return `${label} in ${highlight.countdown}`;
+	return `${label} ${t('statusIn')} ${highlight.countdown}`;
 };
 
 export const ramadanCommand = async (
@@ -1036,7 +1049,7 @@ export const ramadanCommand = async (
 	const spinner = isSilent
 		? null
 		: ora({
-				text: 'Fetching Ramadan timings...',
+				text: t('spinnerFetching'),
 				stream: process.stdout,
 			});
 
@@ -1067,13 +1080,13 @@ export const ramadanCommand = async (
 		const today = await fetchRamadanDay(query);
 		const todayGregorianDate = parseGregorianDate(today.date.gregorian.date);
 		if (!todayGregorianDate) {
-			throw new Error('Could not parse Gregorian date from prayer response.');
+			throw new Error(t('errorCouldNotParseDate'));
 		}
 		const targetYear = getTargetRamadanYear(today);
 		const hasCustomFirstRozaDate = configuredFirstRozaDate !== null;
 
 		if (opts.all && opts.rozaNumber !== undefined) {
-			throw new Error('Use either --all or --number, not both.');
+			throw new Error(t('errorUseAllOrNumber'));
 		}
 
 		if (opts.rozaNumber !== undefined) {
@@ -1084,7 +1097,7 @@ export const ramadanCommand = async (
 			if (hasCustomFirstRozaDate) {
 				const firstRozaDate = configuredFirstRozaDate;
 				if (!firstRozaDate) {
-					throw new Error('Could not determine first roza date.');
+					throw new Error(t('errorCouldNotDetermineFirstRoza'));
 				}
 				const customDays = await fetchCustomRamadanDays(query, firstRozaDate);
 				row = getRowByRozaNumber(customDays, opts.rozaNumber);
@@ -1132,7 +1145,7 @@ export const ramadanCommand = async (
 			if (hasCustomFirstRozaDate) {
 				const firstRozaDate = configuredFirstRozaDate;
 				if (!firstRozaDate) {
-					throw new Error('Could not determine first roza date.');
+					throw new Error(t('errorCouldNotDetermineFirstRoza'));
 				}
 				const rozaNumber = getRozaNumberFromStartDate(
 					firstRozaDate,
@@ -1164,7 +1177,7 @@ export const ramadanCommand = async (
 					const calendar = await fetchRamadanCalendar(query, targetYear);
 					const firstRamadanDay = calendar[0];
 					if (!firstRamadanDay) {
-						throw new Error('Could not find the first day of Ramadan.');
+						throw new Error(t('errorCouldNotFindFirstDay'));
 					}
 					row = toRamadanRow(firstRamadanDay, 1);
 					highlightDay = firstRamadanDay;
@@ -1176,7 +1189,7 @@ export const ramadanCommand = async (
 			}
 
 			if (!row) {
-				throw new Error('Could not determine roza number.');
+				throw new Error(t('errorCouldNotDetermineRoza'));
 			}
 
 			const output: RamadanOutput = {
@@ -1204,7 +1217,7 @@ export const ramadanCommand = async (
 		if (hasCustomFirstRozaDate) {
 			const firstRozaDate = configuredFirstRozaDate;
 			if (!firstRozaDate) {
-				throw new Error('Could not determine first roza date.');
+				throw new Error(t('errorCouldNotDetermineFirstRoza'));
 			}
 			const customDays = await fetchCustomRamadanDays(query, firstRozaDate);
 			rows = customDays.map((day, index) => toRamadanRow(day, index + 1));
@@ -1249,9 +1262,7 @@ export const ramadanCommand = async (
 			process.exit(1);
 		}
 
-		spinner?.fail(
-			error instanceof Error ? error.message : 'Failed to fetch Ramadan timings'
-		);
+		spinner?.fail(error instanceof Error ? error.message : t('spinnerFailed'));
 		process.exit(1);
 	}
 };

@@ -1,6 +1,7 @@
 import Conf from 'conf';
 import { z } from 'zod';
 import type { GeoLocation } from './geo.js';
+import type { SupportedLang } from './i18n/index.js';
 import {
 	getRecommendedMethod,
 	getRecommendedSchool,
@@ -16,6 +17,7 @@ interface RamadanConfigStore {
 	readonly timezone?: string | undefined;
 	readonly firstRozaDate?: string | undefined;
 	readonly format24h?: boolean | undefined;
+	readonly language?: string | undefined;
 }
 
 interface StoredLocation {
@@ -39,6 +41,7 @@ const SharedConfigSchema = z.object({
 	method: z.number().optional(),
 	school: z.number().optional(),
 	timezone: z.string().optional(),
+	language: z.string().optional(),
 	firstRozaDate: z
 		.string()
 		.regex(/^\d{4}-\d{2}-\d{2}$/)
@@ -188,6 +191,19 @@ export const clearStoredFirstRozaDate = (): void => {
 export const clearRamadanConfig = (): void => {
 	sharedConfig.clear();
 	legacyAzaanConfig.clear();
+};
+
+export const getStoredLanguage = (): SupportedLang => {
+	const store = getValidatedStore();
+	const lang = store.language;
+	if (lang === 'id') {
+		return 'id';
+	}
+	return 'en';
+};
+
+export const setStoredLanguage = (language: SupportedLang): void => {
+	sharedConfig.set('language', language);
 };
 
 const maybeSetRecommendedMethod = (country: string): void => {

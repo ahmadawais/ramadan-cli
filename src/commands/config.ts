@@ -1,10 +1,13 @@
 import pc from 'picocolors';
 import { z } from 'zod';
+import { isSupportedLang, setLocale, t } from '../i18n/index.js';
 import {
 	clearRamadanConfig,
 	getStoredFirstRozaDate,
+	getStoredLanguage,
 	getStoredLocation,
 	getStoredPrayerSettings,
+	setStoredLanguage,
 	setStoredLocation,
 	setStoredMethod,
 	setStoredSchool,
@@ -19,6 +22,7 @@ export interface ConfigCommandOptions {
 	readonly method?: string | undefined;
 	readonly school?: string | undefined;
 	readonly timezone?: string | undefined;
+	readonly lang?: string | undefined;
 	readonly show?: boolean | undefined;
 	readonly clear?: boolean | undefined;
 }
@@ -121,28 +125,30 @@ const printCurrentConfig = (): void => {
 	const location = getStoredLocation();
 	const settings = getStoredPrayerSettings();
 	const firstRozaDate = getStoredFirstRozaDate();
+	const language = getStoredLanguage();
 
-	console.log(pc.dim('Current configuration:'));
+	console.log(pc.dim(t('configCurrentTitle')));
 	if (location.city) {
-		console.log(`  City: ${location.city}`);
+		console.log(`  ${t('configLabelCity')}: ${location.city}`);
 	}
 	if (location.country) {
-		console.log(`  Country: ${location.country}`);
+		console.log(`  ${t('configLabelCountry')}: ${location.country}`);
 	}
 	if (location.latitude !== undefined) {
-		console.log(`  Latitude: ${location.latitude}`);
+		console.log(`  ${t('configLabelLatitude')}: ${location.latitude}`);
 	}
 	if (location.longitude !== undefined) {
-		console.log(`  Longitude: ${location.longitude}`);
+		console.log(`  ${t('configLabelLongitude')}: ${location.longitude}`);
 	}
-	console.log(`  Method: ${settings.method}`);
-	console.log(`  School: ${settings.school}`);
+	console.log(`  ${t('configLabelMethod')}: ${settings.method}`);
+	console.log(`  ${t('configLabelSchool')}: ${settings.school}`);
 	if (settings.timezone) {
-		console.log(`  Timezone: ${settings.timezone}`);
+		console.log(`  ${t('configLabelTimezone')}: ${settings.timezone}`);
 	}
 	if (firstRozaDate) {
-		console.log(`  First Roza Date: ${firstRozaDate}`);
+		console.log(`  ${t('configLabelFirstRozaDate')}: ${firstRozaDate}`);
 	}
+	console.log(`  ${t('configLabelLanguage')}: ${language}`);
 };
 
 const hasConfigUpdateFlags = (options: ConfigCommandOptions): boolean =>
@@ -153,7 +159,8 @@ const hasConfigUpdateFlags = (options: ConfigCommandOptions): boolean =>
 			options.longitude !== undefined ||
 			options.method !== undefined ||
 			options.school !== undefined ||
-			options.timezone
+			options.timezone ||
+			options.lang
 	);
 
 export const configCommand = async (
@@ -161,7 +168,7 @@ export const configCommand = async (
 ): Promise<void> => {
 	if (options.clear) {
 		clearRamadanConfig();
-		console.log(pc.green('Configuration cleared.'));
+		console.log(pc.green(t('configCleared')));
 		return;
 	}
 
@@ -171,11 +178,7 @@ export const configCommand = async (
 	}
 
 	if (!hasConfigUpdateFlags(options)) {
-		console.log(
-			pc.dim(
-				'No config updates provided. Use `ramadan-cli config --show` to inspect.'
-			)
-		);
+		console.log(pc.dim(t('configNoUpdates')));
 		return;
 	}
 
@@ -196,5 +199,13 @@ export const configCommand = async (
 		setStoredTimezone(updates.timezone);
 	}
 
-	console.log(pc.green('Configuration updated.'));
+	if (options.lang) {
+		const langValue = options.lang.trim().toLowerCase();
+		if (isSupportedLang(langValue)) {
+			setStoredLanguage(langValue);
+			setLocale(langValue);
+		}
+	}
+
+	console.log(pc.green(t('configUpdated')));
 };
