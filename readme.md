@@ -41,6 +41,11 @@ npm install -g ramadan-cli@latest
 roza
 ```
 
+### Arch Linux
+
+```sh
+yay -S nodejs-ramadan-cli
+```
 
 ## Agent Usage
 
