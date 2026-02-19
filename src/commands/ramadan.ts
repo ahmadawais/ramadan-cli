@@ -41,6 +41,7 @@ export interface RamadanCommandOptions {
 
 interface RamadanRow {
 	readonly roza: number;
+	readonly imsak: string;
 	readonly sehar: string;
 	readonly iftar: string;
 	readonly date: string;
@@ -122,6 +123,7 @@ export const to12HourTime = (value: string): string => {
 
 const toRamadanRow = (day: PrayerData, roza: number): RamadanRow => ({
 	roza,
+	imsak: to12HourTime(day.timings.Imsak),
 	sehar: to12HourTime(day.timings.Fajr),
 	iftar: to12HourTime(day.timings.Maghrib),
 	date: day.date.readable,
@@ -443,8 +445,8 @@ const printTable = (
 	rows: ReadonlyArray<RamadanRow>,
 	rowAnnotations: Readonly<Record<number, RowAnnotationKind>> = {}
 ): void => {
-	const headers = ['Roza', 'Sehar', 'Iftar', 'Date', 'Hijri'];
-	const widths = [6, 8, 8, 14, 20] as const;
+	const headers = ['Roza', 'Imsak', 'Sehar', 'Iftar', 'Date', 'Hijri'];
+	const widths = [6, 8, 8, 8, 14, 20] as const;
 	const pad = (value: string, index: number): string =>
 		value.padEnd(widths[index] ?? value.length);
 	const line = (columns: ReadonlyArray<string>): string =>
@@ -456,6 +458,7 @@ const printTable = (
 	for (const row of rows) {
 		const rowLine = line([
 			String(row.roza),
+			row.imsak,
 			row.sehar,
 			row.iftar,
 			row.date,
@@ -746,6 +749,10 @@ const fetchRamadanDay = async (
 		addressOptions.date = date;
 	}
 
+	if (query.timezone) {
+		addressOptions.timezone = query.timezone;
+	}
+
 	try {
 		return await fetchTimingsByAddress(addressOptions);
 	} catch (error) {
@@ -759,6 +766,7 @@ const fetchRamadanDay = async (
 			method?: number;
 			school?: number;
 			date?: Date;
+			timezone?: string;
 		} = {
 			city: query.city,
 			country: query.country,
@@ -774,6 +782,10 @@ const fetchRamadanDay = async (
 
 		if (date) {
 			cityOptions.date = date;
+		}
+
+		if (query.timezone) {
+			cityOptions.timezone = query.timezone;
 		}
 
 		try {
@@ -1010,7 +1022,7 @@ const printTextOutput = (
 		);
 		console.log('');
 	}
-	console.log(pc.dim('  Sehar uses Fajr. Iftar uses Maghrib.'));
+	console.log(pc.dim('  Imsak is 10m before Fajr. Sehar ends at Fajr.'));
 	console.log('');
 };
 
