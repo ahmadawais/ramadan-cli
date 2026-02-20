@@ -213,6 +213,13 @@ const formatDate = (date: Date, timezone?: string): string => {
 	const day = parts.find((p) => p.type === 'day')?.value;
 	const month = parts.find((p) => p.type === 'month')?.value;
 	const year = parts.find((p) => p.type === 'year')?.value;
+
+	if (!day || !month || !year) {
+		throw new Error(
+			`Failed to format date for timezone "${timezone ?? 'UTC'}". Missing date component.`
+		);
+	}
+
 	return `${day}-${month}-${year}`;
 };
 

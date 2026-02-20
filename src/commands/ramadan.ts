@@ -733,6 +733,7 @@ const fetchRamadanDay = async (
 		method?: number;
 		school?: number;
 		date?: Date;
+		timezone?: string;
 	} = {
 		address: query.address,
 	};
@@ -1022,7 +1023,9 @@ const printTextOutput = (
 		);
 		console.log('');
 	}
-	console.log(pc.dim('  Imsak is 10m before Fajr. Sehar ends at Fajr.'));
+	console.log(
+		pc.dim('  Imsak is typically 10m before Fajr. Sehar ends at Fajr.')
+	);
 	console.log('');
 };
 
