@@ -1,8 +1,9 @@
-import { InvalidArgumentError, program } from 'commander';
 import { createRequire } from 'node:module';
+import { InvalidArgumentError, program } from 'commander';
 import { configCommand } from './commands/config.js';
 import { ramadanCommand } from './commands/ramadan.js';
-import { clearRamadanConfig } from './ramadan-config.js';
+import { setLocale, t } from './i18n/index.js';
+import { clearRamadanConfig, getStoredLanguage } from './ramadan-config.js';
 
 interface RootOptions {
 	readonly city?: string | undefined;
@@ -13,6 +14,7 @@ interface RootOptions {
 	readonly status?: boolean | undefined;
 	readonly firstRozaDate?: string | undefined;
 	readonly clearFirstRozaDate?: boolean | undefined;
+	readonly lang?: string | undefined;
 }
 
 interface ConfigOptions {
@@ -23,6 +25,7 @@ interface ConfigOptions {
 	readonly method?: string | undefined;
 	readonly school?: string | undefined;
 	readonly timezone?: string | undefined;
+	readonly lang?: string | undefined;
 	readonly show?: boolean | undefined;
 	readonly clear?: boolean | undefined;
 }
@@ -31,6 +34,18 @@ const require = createRequire(import.meta.url);
 const pkg = require('../package.json') as {
 	readonly version: string;
 };
+
+// Initialize locale from stored preference before parsing CLI
+const storedLang = getStoredLanguage();
+setLocale(storedLang);
+
+// Check for --lang flag early so descriptions render in the right language
+const langFlagIndex = process.argv.indexOf('--lang');
+const langShortIndex = process.argv.indexOf('-l');
+const langIndex = langFlagIndex !== -1 ? langFlagIndex : langShortIndex;
+if (langIndex !== -1 && process.argv[langIndex + 1]) {
+	setLocale(process.argv[langIndex + 1] as string);
+}
 
 const parseRozaNumber = (value: string): number => {
 	const parsed = Number.parseInt(value, 10);
@@ -41,7 +56,7 @@ const parseRozaNumber = (value: string): number => {
 		parsed > 30;
 
 	if (isInvalid) {
-		throw new InvalidArgumentError('Roza number must be between 1 and 30.');
+		throw new InvalidArgumentError(t('cliRozaNumberError'));
 	}
 
 	return parsed;
@@ -49,27 +64,18 @@ const parseRozaNumber = (value: string): number => {
 
 program
 	.name('ramadan-cli')
-	.description('Ramadan CLI for Sehar and Iftar timings')
+	.description(t('cliDescription'))
 	.version(pkg.version, '-v, --version')
-	.argument('[city]', 'City name (e.g. "San Francisco", "sf", "Vancouver", "Lahore")')
-	.option('-c, --city <city>', 'City')
-	.option('-a, --all', 'Show complete Ramadan month')
-	.option(
-		'-n, --number <number>',
-		'Show a specific roza day (1-30)',
-		parseRozaNumber
-	)
-	.option('-p, --plain', 'Plain text output')
-	.option('-j, --json', 'JSON output')
-	.option('-s, --status', 'Status line output (next event only, for status bars)')
-	.option(
-		'--first-roza-date <YYYY-MM-DD>',
-		'Set and use a custom first roza date'
-	)
-	.option(
-		'--clear-first-roza-date',
-		'Clear custom first roza date and use API Ramadan date'
-	)
+	.argument('[city]', t('cliCityArg'))
+	.option('-c, --city <city>', t('cliCityOption'))
+	.option('-a, --all', t('cliAllOption'))
+	.option('-n, --number <number>', t('cliNumberOption'), parseRozaNumber)
+	.option('-p, --plain', t('cliPlainOption'))
+	.option('-j, --json', t('cliJsonOption'))
+	.option('-s, --status', t('cliStatusOption'))
+	.option('--first-roza-date <YYYY-MM-DD>', t('cliFirstRozaDateOption'))
+	.option('--clear-first-roza-date', t('cliClearFirstRozaDateOption'))
+	.option('-l, --lang <lang>', t('cliLangOption'))
 	.action(async (cityArg: string | undefined, opts: RootOptions) => {
 		await ramadanCommand({
 			city: cityArg || opts.city,
@@ -85,24 +91,25 @@ program
 
 program
 	.command('reset')
-	.description('Clear saved Ramadan CLI configuration')
+	.description(t('cliResetDescription'))
 	.action(() => {
 		clearRamadanConfig();
-		console.log('Configuration reset.');
+		console.log(t('configReset'));
 	});
 
 program
 	.command('config')
-	.description('Configure saved Ramadan CLI settings (non-interactive)')
-	.option('--city <city>', 'Save city')
-	.option('--country <country>', 'Save country')
-	.option('--latitude <latitude>', 'Save latitude (-90 to 90)')
-	.option('--longitude <longitude>', 'Save longitude (-180 to 180)')
-	.option('--method <id>', 'Save calculation method (0-23)')
-	.option('--school <id>', 'Save school (0=Shafi, 1=Hanafi)')
-	.option('--timezone <timezone>', 'Save timezone (e.g., America/Los_Angeles)')
-	.option('--show', 'Show current configuration')
-	.option('--clear', 'Clear saved configuration')
+	.description(t('cliConfigDescription'))
+	.option('--city <city>', t('cliConfigCityOption'))
+	.option('--country <country>', t('cliConfigCountryOption'))
+	.option('--latitude <latitude>', t('cliConfigLatitudeOption'))
+	.option('--longitude <longitude>', t('cliConfigLongitudeOption'))
+	.option('--method <id>', t('cliConfigMethodOption'))
+	.option('--school <id>', t('cliConfigSchoolOption'))
+	.option('--timezone <timezone>', t('cliConfigTimezoneOption'))
+	.option('--lang <lang>', t('cliConfigLangOption'))
+	.option('--show', t('cliConfigShowOption'))
+	.option('--clear', t('cliConfigClearOption'))
 	.action(async (opts: ConfigOptions) => {
 		await configCommand(opts);
 	});
