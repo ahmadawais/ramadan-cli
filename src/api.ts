@@ -202,10 +202,24 @@ const ApiEnvelopeSchema = z.object({
 	data: z.unknown(),
 });
 
-const formatDate = (date: Date): string => {
-	const day = String(date.getDate()).padStart(2, '0');
-	const month = String(date.getMonth() + 1).padStart(2, '0');
-	const year = date.getFullYear();
+const formatDate = (date: Date, timezone?: string): string => {
+	const options: Intl.DateTimeFormatOptions = {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric',
+		timeZone: timezone || 'UTC',
+	};
+	const parts = new Intl.DateTimeFormat('en-GB', options).formatToParts(date);
+	const day = parts.find((p) => p.type === 'day')?.value;
+	const month = parts.find((p) => p.type === 'month')?.value;
+	const year = parts.find((p) => p.type === 'year')?.value;
+
+	if (!day || !month || !year) {
+		throw new Error(
+			`Failed to format date for timezone "${timezone ?? 'UTC'}". Missing date component.`
+		);
+	}
+
 	return `${day}-${month}-${year}`;
 };
 
@@ -256,12 +270,13 @@ export interface FetchByCityOptions {
 	readonly method?: number;
 	readonly school?: number;
 	readonly date?: Date;
+	readonly timezone?: string;
 }
 
 export const fetchTimingsByCity = async (
 	opts: FetchByCityOptions
 ): Promise<PrayerData> => {
-	const date = formatDate(opts.date ?? new Date());
+	const date = formatDate(opts.date ?? new Date(), opts.timezone);
 	const params = new URLSearchParams({
 		city: opts.city,
 		country: opts.country,
@@ -286,12 +301,13 @@ export interface FetchByAddressOptions {
 	readonly method?: number;
 	readonly school?: number;
 	readonly date?: Date;
+	readonly timezone?: string;
 }
 
 export const fetchTimingsByAddress = async (
 	opts: FetchByAddressOptions
 ): Promise<PrayerData> => {
-	const date = formatDate(opts.date ?? new Date());
+	const date = formatDate(opts.date ?? new Date(), opts.timezone);
 	const params = new URLSearchParams({
 		address: opts.address,
 	});
@@ -322,7 +338,7 @@ export interface FetchByCoordsOptions {
 export const fetchTimingsByCoords = async (
 	opts: FetchByCoordsOptions
 ): Promise<PrayerData> => {
-	const date = formatDate(opts.date ?? new Date());
+	const date = formatDate(opts.date ?? new Date(), opts.timezone);
 	const params = new URLSearchParams({
 		latitude: String(opts.latitude),
 		longitude: String(opts.longitude),
