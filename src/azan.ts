@@ -1,8 +1,14 @@
 import { exec } from 'node:child_process';
+import { dirname, join } from 'node:path';
 import { platform } from 'node:os';
+import { fileURLToPath } from 'node:url';
 import pc from 'picocolors';
 import type { PrayerData } from './api.js';
 import { ramadanGreen } from './ui/theme.js';
+import { getBanner } from './ui/banner.js';
+import { getStoredLocation } from './ramadan-config.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 type AzanEvent = 'Fajr' | 'Maghrib';
 
@@ -143,7 +149,7 @@ const playSystemSound = (): void => {
 		exec('afplay /System/Library/Sounds/Ping.aiff');
 	} else if (os === 'win32') {
 		exec(
-			'powershell -c "[console]::beep(800,600); [console]::beep(1000,600); [console]::beep(800,600)"'
+			`powershell -c "Add-Type -AssemblyName presentationCore; $player = New-Object System.Windows.Media.MediaPlayer; $player.Open('${join(process.cwd(), 'audio/azan1.mp3')}'); $player.Play(); Start-Sleep 5; $player.Stop()"`
 		);
 	} else {
 		exec(
@@ -196,44 +202,66 @@ export const startAzanWatcher = (
 		}
 	};
 
-	console.log(ramadanGreen('  🔊 Azan watcher started'));
-	console.log(pc.dim('  Will play azan sound at Fajr and Maghrib times.'));
-	console.log(pc.dim('  Press Ctrl+C to stop.\n'));
-
-	// Show next azan info on start
-	fetchToday()
-		.then((today) => {
+	const displayStatus = async (): Promise<void> => {
+		try {
+			const today = await fetchToday();
+			const location = getStoredLocation();
+			console.clear();
+			console.log(getBanner());
+			console.log('  Today Sehar/Iftar');
+			console.log(`  📍 ${location.city}, ${location.country}`);
+			console.log('');
 			const next = getNextAzanInfo(today);
 			if (next) {
-				console.log(
-					`  ${ramadanGreen('Next azan:')} ${pc.white(next.event)} in ${pc.yellow(formatMinutes(next.minutesUntil))}`
-				);
-				console.log(
-					pc.dim(
-						`  Fajr: ${to12Hour(today.timings.Fajr)}  |  Maghrib: ${to12Hour(today.timings.Maghrib)}`
-					)
-				);
-				console.log('');
+				console.log(`  Next azan: ${next.event} in ${formatMinutes(next.minutesUntil)}`);
+				console.log(pc.dim(`  Fajr: ${to12Hour(today.timings.Fajr)}  |  Maghrib: ${to12Hour(today.timings.Maghrib)}`));
 			}
-		})
-		.catch(() => {});
+			console.log('');
+			console.log(ramadanGreen('  🔊 Azan watcher running...'));
+			console.log(pc.dim('  Press \'f\' for Fajr azan, \'m\' for Maghrib azan, Ctrl+C to stop.'));
+		} catch {
+			// silent on error
+		}
+	};
+
+	// Initial display
+	void displayStatus();
 
 	// Check every 30 seconds
 	const interval = setInterval(() => void check(), 30_000);
 
-	// Initial check
-	void check();
+	// Display update every 30 seconds
+	const displayInterval = setInterval(() => void displayStatus(), 30_000);
+
+	// Set up interactive key listening
+	process.stdin.setRawMode(true);
+	process.stdin.resume();
+	process.stdin.on('data', (key) => {
+		if (key[0] === 3) { // Ctrl+C
+			cleanup();
+			console.log(pc.dim('\n  Azan watcher stopped.'));
+			process.exit(0);
+		}
+		const keyStr = key.toString().toLowerCase();
+		if (keyStr === 'f') {
+			fetchToday().then(today => {
+				printAzanAlert('Fajr', today.timings.Fajr);
+			}).catch(() => {});
+		}
+		if (keyStr === 'm') {
+			fetchToday().then(today => {
+				printAzanAlert('Maghrib', today.timings.Maghrib);
+			}).catch(() => {});
+		}
+	});
 
 	const cleanup = (): void => {
 		clearInterval(interval);
+		clearInterval(displayInterval);
+		process.stdin.setRawMode(false);
+		process.stdin.pause();
 		onStop?.();
 	};
-
-	process.on('SIGINT', () => {
-		cleanup();
-		console.log(pc.dim('\n  Azan watcher stopped.'));
-		process.exit(0);
-	});
 
 	process.on('SIGTERM', () => {
 		cleanup();

@@ -82,6 +82,20 @@ roza --first-roza-date 2026-02-19
 # Clear custom first roza date.
 roza --clear-first-roza-date
 
+# Azan Watcher
+
+Start an interactive azan watcher that automatically plays azan sounds at Fajr and Maghrib times, and allows manual triggering:
+
+```sh
+npx ramadan-cli --azan
+```
+
+Features:
+
+- Automatic azan alerts at prayer times
+- Manual triggers: Press 'f' for Fajr, 'm' for Maghrib
+- Press Ctrl+C to stop
+
 # Reset saved config (location + settings + overrides).
 roza reset
 
@@ -123,6 +137,7 @@ Global/main command flags (`ramadan-cli [city]`):
 | `-p, --plain` | `boolean` | `false` | Plain text output without ASCII banner |
 | `-j, --json` | `boolean` | `false` | JSON-only output for scripts |
 | `-s, --status` | `boolean` | `false` | Single-line next event output for status bars and coding agents |
+| `--azan` | `boolean` | `false` | Start interactive azan watcher with manual triggers |
 | `--first-roza-date <YYYY-MM-DD>` | `string` | stored/API | Persist custom first roza date |
 | `--clear-first-roza-date` | `boolean` | `false` | Clear custom first roza date and use API Ramadan date |
 | `-v, --version` | `boolean` | n/a | Print version only |
