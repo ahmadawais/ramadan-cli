@@ -149,7 +149,7 @@ const playSystemSound = (): void => {
 		exec('afplay /System/Library/Sounds/Ping.aiff');
 	} else if (os === 'win32') {
 		exec(
-			`powershell -c "Add-Type -AssemblyName presentationCore; $player = New-Object System.Windows.Media.MediaPlayer; $player.Open('${join(process.cwd(), 'audio/azan1.mp3')}'); $player.Play(); Start-Sleep 5; $player.Stop()"`
+			`powershell -c "Add-Type -AssemblyName presentationCore; $player = New-Object System.Windows.Media.MediaPlayer; $player.Open('${join(process.cwd(), 'audio/azan1.mp3')}'); $player.Play(); Start-Sleep 90; $player.Stop()"`
 		);
 	} else {
 		exec(

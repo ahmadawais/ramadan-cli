@@ -82,12 +82,7 @@ roza --first-roza-date 2026-02-19
 # Clear custom first roza date.
 roza --clear-first-roza-date
 
-# Azan Watcher
-
-Start an interactive azan watcher that automatically plays azan sounds at Fajr and Maghrib times, and allows manual triggering:
-
-```sh
-npx ramadan-cli --azan
+roza  --azan  to  play  with  azan  
 ```
 
 Features:
