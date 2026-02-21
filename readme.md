@@ -24,6 +24,10 @@ Built for humans and agents.
 - 🧪 Custom first roza override (`--first-roza-date`)
 - 🧹 One-command reset (`reset`)
 
+## Video intro
+
+[<img width="1400" height="784" alt="ramadan-thumbnail" src="https://github.com/user-attachments/assets/3a844fc5-dfb6-4d8c-86f9-abd587776a85" />](https://www.youtube.com/watch?v=a__CPd2bZVM)
+
 [![ramadan-cli](https://raw.githubusercontent.com/ahmadawais/ramadan-cli/refs/heads/main/.github/ramadan.gif)](https://x.com/MrAhmadAwais/)
 
 
