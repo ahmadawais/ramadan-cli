@@ -11,6 +11,7 @@ interface RootOptions {
 	readonly plain?: boolean | undefined;
 	readonly json?: boolean | undefined;
 	readonly status?: boolean | undefined;
+	readonly azan?: boolean | undefined;
 	readonly firstRozaDate?: string | undefined;
 	readonly clearFirstRozaDate?: boolean | undefined;
 }
@@ -62,6 +63,7 @@ program
 	.option('-p, --plain', 'Plain text output')
 	.option('-j, --json', 'JSON output')
 	.option('-s, --status', 'Status line output (next event only, for status bars)')
+	.option('--azan', 'Watch mode: play azan sound at Fajr and Maghrib times')
 	.option(
 		'--first-roza-date <YYYY-MM-DD>',
 		'Set and use a custom first roza date'
@@ -78,6 +80,7 @@ program
 			plain: opts.plain,
 			json: opts.json,
 			status: opts.status,
+			azan: opts.azan,
 			firstRozaDate: opts.firstRozaDate,
 			clearFirstRozaDate: opts.clearFirstRozaDate,
 		});
