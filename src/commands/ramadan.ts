@@ -439,9 +439,45 @@ const formatRowAnnotation = (kind: RowAnnotationKind): string => {
 	return pc.yellow('← next');
 };
 
+interface RamadanStage {
+	readonly ashra: number;
+	readonly name: string;
+	readonly meaning: string;
+	readonly startRoza: number;
+}
+
+const RAMADAN_STAGES: ReadonlyArray<RamadanStage> = [
+	{ ashra: 1, name: 'Rehmah', meaning: 'Mercy', startRoza: 1 },
+	{ ashra: 2, name: 'Maghfirah', meaning: 'Forgiveness', startRoza: 11 },
+	{ ashra: 3, name: 'Nijat', meaning: 'Salvation', startRoza: 21 },
+];
+
+const ASHRA_LABELS: ReadonlyArray<string> = ['1st', '2nd', '3rd'];
+
+export const getRamadanStage = (rozaNumber: number): RamadanStage | null => {
+	if (rozaNumber < 1 || rozaNumber > 30) {
+		return null;
+	}
+	if (rozaNumber <= 10) {
+		return RAMADAN_STAGES[0] ?? null;
+	}
+	if (rozaNumber <= 20) {
+		return RAMADAN_STAGES[1] ?? null;
+	}
+	return RAMADAN_STAGES[2] ?? null;
+};
+
+const formatStageHeader = (stage: RamadanStage, lineWidth: number): string => {
+	const label = `${ASHRA_LABELS[stage.ashra - 1]} Ashra: ${stage.name} (${stage.meaning})`;
+	const paddedLabel = ` ${label} `;
+	const remaining = Math.max(lineWidth - paddedLabel.length - 2, 0);
+	return `  ${pc.dim('─')}${ramadanGreen(paddedLabel)}${pc.dim('─'.repeat(remaining))}`;
+};
+
 const printTable = (
 	rows: ReadonlyArray<RamadanRow>,
-	rowAnnotations: Readonly<Record<number, RowAnnotationKind>> = {}
+	rowAnnotations: Readonly<Record<number, RowAnnotationKind>> = {},
+	showStages = false
 ): void => {
 	const headers = ['Roza', 'Sehar', 'Iftar', 'Date', 'Hijri'];
 	const widths = [6, 8, 8, 14, 20] as const;
@@ -450,10 +486,24 @@ const printTable = (
 	const line = (columns: ReadonlyArray<string>): string =>
 		columns.map((column, index) => pad(column, index)).join('  ');
 	const divider = '-'.repeat(line(headers).length);
+	const lineWidth = line(headers).length;
+
+	const stageStartRozas = new Set(
+		RAMADAN_STAGES.map((stage) => stage.startRoza)
+	);
 
 	console.log(pc.dim(`  ${line(headers)}`));
 	console.log(pc.dim(`  ${divider}`));
 	for (const row of rows) {
+		if (showStages && stageStartRozas.has(row.roza)) {
+			const stage = getRamadanStage(row.roza);
+			if (stage) {
+				if (row.roza > 1) {
+					console.log('');
+				}
+				console.log(formatStageHeader(stage, lineWidth));
+			}
+		}
 		const rowLine = line([
 			String(row.roza),
 			row.sehar,
@@ -984,6 +1034,15 @@ const getAllModeRowAnnotations = (input: {
 	return annotations;
 };
 
+const formatStageLine = (rozaNumber: number): string | null => {
+	const stage = getRamadanStage(rozaNumber);
+	if (!stage) {
+		return null;
+	}
+	const label = ASHRA_LABELS[stage.ashra - 1];
+	return `${label} Ashra — ${stage.name} (${stage.meaning})`;
+};
+
 const printTextOutput = (
 	output: RamadanOutput,
 	plain: boolean,
@@ -997,12 +1056,23 @@ const printTextOutput = (
 				? `Roza ${output.rows[0]?.roza ?? ''} Sehar/Iftar`
 				: 'Today Sehar/Iftar';
 
+	const showStages = output.mode === 'all' && output.rows.length > 1;
+
 	console.log(plain ? 'RAMADAN CLI' : getBanner());
 	console.log(ramadanGreen(`  ${title}`));
 	console.log(pc.dim(`  📍 ${output.location}`));
 	console.log('');
-	printTable(output.rows, rowAnnotations);
+	printTable(output.rows, rowAnnotations, showStages);
 	console.log('');
+
+	const currentRoza = output.rows[0]?.roza;
+	if (!showStages && currentRoza !== undefined) {
+		const stageLine = formatStageLine(currentRoza);
+		if (stageLine) {
+			console.log(`  ${ramadanGreen('Stage:')} ${pc.white(stageLine)}`);
+		}
+	}
+
 	if (highlight) {
 		console.log(`  ${ramadanGreen('Status:')} ${pc.white(highlight.current)}`);
 		console.log(
