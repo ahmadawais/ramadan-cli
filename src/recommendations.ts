@@ -94,6 +94,75 @@ export const getRecommendedMethod = (country: string): number | null => {
 	return null;
 };
 
+// Official Ramadan start dates by Hijri year, based on moon sighting announcements.
+// Only explicitly verified countries are listed. Unknown countries fall back to the
+// API's computational Hijri date. Update this map each Ramadan season — if no data
+// exists for a year, the CLI behaves exactly as before.
+// Sources for 1447:
+// - https://khaleejtimes.com/ramadan/countries-that-will-begin-holy-month-feb-19-2026
+// - https://gulfnews.com/uae/ramadan/ramadan-2026-in-uae-crescent-moon-sighting-and-announcements-worldwide-1.500445904
+const ramadanStartDates: Readonly<
+	Record<number, Readonly<Record<string, string>>>
+> = {
+	1447: {
+		// Feb 18 — crescent sighted on Feb 17
+		'Saudi Arabia': '2026-02-18',
+		UAE: '2026-02-18',
+		'United Arab Emirates': '2026-02-18',
+		Qatar: '2026-02-18',
+		Kuwait: '2026-02-18',
+		Bahrain: '2026-02-18',
+		Palestine: '2026-02-18',
+		Lebanon: '2026-02-18',
+		Yemen: '2026-02-18',
+		Iran: '2026-02-18',
+		Iraq: '2026-02-18',
+		// Feb 19 — crescent not sighted on Feb 17
+		Egypt: '2026-02-19',
+		Turkey: '2026-02-19',
+		Türkiye: '2026-02-19',
+		Oman: '2026-02-19',
+		Jordan: '2026-02-19',
+		Syria: '2026-02-19',
+		Morocco: '2026-02-19',
+		Sudan: '2026-02-19',
+		Pakistan: '2026-02-19',
+		India: '2026-02-19',
+		Bangladesh: '2026-02-19',
+		Indonesia: '2026-02-19',
+		Malaysia: '2026-02-19',
+		Singapore: '2026-02-19',
+		Australia: '2026-02-19',
+		'United Kingdom': '2026-02-19',
+		UK: '2026-02-19',
+		France: '2026-02-19',
+	},
+};
+
+export const getCountryRamadanStartDate = (
+	country: string,
+	hijriYear: number
+): string | null => {
+	const yearData = ramadanStartDates[hijriYear];
+	if (!yearData) {
+		return null;
+	}
+
+	const direct = yearData[country];
+	if (direct !== undefined) {
+		return direct;
+	}
+
+	const lowerCountry = country.toLowerCase();
+	for (const [key, value] of Object.entries(yearData)) {
+		if (key.toLowerCase() === lowerCountry) {
+			return value;
+		}
+	}
+
+	return null;
+};
+
 export const getRecommendedSchool = (country: string): number => {
 	if (hanafiCountries.has(country)) {
 		return 1;
