@@ -19,4 +19,17 @@ describe('recommendations', () => {
 		expect(getRecommendedSchool('Pakistan')).toBe(1);
 		expect(getRecommendedSchool('Canada')).toBe(0);
 	});
+
+	it('returns method 13 (Diyanet) for Kosovo', () => {
+		expect(getRecommendedMethod('Kosovo')).toBe(13);
+		expect(getRecommendedMethod('Kosova')).toBe(13);
+		expect(getRecommendedMethod('Republic of Kosovo')).toBe(13);
+		expect(getRecommendedMethod('kosovo')).toBe(13);
+	});
+
+	it('returns Hanafi school for Kosovo', () => {
+		expect(getRecommendedSchool('Kosovo')).toBe(1);
+		expect(getRecommendedSchool('Kosova')).toBe(1);
+		expect(getRecommendedSchool('Republic of Kosovo')).toBe(1);
+	});
 });
