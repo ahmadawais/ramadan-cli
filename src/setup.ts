@@ -91,13 +91,24 @@ const toTimezoneChoice = (
 	return null;
 };
 
-const findMethodLabel = (method: number): string => {
+export const findMethodLabel = (method: number): string => {
 	const option = METHOD_OPTIONS.find((entry) => entry.value === method);
 	if (option) {
 		return option.label;
 	}
 
 	return `Method ${method}`;
+};
+
+export const findSchoolLabel = (school: number): string => {
+	if (school === SCHOOL_SHAFI) {
+		return 'Shafi';
+	}
+	if (school === SCHOOL_HANAFI) {
+		return 'Hanafi';
+	}
+
+	return `School ${school}`;
 };
 
 export const getMethodOptions = (
