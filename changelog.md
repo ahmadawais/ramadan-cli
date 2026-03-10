@@ -1,5 +1,17 @@
 # Changelog
 
+## [6.2.0](https://github.com/ahmadawais/ramadan-cli/compare/6.1.0...6.2.0) (2026-03-10)
+
+### Features
+
+* img ([dd0f302](https://github.com/ahmadawais/ramadan-cli/commit/dd0f3021a389531bfb63763ae12461b8e01253e9))
+* taste ([cce33e9](https://github.com/ahmadawais/ramadan-cli/commit/cce33e9202c8cc508cdf3578e92c6283ea817b7f))
+* video intro section to README ([2bc5d2c](https://github.com/ahmadawais/ramadan-cli/commit/2bc5d2cf5cf55ca00073b840d8661cf0e4785e23))
+
+### Bug Fixes
+
+* show readable method and school names in config output ([#34](https://github.com/ahmadawais/ramadan-cli/issues/34)) ([c55e048](https://github.com/ahmadawais/ramadan-cli/commit/c55e048ee4f3d630766a7505ec6cffa1c4762947))
+
 ## [6.1.0](https://github.com/ahmadawais/ramadan-cli/compare/6.0.1...6.1.0) (2026-02-18)
 
 ### Features
