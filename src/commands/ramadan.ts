@@ -8,6 +8,7 @@ import {
 	fetchTimingsByCity,
 	fetchTimingsByCoords,
 } from '../api.js';
+import { startAzanWatcher } from '../azan.js';
 import { type GeoLocation, guessCityCountry, guessLocation } from '../geo.js';
 import {
 	clearStoredFirstRozaDate,
@@ -35,6 +36,7 @@ export interface RamadanCommandOptions {
 	readonly plain?: boolean | undefined;
 	readonly json?: boolean | undefined;
 	readonly status?: boolean | undefined;
+	readonly azan?: boolean | undefined;
 	readonly firstRozaDate?: string | undefined;
 	readonly clearFirstRozaDate?: boolean | undefined;
 }
@@ -1053,6 +1055,25 @@ export const ramadanCommand = async (
 			}
 		} catch {
 			// silent failure for status lines
+		}
+		return;
+	}
+
+	if (opts.azan) {
+		try {
+			const query = await resolveQuery({
+				city: opts.city,
+				allowInteractiveSetup: !opts.json,
+			});
+			console.log(opts.plain ? 'RAMADAN CLI' : getBanner());
+			startAzanWatcher(async () => fetchRamadanDay(query));
+		} catch (error) {
+			console.error(
+				error instanceof Error
+					? error.message
+					: 'Failed to start azan watcher'
+			);
+			process.exit(1);
 		}
 		return;
 	}

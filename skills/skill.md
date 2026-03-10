@@ -38,6 +38,7 @@ ramadan-cli -a
 ramadan-cli -n 10
 ramadan-cli -s
 ramadan-cli -s --city Lahore
+ramadan-cli --azan
 ramadan-cli reset
 ramadan-cli config --show
 ```
@@ -151,10 +152,6 @@ Expected:
 - `ramadan-cli -s` (single line: `Iftar in 2h 30m` or `Sehar in 8h 15m`)
 - `ramadan-cli -s --city Lahore` (status with one-off city)
 
-### Non-interactive readiness
+### Azan watcher
 
-- `ramadan-cli config --show`
-- `ramadan-cli config --clear`
-- `ramadan-cli config --method 2 --school 0`
-- `ramadan-cli --clear-first-roza-date`
-- `ramadan-cli -s` (always non-interactive; silent failure)
+- `ramadan-cli --azan` (interactive watcher with key presses for manual azan triggers)
