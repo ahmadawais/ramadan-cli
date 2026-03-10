@@ -4,6 +4,7 @@ import {
 	toJsonErrorPayload,
 	getRozaNumberFromStartDate,
 	getTargetRamadanYear,
+	getRamadanStage,
 	normalizeCityAlias,
 	to12HourTime,
 } from '../commands/ramadan.js';
@@ -153,5 +154,37 @@ describe('json error payload', () => {
 				message: 'unknown error',
 			},
 		});
+	});
+});
+
+describe('getRamadanStage', () => {
+	it('returns Rehmah for days 1-10', () => {
+		const stage = getRamadanStage(1);
+		expect(stage).not.toBeNull();
+		expect(stage?.name).toBe('Rehmah');
+		expect(stage?.meaning).toBe('Mercy');
+		expect(getRamadanStage(10)?.name).toBe('Rehmah');
+	});
+
+	it('returns Maghfirah for days 11-20', () => {
+		const stage = getRamadanStage(11);
+		expect(stage).not.toBeNull();
+		expect(stage?.name).toBe('Maghfirah');
+		expect(stage?.meaning).toBe('Forgiveness');
+		expect(getRamadanStage(20)?.name).toBe('Maghfirah');
+	});
+
+	it('returns Nijat for days 21-30', () => {
+		const stage = getRamadanStage(21);
+		expect(stage).not.toBeNull();
+		expect(stage?.name).toBe('Nijat');
+		expect(stage?.meaning).toBe('Salvation');
+		expect(getRamadanStage(30)?.name).toBe('Nijat');
+	});
+
+	it('returns null for out-of-range roza numbers', () => {
+		expect(getRamadanStage(0)).toBeNull();
+		expect(getRamadanStage(31)).toBeNull();
+		expect(getRamadanStage(-1)).toBeNull();
 	});
 });
