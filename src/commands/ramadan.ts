@@ -21,6 +21,7 @@ import {
 	shouldApplyRecommendedSchool,
 } from '../ramadan-config.js';
 import {
+	getCountryRamadanStartDate,
 	getRecommendedMethod,
 	getRecommendedSchool,
 } from '../recommendations.js';
@@ -120,12 +121,16 @@ export const to12HourTime = (value: string): string => {
 	return `${twelveHour}:${String(minute).padStart(2, '0')} ${period}`;
 };
 
-const toRamadanRow = (day: PrayerData, roza: number): RamadanRow => ({
+const toRamadanRow = (
+	day: PrayerData,
+	roza: number,
+	hijriDay?: number
+): RamadanRow => ({
 	roza,
 	sehar: to12HourTime(day.timings.Fajr),
 	iftar: to12HourTime(day.timings.Maghrib),
 	date: day.date.readable,
-	hijri: `${day.date.hijri.day} ${day.date.hijri.month.en} ${day.date.hijri.year}`,
+	hijri: `${hijriDay ?? day.date.hijri.day} ${day.date.hijri.month.en} ${day.date.hijri.year}`,
 });
 
 const getRozaNumberFromHijriDay = (day: PrayerData): number => {
@@ -420,6 +425,38 @@ const getConfiguredFirstRozaDate = (
 
 	clearStoredFirstRozaDate();
 	return null;
+};
+
+export const resolveCountryFirstRozaDate = (
+	country: string | undefined,
+	today: PrayerData,
+	todayGregorianDate: Date
+): Date | null => {
+	if (!country) {
+		return null;
+	}
+
+	const hijriYear = Number.parseInt(today.date.hijri.year, 10);
+	if (Number.isNaN(hijriYear)) {
+		return null;
+	}
+
+	const startDateStr = getCountryRamadanStartDate(country, hijriYear);
+	if (!startDateStr) {
+		return null;
+	}
+
+	const startDate = parseIsoDate(startDateStr);
+	if (!startDate) {
+		return null;
+	}
+
+	const testRoza = getRozaNumberFromStartDate(startDate, todayGregorianDate);
+	if (testRoza > 30) {
+		return null;
+	}
+
+	return startDate;
 };
 
 export const getTargetRamadanYear = (today: PrayerData): number => {
@@ -901,13 +938,14 @@ const fetchCustomRamadanDays = async (
 
 const getRowByRozaNumber = (
 	days: ReadonlyArray<PrayerData>,
-	rozaNumber: number
+	rozaNumber: number,
+	hijriDay?: number
 ): RamadanRow => {
 	const day = days[rozaNumber - 1];
 	if (!day) {
 		throw new Error(`Could not find roza ${rozaNumber} timings.`);
 	}
-	return toRamadanRow(day, rozaNumber);
+	return toRamadanRow(day, rozaNumber, hijriDay);
 };
 
 const getDayByRozaNumber = (
@@ -1070,7 +1108,10 @@ export const ramadanCommand = async (
 			throw new Error('Could not parse Gregorian date from prayer response.');
 		}
 		const targetYear = getTargetRamadanYear(today);
-		const hasCustomFirstRozaDate = configuredFirstRozaDate !== null;
+		const effectiveFirstRozaDate =
+			configuredFirstRozaDate ??
+			resolveCountryFirstRozaDate(query.country, today, todayGregorianDate);
+		const hasCustomFirstRozaDate = effectiveFirstRozaDate !== null;
 
 		if (opts.all && opts.rozaNumber !== undefined) {
 			throw new Error('Use either --all or --number, not both.');
@@ -1082,12 +1123,16 @@ export const ramadanCommand = async (
 			let selectedDay: PrayerData;
 
 			if (hasCustomFirstRozaDate) {
-				const firstRozaDate = configuredFirstRozaDate;
+				const firstRozaDate = effectiveFirstRozaDate;
 				if (!firstRozaDate) {
 					throw new Error('Could not determine first roza date.');
 				}
 				const customDays = await fetchCustomRamadanDays(query, firstRozaDate);
-				row = getRowByRozaNumber(customDays, opts.rozaNumber);
+				row = getRowByRozaNumber(
+					customDays,
+					opts.rozaNumber,
+					opts.rozaNumber
+				);
 				selectedDay = getDayByRozaNumber(customDays, opts.rozaNumber);
 				hijriYear = getHijriYearFromRozaNumber(
 					customDays,
@@ -1130,7 +1175,7 @@ export const ramadanCommand = async (
 			let highlightDay: PrayerData | null = null;
 
 			if (hasCustomFirstRozaDate) {
-				const firstRozaDate = configuredFirstRozaDate;
+				const firstRozaDate = effectiveFirstRozaDate;
 				if (!firstRozaDate) {
 					throw new Error('Could not determine first roza date.');
 				}
@@ -1141,13 +1186,13 @@ export const ramadanCommand = async (
 
 				if (rozaNumber < 1) {
 					const firstRozaDay = await fetchRamadanDay(query, firstRozaDate);
-					row = toRamadanRow(firstRozaDay, 1);
+					row = toRamadanRow(firstRozaDay, 1, 1);
 					highlightDay = firstRozaDay;
 					outputHijriYear = Number.parseInt(firstRozaDay.date.hijri.year, 10);
 				}
 
 				if (rozaNumber >= 1) {
-					row = toRamadanRow(today, rozaNumber);
+					row = toRamadanRow(today, rozaNumber, rozaNumber);
 					highlightDay = today;
 					outputHijriYear = Number.parseInt(today.date.hijri.year, 10);
 				}
@@ -1202,12 +1247,14 @@ export const ramadanCommand = async (
 		let hijriYear = targetYear;
 
 		if (hasCustomFirstRozaDate) {
-			const firstRozaDate = configuredFirstRozaDate;
+			const firstRozaDate = effectiveFirstRozaDate;
 			if (!firstRozaDate) {
 				throw new Error('Could not determine first roza date.');
 			}
 			const customDays = await fetchCustomRamadanDays(query, firstRozaDate);
-			rows = customDays.map((day, index) => toRamadanRow(day, index + 1));
+			rows = customDays.map((day, index) =>
+				toRamadanRow(day, index + 1, index + 1)
+			);
 			const firstCustomDay = customDays[0];
 			if (firstCustomDay) {
 				hijriYear = Number.parseInt(firstCustomDay.date.hijri.year, 10);
@@ -1229,7 +1276,7 @@ export const ramadanCommand = async (
 			today,
 			todayGregorianDate,
 			targetYear,
-			configuredFirstRozaDate,
+			configuredFirstRozaDate: effectiveFirstRozaDate,
 		});
 
 		spinner?.stop();
