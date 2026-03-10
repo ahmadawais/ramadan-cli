@@ -48,6 +48,9 @@ const countryMethodMap: Readonly<Record<string, number>> = {
 	France: 12,
 	Turkey: 13,
 	Türkiye: 13,
+	Kosovo: 13,
+	Kosova: 13,
+	'Republic of Kosovo': 13,
 	Russia: 14,
 	'United Arab Emirates': 16,
 	UAE: 16,
@@ -76,6 +79,9 @@ const hanafiCountries = new Set<string>([
 	'Tajikistan',
 	'Turkmenistan',
 	'Kyrgyzstan',
+	'Kosovo',
+	'Kosova',
+	'Republic of Kosovo',
 ]);
 
 export const getRecommendedMethod = (country: string): number | null => {
