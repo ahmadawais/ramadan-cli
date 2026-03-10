@@ -10,6 +10,7 @@ import {
 	setStoredSchool,
 	setStoredTimezone,
 } from '../ramadan-config.js';
+import { findMethodLabel, findSchoolLabel } from '../setup.js';
 
 export interface ConfigCommandOptions {
 	readonly city?: string | undefined;
@@ -135,8 +136,8 @@ const printCurrentConfig = (): void => {
 	if (location.longitude !== undefined) {
 		console.log(`  Longitude: ${location.longitude}`);
 	}
-	console.log(`  Method: ${settings.method}`);
-	console.log(`  School: ${settings.school}`);
+	console.log(`  Method: ${findMethodLabel(settings.method)}`);
+	console.log(`  School: ${findSchoolLabel(settings.school)}`);
 	if (settings.timezone) {
 		console.log(`  Timezone: ${settings.timezone}`);
 	}
