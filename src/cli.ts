@@ -118,7 +118,7 @@ program
   .command("update")
   .description("Check and install latest version")
   .action(async () => {
-    await updateCommand();
+    await updateCommand(pkg.version);
   });
 
 program.parse();

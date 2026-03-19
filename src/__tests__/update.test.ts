@@ -28,7 +28,7 @@ describe("updateCommand", () => {
       }),
     });
 
-    await updateCommand();
+    await updateCommand("6.2.0");
 
     expect(mockLog).toHaveBeenCalledWith(
       expect.stringContaining("latest version"),
@@ -46,7 +46,7 @@ describe("updateCommand", () => {
       }),
     });
 
-    await updateCommand();
+    await updateCommand("6.2.0");
 
     expect(mockLog).toHaveBeenCalledWith(
       expect.stringContaining("Update available"),
@@ -61,7 +61,7 @@ describe("updateCommand", () => {
       ok: false,
     });
 
-    await updateCommand();
+    await updateCommand("6.2.0");
 
     expect(mockError).toHaveBeenCalled();
   });
@@ -69,7 +69,7 @@ describe("updateCommand", () => {
   it("should handle network errors gracefully", async () => {
     mockFetch.mockRejectedValueOnce(new Error("Network error"));
 
-    await updateCommand();
+    await updateCommand("6.2.0");
 
     expect(mockError).toHaveBeenCalledWith(expect.stringContaining("Error"));
   });

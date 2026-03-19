@@ -1,9 +1,5 @@
 import ora from "ora";
 import pc from "picocolors";
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
-const pkg = require("../../package.json") as { version: string };
 
 interface NpmPackage {
   "dist-tags": {
@@ -11,7 +7,7 @@ interface NpmPackage {
   };
 }
 
-export async function updateCommand(): Promise<void> {
+export async function updateCommand(currentVersion: string): Promise<void> {
   const spinner = ora("Checking for updates...").start();
 
   try {
@@ -23,7 +19,6 @@ export async function updateCommand(): Promise<void> {
 
     const data = (await response.json()) as NpmPackage;
     const latestVersion = data["dist-tags"].latest;
-    const currentVersion = pkg.version;
 
     spinner.stop();
 
