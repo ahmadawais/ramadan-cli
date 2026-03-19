@@ -30,7 +30,6 @@ Built for humans and agents.
 
 [![ramadan-cli](https://raw.githubusercontent.com/ahmadawais/ramadan-cli/refs/heads/main/.github/ramadan.gif)](https://x.com/MrAhmadAwais/)
 
-
 ## Install
 
 ```sh
@@ -40,7 +39,6 @@ npx ramadan-cli
 npm install -g ramadan-cli@latest
 roza
 ```
-
 
 ## Agent Usage
 
@@ -89,6 +87,10 @@ roza reset
 ramadan-cli config --city "San Francisco" --country "United States" --method 2 --school 0 --timezone "America/Los_Angeles"
 ramadan-cli config --show
 ramadan-cli config --clear
+
+# Check for updates.
+roza update
+ramadan-cli update
 ```
 
 ## CLI Surface
@@ -97,6 +99,7 @@ ramadan-cli config --clear
 ramadan-cli [city] [options]
 ramadan-cli reset
 ramadan-cli config [options]
+ramadan-cli update
 ```
 
 Notes:
@@ -114,37 +117,44 @@ Notes:
 
 Global/main command flags (`ramadan-cli [city]`):
 
-| Flag | Type | Default | Behavior |
-| --- | --- | --- | --- |
-| `[city]` | `string` | saved location | One-off lookup; does not overwrite saved default |
-| `-c, --city <city>` | `string` | none | Same as city arg |
-| `-a, --all` | `boolean` | `false` | Show all Ramadan rows |
-| `-n, --number <1-30>` | `number` | none | Show specific roza |
-| `-p, --plain` | `boolean` | `false` | Plain text output without ASCII banner |
-| `-j, --json` | `boolean` | `false` | JSON-only output for scripts |
-| `-s, --status` | `boolean` | `false` | Single-line next event output for status bars and coding agents |
-| `--first-roza-date <YYYY-MM-DD>` | `string` | stored/API | Persist custom first roza date |
-| `--clear-first-roza-date` | `boolean` | `false` | Clear custom first roza date and use API Ramadan date |
-| `-v, --version` | `boolean` | n/a | Print version only |
-| `-h, --help` | `boolean` | n/a | Show help |
+| Flag                             | Type      | Default        | Behavior                                                        |
+| -------------------------------- | --------- | -------------- | --------------------------------------------------------------- |
+| `[city]`                         | `string`  | saved location | One-off lookup; does not overwrite saved default                |
+| `-c, --city <city>`              | `string`  | none           | Same as city arg                                                |
+| `-a, --all`                      | `boolean` | `false`        | Show all Ramadan rows                                           |
+| `-n, --number <1-30>`            | `number`  | none           | Show specific roza                                              |
+| `-p, --plain`                    | `boolean` | `false`        | Plain text output without ASCII banner                          |
+| `-j, --json`                     | `boolean` | `false`        | JSON-only output for scripts                                    |
+| `-s, --status`                   | `boolean` | `false`        | Single-line next event output for status bars and coding agents |
+| `--first-roza-date <YYYY-MM-DD>` | `string`  | stored/API     | Persist custom first roza date                                  |
+| `--clear-first-roza-date`        | `boolean` | `false`        | Clear custom first roza date and use API Ramadan date           |
+| `-v, --version`                  | `boolean` | n/a            | Print version only                                              |
+| `-h, --help`                     | `boolean` | n/a            | Show help                                                       |
 
 Config flags (`ramadan-cli config`):
 
-| Flag | Type | Behavior |
-| --- | --- | --- |
-| `--city <city>` | `string` | Save city |
-| `--country <country>` | `string` | Save country |
-| `--latitude <latitude>` | `number` | Save latitude (`-90..90`) |
-| `--longitude <longitude>` | `number` | Save longitude (`-180..180`) |
-| `--method <id>` | `number` | Save method (`0..23`) |
-| `--school <id>` | `number` | Save school (`0=Shafi`, `1=Hanafi`) |
-| `--timezone <timezone>` | `string` | Save timezone |
-| `--show` | `boolean` | Print saved config |
-| `--clear` | `boolean` | Clear saved config |
+| Flag                      | Type      | Behavior                            |
+| ------------------------- | --------- | ----------------------------------- |
+| `--city <city>`           | `string`  | Save city                           |
+| `--country <country>`     | `string`  | Save country                        |
+| `--latitude <latitude>`   | `number`  | Save latitude (`-90..90`)           |
+| `--longitude <longitude>` | `number`  | Save longitude (`-180..180`)        |
+| `--method <id>`           | `number`  | Save method (`0..23`)               |
+| `--school <id>`           | `number`  | Save school (`0=Shafi`, `1=Hanafi`) |
+| `--timezone <timezone>`   | `string`  | Save timezone                       |
+| `--show`                  | `boolean` | Print saved config                  |
+| `--clear`                 | `boolean` | Clear saved config                  |
 
 Reset command:
 
 - `ramadan-cli reset` clears saved location, method, school, timezone, and custom first roza date.
+
+Update command:
+
+- `ramadan-cli update` checks npm registry for a newer version of ramadan-cli.
+- Compares your current version with the latest available version.
+- Shows an update prompt with installation instructions if a newer version is available.
+- No network errors or failures will crash the CLI; errors are handled gracefully.
 
 ## Aliases
 
@@ -201,6 +211,7 @@ pnpm test
 pnpm build
 pnpm lint
 ```
+
 ## API
 
 Powered by [Aladhan Prayer Times API](https://aladhan.com/prayer-times-api)
