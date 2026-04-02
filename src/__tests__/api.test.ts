@@ -1,5 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { fetchHijriCalendarByAddress, fetchTimingsByAddress } from '../api.js';
+import {
+	fetchCalendarByAddress,
+	fetchHijriCalendarByAddress,
+	fetchTimingsByAddress,
+} from '../api.js';
 
 const mockFetch = vi.fn();
 vi.stubGlobal('fetch', mockFetch);
@@ -144,5 +148,23 @@ describe('api boundaries', () => {
 		const data = await fetchTimingsByAddress({ address: 'Vancouver, Canada' });
 		expect(data.timings.Maghrib).toBe('18:15');
 		expect(data.meta.school).toBe('STANDARD');
+	});
+
+	it('fetches gregorian calendar by address with validated payload', async () => {
+		mockFetch.mockResolvedValueOnce({
+			json: async () => ({
+				code: 200,
+				status: 'OK',
+				data: [samplePrayerDay],
+			}),
+		});
+
+		const data = await fetchCalendarByAddress({
+			address: 'Lahore',
+			year: 2026,
+			month: 2,
+		});
+		expect(data).toHaveLength(1);
+		expect(mockFetch.mock.calls[0]?.[0]).toContain('calendarByAddress/2026/2');
 	});
 });
