@@ -327,7 +327,7 @@ const formatCountdown = (minutes: number): string => {
 	return `${hours}h ${remainingMinutes}m`;
 };
 
-const getHighlightState = (day: PrayerData): HighlightState | null => {
+export const getHighlightState = (day: PrayerData): HighlightState | null => {
 	const dayParts = parseGregorianDay(day.date.gregorian.date);
 	if (!dayParts) {
 		return null;
@@ -389,6 +389,21 @@ const getHighlightState = (day: PrayerData): HighlightState | null => {
 		next: 'Next day Sehar',
 		countdown: formatCountdown(minutesUntilNextSehar),
 	};
+};
+
+/**
+ * Picks the day the status text should describe. Inside Ramadan that is
+ * today. Outside Ramadan it is the first day of the next Ramadan, so the
+ * status reads "Before roza day" instead of describing today's prayer times.
+ */
+export const pickStatusDay = (
+	today: PrayerData,
+	firstRamadanDay: PrayerData | null
+): PrayerData => {
+	if (today.date.hijri.month.number === 9) {
+		return today;
+	}
+	return firstRamadanDay ?? today;
 };
 
 const getConfiguredFirstRozaDate = (
@@ -899,6 +914,34 @@ const fetchCustomRamadanDays = async (
 	);
 };
 
+const resolveStatusDay = async (
+	query: RamadanQuery,
+	today: PrayerData,
+	configuredFirstRozaDate: Date | null
+): Promise<PrayerData> => {
+	if (configuredFirstRozaDate) {
+		const todayGregorianDate = parseGregorianDate(today.date.gregorian.date);
+		const isBeforeFirstRoza =
+			todayGregorianDate !== null &&
+			getRozaNumberFromStartDate(configuredFirstRozaDate, todayGregorianDate) <
+				1;
+		if (isBeforeFirstRoza) {
+			return await fetchRamadanDay(query, configuredFirstRozaDate);
+		}
+		return today;
+	}
+
+	if (today.date.hijri.month.number === 9) {
+		return today;
+	}
+
+	const calendar = await fetchRamadanCalendar(
+		query,
+		getTargetRamadanYear(today)
+	);
+	return pickStatusDay(today, calendar[0] ?? null);
+};
+
 const getRowByRozaNumber = (
 	days: ReadonlyArray<PrayerData>,
 	rozaNumber: number
@@ -1047,7 +1090,12 @@ export const ramadanCommand = async (
 				allowInteractiveSetup: false,
 			});
 			const today = await fetchRamadanDay(query);
-			const highlight = getHighlightState(today);
+			const statusDay = await resolveStatusDay(
+				query,
+				today,
+				getConfiguredFirstRozaDate(opts)
+			);
+			const highlight = getHighlightState(statusDay);
 			if (highlight) {
 				console.log(formatStatusLine(highlight));
 			}
@@ -1200,6 +1248,7 @@ export const ramadanCommand = async (
 
 		let rows: ReadonlyArray<RamadanRow> = [];
 		let hijriYear = targetYear;
+		let statusDay: PrayerData = today;
 
 		if (hasCustomFirstRozaDate) {
 			const firstRozaDate = configuredFirstRozaDate;
@@ -1211,12 +1260,18 @@ export const ramadanCommand = async (
 			const firstCustomDay = customDays[0];
 			if (firstCustomDay) {
 				hijriYear = Number.parseInt(firstCustomDay.date.hijri.year, 10);
+				const isBeforeFirstRoza =
+					getRozaNumberFromStartDate(firstRozaDate, todayGregorianDate) < 1;
+				if (isBeforeFirstRoza) {
+					statusDay = firstCustomDay;
+				}
 			}
 		}
 
 		if (!hasCustomFirstRozaDate) {
 			const calendar = await fetchRamadanCalendar(query, targetYear);
 			rows = calendar.map((day, index) => toRamadanRow(day, index + 1));
+			statusDay = pickStatusDay(today, calendar[0] ?? null);
 		}
 
 		const output: RamadanOutput = {
@@ -1240,7 +1295,7 @@ export const ramadanCommand = async (
 		printTextOutput(
 			output,
 			Boolean(opts.plain),
-			getHighlightState(today),
+			getHighlightState(statusDay),
 			allModeRowAnnotations
 		);
 	} catch (error) {

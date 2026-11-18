@@ -1,6 +1,8 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+	getHighlightState,
 	getJsonErrorCode,
+	pickStatusDay,
 	toJsonErrorPayload,
 	getRozaNumberFromStartDate,
 	getTargetRamadanYear,
@@ -125,9 +127,9 @@ describe('normalizeCityAlias', () => {
 
 describe('json error payload', () => {
 	it('maps known failures to stable error codes', () => {
-		expect(getJsonErrorCode('Could not fetch prayer times. timingsByAddress failed')).toBe(
-			'PRAYER_TIMES_FETCH_FAILED'
-		);
+		expect(
+			getJsonErrorCode('Could not fetch prayer times. timingsByAddress failed')
+		).toBe('PRAYER_TIMES_FETCH_FAILED');
 		expect(getJsonErrorCode('Use either --all or --number, not both.')).toBe(
 			'INVALID_FLAG_COMBINATION'
 		);
@@ -153,5 +155,75 @@ describe('json error payload', () => {
 				message: 'unknown error',
 			},
 		});
+	});
+});
+
+const withGregorianDate = (
+	data: ReturnType<typeof samplePrayerData>,
+	date: string
+): ReturnType<typeof samplePrayerData> => ({
+	...data,
+	date: {
+		...data.date,
+		gregorian: { ...data.date.gregorian, date },
+	},
+});
+
+describe('status text consistency', () => {
+	beforeEach(() => {
+		vi.useFakeTimers();
+		// 10:00 in Asia/Karachi: between the sample Fajr (05:30) and Maghrib (18:15)
+		vi.setSystemTime(new Date('2026-11-09T05:00:00Z'));
+	});
+
+	afterEach(() => {
+		vi.useRealTimers();
+	});
+
+	const todayOutsideRamadan = withGregorianDate(
+		samplePrayerData(3, '1448'),
+		'09-11-2026'
+	);
+	const firstRamadanDay = withGregorianDate(
+		samplePrayerData(9, '1448'),
+		'08-02-2027'
+	);
+
+	it('picks the first Ramadan day when today is outside Ramadan', () => {
+		expect(pickStatusDay(todayOutsideRamadan, firstRamadanDay)).toBe(
+			firstRamadanDay
+		);
+	});
+
+	it('picks today when today is inside Ramadan', () => {
+		const todayInRamadan = withGregorianDate(
+			samplePrayerData(9, '1448'),
+			'09-11-2026'
+		);
+		expect(pickStatusDay(todayInRamadan, firstRamadanDay)).toBe(todayInRamadan);
+	});
+
+	it('falls back to today when no Ramadan day is available', () => {
+		expect(pickStatusDay(todayOutsideRamadan, null)).toBe(todayOutsideRamadan);
+	});
+
+	it('reports "Before roza day" outside Ramadan instead of "Roza in progress"', () => {
+		const status = getHighlightState(
+			pickStatusDay(todayOutsideRamadan, firstRamadanDay)
+		);
+		expect(status?.current).toBe('Before roza day');
+		expect(status?.next).toBe('First Sehar');
+	});
+
+	it('shows the real-time state inside Ramadan', () => {
+		const todayInRamadan = withGregorianDate(
+			samplePrayerData(9, '1448'),
+			'09-11-2026'
+		);
+		const status = getHighlightState(
+			pickStatusDay(todayInRamadan, firstRamadanDay)
+		);
+		expect(status?.current).toBe('Roza in progress');
+		expect(status?.next).toBe('Iftar');
 	});
 });
